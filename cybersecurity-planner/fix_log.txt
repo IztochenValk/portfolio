@@ -1,0 +1,6 @@
+?? Renommé C:\Users\flori\Desktop\configurator\src\components\common\VersionsButtons.jsx ? C:\Users\flori\Desktop\configurator\src\components\common\VersionsButtons.py (contenu Python détecté)
+? Corrigé les extensions dans C:\Users\flori\Desktop\configurator\src\pages\Dashboard.tsx
+? Corrigé les extensions dans C:\Users\flori\Desktop\configurator\src\routes\PrivateRoute.tsx
+? Corrigé les extensions dans C:\Users\flori\Desktop\configurator\src\routes\RedirectIfAuthenticated.tsx
+? Corrigé les extensions dans C:\Users\flori\Desktop\configurator\src\state\store.ts
+? Corrigé les extensions dans C:\Users\flori\Desktop\configurator\src\App.tsx

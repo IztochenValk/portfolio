@@ -1,0 +1,20 @@
+// backend/src/routes/tasks.routes.js
+import express from "express";
+import {
+  getTasks,
+  createNewTask,
+  updateOneTask,
+  reorderTasks,
+  deleteOneTask,
+} from "../controllers/tasks.controller.js";
+
+const router = express.Router({ mergeParams: true }); // mergeParams pour récupérer :id du parent
+
+// CRUD Tasks
+router.get("/:id/tasks", getTasks);
+router.post("/:id/tasks", createNewTask);
+router.patch("/:id/tasks/:taskId", updateOneTask);
+router.post("/:id/tasks/reorder", reorderTasks);
+router.delete("/:id/tasks/:taskId", deleteOneTask);
+
+export default router;

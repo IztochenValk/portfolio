@@ -1,0 +1,50 @@
+📦 Structure du projet à partir de .
+----------------------------------------
+📁 app
+  📁 assets
+    📁 css
+      📄 main.css
+    📁 svg
+      📄 sakura-breeze.svg
+  📁 components
+    📁 layout
+      📄 AppFooter.vue
+      📄 AppHeader.vue
+    📄 ThemeToggle.vue
+    📁 visuals
+      📄 AuroraPulseCard.vue
+      📄 MeteorTrailCard.vue
+      📄 NeonFlowCard.vue
+      📄 OrbitalHaloCard.vue
+      📄 ParticleNetworkCard.vue
+      📄 PrismTiltCard.vue
+      📄 SakuraCard.vue
+  📁 layouts
+    📄 default.vue
+  📁 pages
+    📄 index.vue
+    📄 visual-lab.vue
+  📁 plugins
+    📄 theme-init.client.ts
+  📁 stores
+    📄 theme.ts
+📄 collect_gantt_files.sh
+📄 nuxt.config.ts
+📄 package.json
+📄 package-lock.json
+📄 project-export.txt
+📄 project-structure.txt
+📁 public
+  📁 docs
+    📄 anssi-certification.pdf
+    📄 cnil-certification.pdf
+    📄 diplome-cci.jpg
+    📄 diplome-droit-public.jpg
+  📄 favicon.ico
+  📁 img
+    📄 picture-cv.png
+  📄 robots.txt
+📄 README.md
+📄 scan-project.sh
+📄 tailwind.config.ts
+📄 tsconfig.json

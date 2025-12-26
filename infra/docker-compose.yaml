@@ -1,0 +1,71 @@
+version: "3.9"
+
+services:
+  portfolio:
+    build: ../portfolio
+    container_name: portfolio
+    ports:
+      - "3000:3000"              # http://localhost:3000
+    restart: unless-stopped
+
+  quiz:
+    build: ../cybersecurity-quiz
+    container_name: cybersecurity-quiz
+    ports:
+      - "4173:4173"              # http://localhost:4173
+    restart: unless-stopped
+
+  # Frontend Configurator / ThreatOps (nouveau)
+  planner:
+    build:
+      context: ../cybersecurity-planner   # adapte si le dossier a un autre nom
+      dockerfile: Dockerfile              # le Dockerfile Vite+Nginx que je t’ai généré
+    container_name: cybersecurity-planner
+    ports:
+      - "8081:80"                         # http://localhost:8081
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: gantt-db
+    environment:
+      POSTGRES_USER: app_srv_gantt
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: gantt_dev
+    volumes:
+      - gantt_pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ../gantt/backend
+      dockerfile: Dockerfile
+    container_name: gantt-backend
+    depends_on:
+      - db
+    environment:
+      PORT: 4940
+      CORS_ORIGIN: http://localhost:8080   # frontend gantt
+      DB_HOST: db                          # nom du service db ci-dessus
+      DB_PORT: 5432
+      DB_USER: app_srv_gantt
+      DB_PASS: ${DB_PASS}
+      DB_NAME: gantt_dev
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "4940:4940"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../gantt/frontend
+      dockerfile: Dockerfile
+    container_name: gantt-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"                          # http://localhost:8080
+    restart: unless-stopped
+
+volumes:
+  gantt_pgdata:

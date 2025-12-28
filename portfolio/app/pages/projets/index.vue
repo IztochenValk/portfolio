@@ -73,21 +73,10 @@
                 <NuxtLink
                   v-if="project.internalRoute"
                   :to="project.internalRoute"
-                  class="btn btn-sm btn-primary"
-                >
-                  Détails
-                </NuxtLink>
-
-                <!-- Démo si disponible -->
-                <a
-                  v-if="project.demoUrl"
-                  :href="project.demoUrl"
-                  target="_blank"
-                  rel="noreferrer"
-                  class="btn btn-sm btn-outline"
+                  class="btn btn-sm btn-primary btn-outline"
                 >
                   Démo
-                </a>
+                </NuxtLink>
 
                 <!-- Code si disponible -->
                 <a
@@ -100,13 +89,6 @@
                   Code
                 </a>
 
-                <!-- Fallback si aucune démo ni repo -->
-                <button
-                  v-if="!project.demoUrl && !project.repoUrl"
-                  class="btn btn-sm btn-ghost btn-disabled"
-                >
-                  Bientôt en ligne
-                </button>
               </div>
             </div>
           </div>
@@ -148,7 +130,7 @@ const projects: Project[] = [
     status: 'En développement',
     context: 'Projet personnel orienté pédagogie cybersécurité.',
     internalRoute: '/projets/quiz-cyber',
-    demoUrl: null, // à renseigner quand ce sera déployé
+    demoUrl: '/quiz-cyber', // à renseigner quand ce sera déployé
     repoUrl: null, // à renseigner avec l’URL GitHub
   },
   {

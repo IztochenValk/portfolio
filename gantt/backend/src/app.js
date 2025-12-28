@@ -18,7 +18,7 @@ dotenv.config();
 const app = express();
 
 /* ---------- Middlewares ---------- */
-const RAW_CORS = process.env.CORS_ORIGIN || "http://localhost:5173";
+const RAW_CORS = process.env.CORS_ORIGIN;
 
 //Autorise plusieurs origines via une liste séparée par des virgules dans CORS_ORIGIN
 const CORS_ORIGINS = RAW_CORS.split(",").map(s => s.trim()).filter(Boolean);

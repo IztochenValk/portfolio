@@ -1,3 +1,6 @@
+body{
+  margin: 0 !important
+}
 #root {
   width: 100% !important;
   margin: 0 auto;

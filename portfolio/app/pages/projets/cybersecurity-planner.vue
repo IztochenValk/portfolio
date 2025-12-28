@@ -233,7 +233,7 @@ const features = [
 
 // TODO : à remplacer par l’URL réelle de ton Cybersecurity Planner React
 // une fois déployé (VM, Netlify, sous-domaine, etc.)
-const plannerUrl = 'http://localhost:5175/configurator/'; // ex : 'https://planner-cyber.mondomaine.dev'
+const plannerUrl = `${import.meta.env.VITE_API_URL ?? 'http://localhost'}:4174`
 
 const demoUrl = plannerUrl;
 const repoUrl = ''; // ex : 'https://github.com/ton-user/cybersecurity-planner'

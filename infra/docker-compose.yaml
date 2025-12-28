@@ -12,7 +12,7 @@ services:
     build: ../cybersecurity-quiz
     container_name: cybersecurity-quiz
     ports:
-      - "4173:4173"              # http://localhost:4173
+      - "4173:80"              # http://localhost:4173
     restart: unless-stopped
 
   # Frontend Configurator / ThreatOps (nouveau)
@@ -22,7 +22,7 @@ services:
       dockerfile: Dockerfile              # le Dockerfile Vite+Nginx que je t’ai généré
     container_name: cybersecurity-planner
     ports:
-      - "8081:80"                         # http://localhost:8081
+      - "4174:80"                         # http://localhost:4174
     restart: unless-stopped
 
   db:

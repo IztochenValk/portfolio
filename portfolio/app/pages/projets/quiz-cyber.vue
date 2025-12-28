@@ -228,7 +228,7 @@ const features = [
 
 // TODO : à remplacer par l’URL réelle de ton quiz React
 // une fois déployé sur ta VM / un sous-domaine / Netlify
-const quizUrl = 'http://localhost:5174/cybersecurity-quiz/'; // exemple futur : 'https://quiz-cyber.mondomaine.dev'
+const quizUrl = `${import.meta.env.VITE_API_URL ?? 'http://localhost'}:4173`
 
 const demoUrl = quizUrl; // pour le bouton "Ouvrir en plein écran"
 const repoUrl = ''; // exemple futur : 'https://github.com/ton-user/cybersecurity-quiz'

@@ -1,6 +1,6 @@
 # --- 1) Build stage ---------------------------------------------------------
 FROM node:22-alpine AS build
-WORKDIR /usr/src/cybersecurity-quiz
+WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
@@ -15,14 +15,14 @@ FROM nginx:stable-alpine AS runner
 WORKDIR /usr/share/nginx/html
 
 # Nettoyer la configuration par défaut
-RUN rm -rf ./*
+RUN rm -rf /usr/share/nginx/html/*
 
 # Copier le build Vite vers nginx
-COPY --from=build /usr/src/cybersecurity-quiz/dist ./
+COPY --from=build /app/dist /usr/share/nginx/html
 
 
 # --- 3) Ports et lancement ---------------------------------------------------
-EXPOSE 4176
+EXPOSE 80
 
 # Serveur Nginx (port 80 dans le container, exposé en 4173 via compose)
 CMD ["nginx", "-g", "daemon off;"]

@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <ThemeContextProvider>
-      <BrowserRouter basename="/configurator">
+      <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>
     </ThemeContextProvider>

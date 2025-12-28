@@ -1,0 +1,63 @@
+=========================================
+ APPLICATIONS & PORTS - workflow-portfolio
+ avec chemins hôte & container
+=========================================
+
+
+---------- FRONTENDS ----------
+1) portfolio
+   Hôte        : projets/portfolio
+   Container   : /app
+   Image       : infra-portfolio
+   Ports       : 3000:3000
+   URL         : http://localhost:3000
+
+2) cybersecurity-quiz
+   Hôte        : projets/cybersecurity-quiz
+   Container   : /usr/src/cybersecurity-quiz  (build) -> /usr/share/nginx/html (runtime)
+   Image       : infra-cybersecurity-quiz
+   Ports       : 4173:4173
+   URL         : http://localhost:4173
+
+3) cybersecurity-planner
+   Hôte        : projets/cybersecurity-planner
+   Container   : /usr/src/cybersecurity-planner (build) -> /usr/share/nginx/html (runtime)
+   Image       : infra-cybersecurity-planner
+   Ports       : 4174:4173   (port proxy corrigé)
+   URL         : http://localhost:4174
+
+4) gantt-frontend (Gantt UI)
+   Hôte        : projets/gantt/frontend
+   Container   : /app (build) -> /usr/share/nginx/html (runtime)
+   Image       : infra-gantt-frontend
+   Ports       : 8080:80
+   URL         : http://localhost:8080
+
+
+---------- BACKENDS ----------
+5) gantt-backend (API Gantt)
+   Hôte        : projets/gantt/backend
+   Container   : /app
+   Image       : infra-backend
+   Ports       : 4940:4940
+   URL         : http://localhost:4940/api/*
+
+
+---------- BASE DE DONNÉES ----------
+6) gantt-db (postgres)
+   Hôte        : (volume persistant Docker `gantt_pgdata`)
+   Container   : /var/lib/postgresql/data
+   Image       : postgres:16-alpine
+   Ports       : 3232:5432
+   Connexion   : postgres://app_srv_gantt:<password>@localhost:3232/gantt_dev
+
+
+=========================================
+ NOTES
+=========================================
+- Les frontends Vite exportent des fichiers statiques copiés dans /usr/share/nginx/html
+- Le backend Node utilise /app pour exécuter le serveur
+- La base PostgreSQL stocke ses données dans un volume Docker accessible en local
+- Un reverse-proxy (Traefik / nginx / Caddy) peut unifier les URLs en prod
+- Le monorepo permet un pipeline CI/CD unique
+

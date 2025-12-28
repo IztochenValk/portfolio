@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
-  base: '/configurator/', // <- LA BASE est correctement fixée
   plugins: [react()],
   resolve: {
     alias: {

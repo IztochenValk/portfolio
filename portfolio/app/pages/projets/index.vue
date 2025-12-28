@@ -33,12 +33,14 @@
                 </p>
               </div>
 
-            <span
+              <span
                 class="badge badge-sm text-nowrap"
                 :class="project.status === 'En développement'
                   ? 'badge-warning badge-outline'
                   : project.status === 'En production'
                   ? 'badge-success badge-outline'
+                  : project.status === 'Prototype jouable'
+                  ? 'badge-info badge-outline'
                   : 'badge-ghost'"
               >
                 {{ project.status }}
@@ -65,7 +67,9 @@
               <div class="text-xs text-base-content/60">
                 {{ project.context }}
               </div>
+
               <div class="flex gap-2">
+                <!-- Route interne de détail -->
                 <NuxtLink
                   v-if="project.internalRoute"
                   :to="project.internalRoute"
@@ -74,6 +78,7 @@
                   Détails
                 </NuxtLink>
 
+                <!-- Démo si disponible -->
                 <a
                   v-if="project.demoUrl"
                   :href="project.demoUrl"
@@ -84,6 +89,7 @@
                   Démo
                 </a>
 
+                <!-- Code si disponible -->
                 <a
                   v-if="project.repoUrl"
                   :href="project.repoUrl"
@@ -94,6 +100,7 @@
                   Code
                 </a>
 
+                <!-- Fallback si aucune démo ni repo -->
                 <button
                   v-if="!project.demoUrl && !project.repoUrl"
                   class="btn btn-sm btn-ghost btn-disabled"
@@ -110,7 +117,27 @@
 </template>
 
 <script setup lang="ts">
-const projects = [
+type ProjectStatus =
+  | 'En développement'
+  | 'En préparation'
+  | 'Prototype jouable'
+  | 'En cours de conception'
+  | 'En production'
+
+interface Project {
+  slug: string
+  title: string
+  tagline: string
+  description: string
+  tech: string[]
+  status: ProjectStatus
+  context: string
+  internalRoute?: string | null
+  demoUrl?: string | null
+  repoUrl?: string | null
+}
+
+const projects: Project[] = [
   {
     slug: 'quiz-cyber',
     title: 'Quiz cybersécurité',
@@ -120,10 +147,9 @@ const projects = [
     tech: ['React', 'TypeScript', 'Vite'],
     status: 'En développement',
     context: 'Projet personnel orienté pédagogie cybersécurité.',
-    // Mettra plus tard la route interne de détail
-    internalRoute: '/projets/quiz-cyber', // future page de détail
-    demoUrl: null, // à remplir quand ce sera déployé
-    repoUrl: null, // à remplir avec l’URL GitHub
+    internalRoute: '/projets/quiz-cyber',
+    demoUrl: null, // à renseigner quand ce sera déployé
+    repoUrl: null, // à renseigner avec l’URL GitHub
   },
   {
     slug: 'cybersecurity-planner',
@@ -147,8 +173,8 @@ const projects = [
     tech: ['JavaScript', 'HTML5', 'CSS3'],
     status: 'Prototype jouable',
     context: 'Expérimentation gameplay et logique jeu 2D dans le navigateur.',
-    internalRoute: '/projets/mario-game', // future page de détail
-    demoUrl: null,
+    internalRoute: '/projets/mario-game',
+    demoUrl: null, // à renseigner si tu mets la démo en ligne
     repoUrl: null,
   },
   {
@@ -160,9 +186,9 @@ const projects = [
     tech: ['TypeScript', 'Vue ou React', 'Tailwind CSS'],
     status: 'En cours de conception',
     context: 'Outil personnel pour structurer et partager des plannings projet.',
-    internalRoute: '/projets/gantt-app', // future page de détail
+    internalRoute: '/projets/gantt-app',
     demoUrl: null,
     repoUrl: null,
   },
-];
+]
 </script>

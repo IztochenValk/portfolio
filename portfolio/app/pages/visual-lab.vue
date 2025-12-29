@@ -29,7 +29,7 @@
           <h1 class="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">Laboratoire visuel</h1>
 
           <p class="mt-3 text-base opacity-80 md:text-lg">
-            Cards indépendantes, micro-interactions, expérimentations SVG et effets. Layout stable, sans écrasement.
+            Cards indépendantes, micro-interactions, expérimentations SVG et effets. Layout stable, fonctionnel.
           </p>
 
           <div class="mt-5 flex flex-wrap gap-2">
@@ -80,8 +80,8 @@
 
         <div class="rounded-2xl border border-base-300 bg-base-100/70 p-4 backdrop-blur">
           <div class="text-sm opacity-70">Rendu</div>
-          <div class="mt-1 font-semibold">Zéro écrasement</div>
-          <div class="mt-1 text-sm opacity-70">Grid stable, items-start, pas de card imbriquée.</div>
+          <div class="mt-1 font-semibold">Fonctionnel et responsive</div>
+          <div class="mt-1 text-sm opacity-70">Optimisé pour les smartphones.</div>
         </div>
 
         <div class="rounded-2xl border border-base-300 bg-base-100/70 p-4 backdrop-blur">

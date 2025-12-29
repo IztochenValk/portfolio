@@ -22,6 +22,13 @@
               <a href="#contact" class="btn btn-primary">Me contacter</a>
               <a href="#projets" class="btn btn-outline">Voir mes projets</a>
               <a
+                href="/docs/cv.pdf"
+                target="_blank"
+                class="btn btn-outline"
+              >
+                CV
+              </a>
+              <a
                 class="btn btn-ghost"
                 href="https://github.com/IztochenValk"
                 target="_blank"
@@ -501,11 +508,6 @@
       </section>
     </main>
 
-    <footer class="border-t border-base-300">
-      <div class="mx-auto max-w-6xl px-4 py-8 text-sm opacity-70">
-        © {{ new Date().getFullYear() }} Florian Chague – Développeur web.
-      </div>
-    </footer>
   </div>
 </template>
 

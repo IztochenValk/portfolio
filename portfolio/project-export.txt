@@ -126,16 +126,16 @@ export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use
 
 
 ===== ./.nuxt/manifest/latest.json =====
-{"id":"dev","timestamp":1766643707830}
+{"id":"dev","timestamp":1766898072255}
 
 
 ===== ./.nuxt/manifest/meta/dev.json =====
-{"id":"dev","timestamp":1766643707830,"matcher":{"static":{},"wildcard":{},"dynamic":{}},"prerendered":[]}
+{"id":"dev","timestamp":1766898072255,"matcher":{"static":{},"wildcard":{},"dynamic":{}},"prerendered":[]}
 
 
 ===== ./.nuxt/nitro.json =====
 {
-  "date": "2025-12-25T06:21:53.515Z",
+  "date": "2025-12-28T05:01:20.668Z",
   "preset": "nitro-dev",
   "framework": {
     "name": "nuxt",
@@ -145,25 +145,25 @@ export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use
     "nitro": "2.12.8"
   },
   "dev": {
-    "pid": 21452,
+    "pid": 27636,
     "workerAddress": {
-      "socketPath": "\\\\.\\pipe\\nitro-worker-21452-2-1-7713.sock"
+      "socketPath": "\\\\.\\pipe\\nitro-worker-27636-2-1-1834.sock"
     }
   }
 }
 
 
 ===== ./.nuxt/nuxt.d.ts =====
-/// <reference types="@nuxt/telemetry" />
-/// <reference types="@pinia/nuxt" />
 /// <reference types="@nuxt/devtools" />
+/// <reference types="@pinia/nuxt" />
+/// <reference types="@nuxt/telemetry" />
 /// <reference path="types/builder-env.d.ts" />
 /// <reference path="types/plugins.d.ts" />
 /// <reference path="types/build.d.ts" />
 /// <reference path="types/app.config.d.ts" />
 /// <reference path="types/runtime-config.d.ts" />
 /// <reference types="nuxt/app" />
-/// <reference types="C:/Users/flori/Desktop/portfolio/node_modules/@nuxt/nitro-server/dist/index.mjs" />
+/// <reference types="C:/Users/flori/Desktop/workflow-portfolio/projets/portfolio/node_modules/@nuxt/nitro-server/dist/index.mjs" />
 /// <reference types="@pinia/nuxt" />
 /// <reference types="vue-router" />
 /// <reference path="types/middleware.d.ts" />
@@ -181,9 +181,9 @@ export {}
 
 ===== ./.nuxt/nuxt.json =====
 {
-  "_hash": "lnYkCJi63DhcCaInvEplwr-8EspC5GPPiW-DqVgXlMA",
+  "_hash": "Dkhk8VTIwEV-mun9g4AhT7I6AdfWCPCH0FpUaSqSa00",
   "project": {
-    "rootDir": "C:/Users/flori/Desktop/portfolio"
+    "rootDir": "C:/Users/flori/Desktop/workflow-portfolio/projets/portfolio"
   },
   "versions": {
     "nuxt": "4.2.2"
@@ -192,15 +192,15 @@ export {}
 
 
 ===== ./.nuxt/nuxt.node.d.ts =====
-/// <reference types="@nuxt/telemetry" />
-/// <reference types="@pinia/nuxt" />
 /// <reference types="@nuxt/devtools" />
+/// <reference types="@pinia/nuxt" />
+/// <reference types="@nuxt/telemetry" />
 /// <reference path="types/modules.d.ts" />
 /// <reference path="types/runtime-config.d.ts" />
 /// <reference path="types/app.config.d.ts" />
 /// <reference types="nuxt" />
 /// <reference types="../node_modules/@nuxt/vite-builder/dist/index.mjs" />
-/// <reference types="C:/Users/flori/Desktop/portfolio/node_modules/@nuxt/nitro-server/dist/index.mjs" />
+/// <reference types="C:/Users/flori/Desktop/workflow-portfolio/projets/portfolio/node_modules/@nuxt/nitro-server/dist/index.mjs" />
 /// <reference path="types/nitro-middleware.d.ts" />
 /// <reference path="schema/nuxt.schema.d.ts" />
 
@@ -342,7 +342,7 @@ declare module 'nuxt/schema' {
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/dev.json"
       ],
       "#components": [
         "./components"
@@ -398,6 +398,7 @@ declare module 'nuxt/schema' {
   ],
   "exclude": [
     "../node_modules",
+    "../../node_modules",
     "../node_modules/nuxt/node_modules",
     "../node_modules/@pinia/nuxt/node_modules",
     "../node_modules/@nuxt/devtools/node_modules",
@@ -521,7 +522,7 @@ declare module 'nuxt/schema' {
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/dev.json"
       ],
       "#components": [
         "./components"
@@ -589,6 +590,7 @@ declare module 'nuxt/schema' {
   ],
   "exclude": [
     "../node_modules",
+    "../../node_modules",
     "../node_modules/nuxt/node_modules",
     "../node_modules/@pinia/nuxt/node_modules",
     "../node_modules/@nuxt/devtools/node_modules",
@@ -687,6 +689,7 @@ declare module 'nuxt/schema' {
   ],
   "exclude": [
     "../node_modules",
+    "../../node_modules",
     "../node_modules/nuxt/node_modules",
     "../node_modules/@pinia/nuxt/node_modules",
     "../node_modules/@nuxt/devtools/node_modules",
@@ -820,6 +823,7 @@ declare module 'nuxt/schema' {
   ],
   "exclude": [
     "../node_modules",
+    "../../node_modules",
     "../node_modules/nuxt/node_modules",
     "../node_modules/@pinia/nuxt/node_modules",
     "../node_modules/@nuxt/devtools/node_modules",
@@ -927,7 +931,7 @@ declare module 'nuxt/schema' {
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/dev.json"
       ],
       "#build": [
         "."
@@ -1729,8 +1733,8 @@ export { useEvent } from 'nitropack/runtime/internal/context';
 export { defineTask, runTask } from 'nitropack/runtime/internal/task';
 export { defineNitroErrorHandler } from 'nitropack/runtime/internal/error/utils';
 export { appendCorsHeaders, appendCorsPreflightHeaders, appendHeader, appendHeaders, appendResponseHeader, appendResponseHeaders, assertMethod, callNodeListener, clearResponseHeaders, clearSession, createApp, createAppEventHandler, createError, createEvent, createEventStream, createRouter, defaultContentType, defineEventHandler, defineLazyEventHandler, defineNodeListener, defineNodeMiddleware, defineRequestMiddleware, defineResponseMiddleware, defineWebSocket, defineWebSocketHandler, deleteCookie, dynamicEventHandler, eventHandler, fetchWithEvent, fromNodeMiddleware, fromPlainHandler, fromWebHandler, getCookie, getHeader, getHeaders, getMethod, getProxyRequestHeaders, getQuery, getRequestFingerprint, getRequestHeader, getRequestHeaders, getRequestHost, getRequestIP, getRequestPath, getRequestProtocol, getRequestURL, getRequestWebStream, getResponseHeader, getResponseHeaders, getResponseStatus, getResponseStatusText, getRouterParam, getRouterParams, getSession, getValidatedQuery, getValidatedRouterParams, handleCacheHeaders, handleCors, isCorsOriginAllowed, isError, isEvent, isEventHandler, isMethod, isPreflightRequest, isStream, isWebResponse, lazyEventHandler, parseCookies, promisifyNodeListener, proxyRequest, readBody, readFormData, readMultipartFormData, readRawBody, readValidatedBody, removeResponseHeader, sanitizeStatusCode, sanitizeStatusMessage, sealSession, send, sendError, sendIterable, sendNoContent, sendProxy, sendRedirect, sendStream, sendWebResponse, serveStatic, setCookie, setHeader, setHeaders, setResponseHeader, setResponseHeaders, setResponseStatus, splitCookiesString, toEventHandler, toNodeListener, toPlainHandler, toWebHandler, toWebRequest, unsealSession, updateSession, useBase, useSession, writeEarlyHints } from 'h3';
-export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from 'C:/Users/flori/Desktop/portfolio/node_modules/@nuxt/nitro-server/dist/runtime/utils/paths';
-export { defineAppConfig } from 'C:/Users/flori/Desktop/portfolio/node_modules/@nuxt/nitro-server/dist/runtime/utils/config';
+export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from 'C:/Users/flori/Desktop/workflow-portfolio/projets/portfolio/node_modules/@nuxt/nitro-server/dist/runtime/utils/paths';
+export { defineAppConfig } from 'C:/Users/flori/Desktop/workflow-portfolio/projets/portfolio/node_modules/@nuxt/nitro-server/dist/runtime/utils/config';
 
 
 ===== ./.nuxt/types/nitro-middleware.d.ts =====
@@ -1751,7 +1755,7 @@ declare module 'nitropack' {
 
 /// <reference path="app.config.d.ts" />
 /// <reference path="runtime-config.d.ts" />
-/// <reference types="C:/Users/flori/Desktop/portfolio/node_modules/@nuxt/nitro-server/dist/index.mjs" />
+/// <reference types="C:/Users/flori/Desktop/workflow-portfolio/projets/portfolio/node_modules/@nuxt/nitro-server/dist/index.mjs" />
 /// <reference path="nitro-middleware.d.ts" />
 
 import type { RuntimeConfig } from 'nuxt/schema'

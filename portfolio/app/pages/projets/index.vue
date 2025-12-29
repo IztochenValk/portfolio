@@ -151,7 +151,7 @@ const projects: Project[] = [
     title: 'Mini jeu navigateur Super Mario',
     tagline: 'JavaScript · Canvas / DOM',
     description:
-      'Petit jeu inspiré de Super Mario pour le navigateur, avec gestion des collisions, du score et des contrôles clavier.',
+      'Petit jeu inspiré de Super Mario pour le navigateur, avec gestion des collisions, du score et des contrôles clavier. Bien que truffé de lags, divers bugs de collision et de physique, et doté de graphismes extrêmement laids, il reste néanmoins jouable.',
     tech: ['JavaScript', 'HTML5', 'CSS3'],
     status: 'Prototype jouable',
     context: 'Expérimentation gameplay et logique jeu 2D dans le navigateur.',
@@ -166,7 +166,7 @@ const projects: Project[] = [
     description:
       'Outil web pour créer et exporter des diagrammes de Gantt, pensé pour le suivi de projets et les présentations pédagogiques.',
     tech: ['TypeScript', 'Vue ou React', 'Tailwind CSS'],
-    status: 'En cours de conception',
+    status: 'En développement',
     context: 'Outil personnel pour structurer et partager des plannings projet.',
     internalRoute: '/projets/gantt-app',
     demoUrl: null,

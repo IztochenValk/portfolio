@@ -23,12 +23,19 @@
     📄 default.vue
   📁 pages
     📄 index.vue
+    📁 projets
+      📄 cybersecurity-planner.vue
+      📄 gantt-app.vue
+      📄 index.vue
+      📄 mario-phaser.vue
+      📄 quiz-cyber.vue
     📄 visual-lab.vue
   📁 plugins
     📄 theme-init.client.ts
   📁 stores
     📄 theme.ts
 📄 collect_gantt_files.sh
+📄 Dockerfile
 📄 nuxt.config.ts
 📄 package.json
 📄 package-lock.json

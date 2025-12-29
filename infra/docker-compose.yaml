@@ -84,6 +84,16 @@ services:
     restart: unless-stopped
     networks:
       - app_net
+  mario:
+    build:
+      context: ../mario-phaser
+      dockerfile: Dockerfile
+    container_name: mario-phaser
+    ports:
+      - "4175:80"          # http://localhost:4175
+    restart: unless-stopped
+    networks:
+      - app_net
 
 volumes:
   gantt_pgdata:

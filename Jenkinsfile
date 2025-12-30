@@ -1,16 +1,17 @@
 pipeline {
     agent any
-
     environment {
-        // ID des credentials qu’on va créer dans Jenkins
-        DB_PASS    = credentials('db-pass-gantt')
-        JWT_SECRET = credentials('jwt-secret-gantt')
+        DB_PASS      = credentials('db-pass-gantt')
+        JWT_SECRET   = credentials('jwt-secret-gantt')
+        GITHUB_PAT   = credentials('github-token')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main',
+                    url: 'https://github.com/IztochenValk/portfolio.git',
+                    credentialsId: 'github-token'
             }
         }
 
@@ -18,23 +19,14 @@ pipeline {
             steps {
                 dir('infra') {
                     sh '''
-                        export DB_PASS="${DB_PASS}" JWT_SECRET="${JWT_SECRET}"
-                        docker compose pull || true
+                        export DB_PASS=$DB_PASS
+                        export JWT_SECRET=$JWT_SECRET
+                        docker compose pull
                         docker compose build
-                        export DB_PASS="${DB_PASS}" JWT_SECRET="${JWT_SECRET}"
-                        docker compose up -d --remove-orphans
+                        docker compose up -d
                     '''
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo "Déploiement réussi."
-        }
-        failure {
-            echo "Le déploiement a échoué."
         }
     }
 }

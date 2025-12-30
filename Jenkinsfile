@@ -1,17 +1,19 @@
 pipeline {
     agent any
+
     environment {
         DB_PASS      = credentials('db-pass-gantt')
         JWT_SECRET   = credentials('jwt-secret-gantt')
-        GITHUB_PAT   = credentials('github-token')
+        GITHUB_PAT   = credentials('github-workflow')
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/IztochenValk/portfolio.git',
-                    credentialsId: 'github-token'
+                    credentialsId: 'github-workflow'
             }
         }
 

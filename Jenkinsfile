@@ -23,10 +23,32 @@ pipeline {
                     sh '''
                         export DB_PASS=$DB_PASS
                         export JWT_SECRET=$JWT_SECRET
+
+                        cd portfolio
+                        npm ci
+                        npm run build
+                        cd ..
+
+                        cd frontend
+                        npm ci
+                        npm run build
+                        cd ..
+
+                        cd planner
+                        npm ci
+                        npm run build
+                        cd ..
+
+                        cd quiz
+                        npm ci
+                        npm run build
+                        cd ..
+
                         docker compose pull
                         docker compose build
                         docker compose up -d
                     '''
+
                 }
             }
         }

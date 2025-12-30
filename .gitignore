@@ -102,7 +102,8 @@ logs/
 # === Tests ===
 test-results/
 junit-report.xml
-
+mdp-jenkins.txt
+projets-app-ports.txt
 # === Misc ===
 tmp/
 temp/

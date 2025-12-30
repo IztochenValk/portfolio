@@ -8,7 +8,7 @@
       <div class="flex items-center gap-2 text-sm opacity-70">
         <a class="link link-hover" href="/robots.txt">robots</a>
         <span class="opacity-30">•</span>
-        <a class="link link-hover" href="/img/picture-cv.png" target="_blank" rel="noreferrer">CV</a>
+        <a class="link link-hover" href="/docs/cv.pdf" target="_blank" rel="noreferrer">CV</a>
       </div>
     </div>
   </footer>

@@ -17,38 +17,47 @@ pipeline {
             }
         }
 
-        stage('Build & Deploy') {
+        stage('Build Frontends') {
+            steps {
+                sh '''
+                    export DB_PASS=$DB_PASS
+                    export JWT_SECRET=$JWT_SECRET
+
+                    # build portfolio
+                    cd portfolio
+                    npm ci
+                    npm run build
+                    cd ..
+
+                    # build frontend
+                    cd frontend
+                    npm ci
+                    npm run build
+                    cd ..
+
+                    # build planner
+                    cd planner
+                    npm ci
+                    npm run build
+                    cd ..
+
+                    # build quiz
+                    cd quiz
+                    npm ci
+                    npm run build
+                    cd ..
+                '''
+            }
+        }
+
+        stage('Build & Deploy with Docker') {
             steps {
                 dir('infra') {
                     sh '''
-                        export DB_PASS=$DB_PASS
-                        export JWT_SECRET=$JWT_SECRET
-
-                        cd portfolio
-                        npm ci
-                        npm run build
-                        cd ..
-
-                        cd frontend
-                        npm ci
-                        npm run build
-                        cd ..
-
-                        cd planner
-                        npm ci
-                        npm run build
-                        cd ..
-
-                        cd quiz
-                        npm ci
-                        npm run build
-                        cd ..
-
                         docker compose pull
                         docker compose build
                         docker compose up -d
                     '''
-
                 }
             }
         }

@@ -4,7 +4,7 @@ pipeline {
     environment {
         DB_PASS      = credentials('db-pass-gantt')
         JWT_SECRET   = credentials('jwt-secret-gantt')
-        GITHUB_PAT   = credentials('github-workflow')
+        GITHUB_PAT   = credentials('github-pat')
     }
 
     stages {

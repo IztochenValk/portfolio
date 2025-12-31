@@ -13,7 +13,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/IztochenValk/portfolio.git',
-                    credentialsId: 'github-workflow'
+                    credentialsId: 'github-pat'
             }
         }
 

@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    options {
+        // Affiche les timestamps dans les logs Jenkins
+        timestamps()
+    }
+
     environment {
         DB_PASS    = credentials('db-pass-gantt')
         JWT_SECRET = credentials('jwt-secret-gantt')
@@ -19,41 +24,47 @@ pipeline {
 
         stage('Build Frontends') {
             steps {
-                sh '''
-                    set -e
-                    export DB_PASS=$DB_PASS
-                    export JWT_SECRET=$JWT_SECRET
+                // On évite les builds infinies
+                timeout(time: 25, unit: 'MINUTES') {
+                    sh '''
+                        set -ex
 
-                    # portfolio
-                    cd portfolio
-                    npm ci
-                    npm run build
-                    cd ..
+                        export DB_PASS="$DB_PASS"
+                        export JWT_SECRET="$JWT_SECRET"
 
-                    # cybersecurity-quiz
-                    cd cybersecurity-quiz
-                    npm ci
-                    npm run build
-                    cd ..
+                        echo "[JENKINS] Build portfolio"
+                        cd portfolio
+                        npm ci
+                        npm run build
+                        cd ..
 
-                    # cybersecurity-planner
-                    cd cybersecurity-planner
-                    npm ci
-                    npm run build
-                    cd ..
+                        echo "[JENKINS] Build cybersecurity-quiz"
+                        cd cybersecurity-quiz
+                        npm ci
+                        npm run build
+                        cd ..
 
-                    # gantt frontend
-                    cd gantt/frontend
-                    npm ci
-                    npm run build
-                    cd ../..
+                        echo "[JENKINS] Build cybersecurity-planner"
+                        cd cybersecurity-planner
+                        npm ci
+                        npm run build
+                        cd ..
 
-                    # mario-game
-                    cd mario-game
-                    npm ci
-                    npm run build
-                    cd ..
-                '''
+                        echo "[JENKINS] Build gantt frontend"
+                        cd gantt/frontend
+                        npm ci
+                        npm run build
+                        cd ../..
+
+                        echo "[JENKINS] Build mario-game"
+                        cd mario-game
+                        npm ci
+                        npm run build
+                        cd ..
+
+                        echo "=== BUILD_FRONTENDS_DONE ==="
+                    '''
+                }
             }
         }
 
@@ -61,9 +72,12 @@ pipeline {
             steps {
                 dir('infra') {
                     sh '''
+                        set -ex
+                        echo "[JENKINS] docker compose pull/build/up"
                         docker compose pull
                         docker compose build
                         docker compose up -d
+                        echo "=== DOCKER_DEPLOY_DONE ==="
                     '''
                 }
             }

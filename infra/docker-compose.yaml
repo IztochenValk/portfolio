@@ -52,9 +52,7 @@ services:
     depends_on:
       - db
     environment:
-      # le backend écoute sur 4940 dans le conteneur
       PORT: 4940
-      # origine(s) autorisée(s) pour le frontend Gantt (et éventuellement le portfolio)
       CORS_ORIGIN: http://localhost:4941,http://localhost:3000
       DB_HOST: db
       DB_PORT: 5432
@@ -63,7 +61,7 @@ services:
       DB_NAME: gantt_dev
       JWT_SECRET: ${JWT_SECRET}
     ports:
-      - "4940:4940"              # API backend accessible sur http://localhost:4940
+      - "4940:4940"              # http://localhost:4940
     restart: unless-stopped
     networks:
       - app_net
@@ -71,32 +69,46 @@ services:
   frontend:
     build:
       context: ../gantt/frontend
-    #    dockerfile: Dockerfile   # optionnel, si ton Dockerfile s’appelle bien 'Dockerfile'
       dockerfile: Dockerfile
     container_name: gantt-frontend
     depends_on:
       - backend
     environment:
-      # côté frontend, l’API est accessible via le nom de service docker
       VITE_API_URL: "http://gantt-backend:4940"
     ports:
       - "4941:80"                # http://localhost:4941
     restart: unless-stopped
     networks:
       - app_net
+
   mario:
     build:
       context: ../mario-game
       dockerfile: Dockerfile
     container_name: mario-game
     ports:
-      - "4175:80"          # http://localhost:4175
+      - "4175:80"                # http://localhost:4175
+    restart: unless-stopped
+    networks:
+      - app_net
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      - JENKINS_JAVA_OPTIONS=-Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400
+    volumes:
+      - jenkins_home:/var/jenkins_home
     restart: unless-stopped
     networks:
       - app_net
 
 volumes:
   gantt_pgdata:
+  jenkins_home:
 
 networks:
   app_net:

@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DB_PASS      = credentials('db-pass-gantt')
-        JWT_SECRET   = credentials('jwt-secret-gantt')
-        GITHUB_PAT   = credentials('github-pat')
+        DB_PASS    = credentials('db-pass-gantt')
+        JWT_SECRET = credentials('jwt-secret-gantt')
+        GITHUB_PAT = credentials('github-pat')
     }
 
     stages {
@@ -24,11 +24,35 @@ pipeline {
                     export DB_PASS=$DB_PASS
                     export JWT_SECRET=$JWT_SECRET
 
-                    cd portfolio && npm ci && npm run build && cd ..
-                    cd frontend && npm ci && npm run build && cd ..
-                    cd planner && npm ci && npm run build && cd ..
-                    cd quiz && npm ci && npm run build && cd ..
-                    cd mario-game && npm ci && npm run build && cd ..
+                    # portfolio
+                    cd portfolio
+                    npm ci
+                    npm run build
+                    cd ..
+
+                    # cybersecurity-quiz
+                    cd cybersecurity-quiz
+                    npm ci
+                    npm run build
+                    cd ..
+
+                    # cybersecurity-planner
+                    cd cybersecurity-planner
+                    npm ci
+                    npm run build
+                    cd ..
+
+                    # gantt frontend
+                    cd gantt/frontend
+                    npm ci
+                    npm run build
+                    cd ../..
+
+                    # mario-game
+                    cd mario-game
+                    npm ci
+                    npm run build
+                    cd ..
                 '''
             }
         }

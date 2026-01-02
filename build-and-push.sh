@@ -12,9 +12,6 @@ if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 fi
 
 echo "=== Nettoyage état git (branche courante) ==="
-git reset --hard
-git clean -fd
-
 echo "=== Installation & build (projets npm) ==="
 
 build_project () {

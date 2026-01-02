@@ -2,7 +2,7 @@
 set -euo pipefail
 
 BRANCH_BUILD="build-prod"
-ROOT_DIR="$(pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 STAMP="$(date +'%Y-%m-%d %H:%M')"
 
 echo "=== Vérification git ==="
@@ -27,23 +27,23 @@ build_project () {
     exit 1
   fi
 
-  npm ci
+  npm install
   npm run build
 
   cd "$ROOT_DIR"
 }
 
 # Projets npm
-build_project "projets/portfolio" "portfolio"
-build_project "projets/cybersecurity-quiz" "cybersecurity-quiz"
-build_project "projets/cybersecurity-planner" "cybersecurity-planner"
-build_project "projets/gantt/frontend" "gantt-frontend"
+build_project "portfolio" "portfolio"
+build_project "cybersecurity-quiz" "cybersecurity-quiz"
+build_project "cybersecurity-planner" "cybersecurity-planner"
+build_project "gantt/frontend" "gantt-frontend"
 
 echo ""
 echo ">>> PREP mario-game (statique, pas de npm)"
 # Rien à builder: juste des fichiers statiques (index.html + assets + phaser)
 # Optionnel: tu peux vérifier qu'un index.html existe
-if [ ! -f "$ROOT_DIR/projets/mario-game/index.html" ]; then
+if [ ! -f "$ROOT_DIR/mario-game/index.html" ]; then
   echo "index.html introuvable dans projets/mario-game"
   exit 1
 fi
@@ -90,15 +90,15 @@ copy_build () {
 }
 
 # portfolio (Nuxt) - ajuste si ton output réel n'est pas .output
-copy_build "projets/portfolio/.output" "portfolio"
+copy_build "portfolio/.output" "portfolio"
 
 # Vite / React dist
-copy_build "projets/cybersecurity-quiz/dist" "cybersecurity-quiz"
-copy_build "projets/cybersecurity-planner/dist" "cybersecurity-planner"
-copy_build "projets/gantt/frontend/dist" "gantt-frontend"
+copy_build "cybersecurity-quiz/dist" "cybersecurity-quiz"
+copy_build "cybersecurity-planner/dist" "cybersecurity-planner"
+copy_build "gantt/frontend/dist" "gantt-frontend"
 
 # mario-game: copie statique (tout le dossier)
-copy_build "projets/mario-game" "mario-game"
+copy_build "mario-game" "mario-game"
 
 # Optionnel: petit fichier de preuve
 echo "Build branch: $BRANCH_BUILD" > BUILD_INFO.txt

@@ -110,3 +110,6 @@ temp/
 *.tmp
 *.bak
 *.cache
+
+# Nuxt build output
+portfolio/.output/

@@ -61,3 +61,8 @@
 - Un reverse-proxy (Traefik / nginx / Caddy) peut unifier les URLs en prod
 - Le monorepo permet un pipeline CI/CD unique
 
+
+
+---
+
+gituhub pat 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

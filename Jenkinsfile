@@ -4,12 +4,12 @@ pipeline {
     options {
         timestamps()
         disableConcurrentBuilds()
+        skipDefaultCheckout(true)
     }
 
     environment {
         DB_PASS    = credentials('db-pass-gantt')
         JWT_SECRET = credentials('jwt-secret-gantt')
-        GITHUB_PAT = credentials('github-pat')
 
         NPM_CONFIG_CACHE = "/tmp/.npm"
         NPM_CONFIG_FUND  = "false"
@@ -20,9 +20,15 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/IztochenValk/portfolio.git',
-                    credentialsId: 'github-pat'
+                cleanWs()
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/IztochenValk/portfolio.git',
+                        credentialsId: 'github-workflow'
+                    ]]
+                ])
             }
         }
 
@@ -54,7 +60,6 @@ pipeline {
                           dir="$2"
                           echo "[JENKINS] Build ${name}"
                           cd "$dir"
-                          rm -rf node_modules
                           npm_install
                           npm run build
                           cd - >/dev/null
@@ -66,12 +71,9 @@ pipeline {
 
                         echo "[JENKINS] Build gantt frontend (lightningcss safe)"
                         cd gantt/frontend
-                        rm -rf node_modules
                         npm_install
-
                         npm rebuild lightningcss --verbose || true
                         npm rebuild --verbose || true
-
                         npm run build
                         cd - >/dev/null
 
@@ -100,7 +102,6 @@ pipeline {
                         docker compose pull
                         docker compose build
 
-                        # Important: do NOT start the "jenkins" service from infra compose
                         docker compose up -d --remove-orphans --no-build \
                           portfolio quiz planner db backend frontend mario
 
@@ -113,16 +114,22 @@ pipeline {
 
     post {
         always {
-            sh '''
-                set +e
-                echo "=== POST: docker ps ==="
-                if command -v docker >/dev/null 2>&1; then
-                  docker ps --format "table {{.Names}}\t{{.Ports}}\t{{.Status}}"
-                else
-                  echo "docker not available in this Jenkins runtime"
-                fi
-                echo "=== POST DONE ==="
-            '''
+            script {
+                try {
+                    sh '''
+                        set +e
+                        echo "=== POST: docker ps ==="
+                        if command -v docker >/dev/null 2>&1; then
+                          docker ps --format "table {{.Names}}\\t{{.Ports}}\\t{{.Status}}"
+                        else
+                          echo "docker not available in this Jenkins runtime"
+                        fi
+                        echo "=== POST DONE ==="
+                    '''
+                } catch (e) {
+                    echo "POST skipped: ${e}"
+                }
+            }
         }
     }
 }

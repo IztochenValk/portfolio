@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-        stage('Build Frontends') {
+        stage('Build Frontends (Dockerized Node)') {
             steps {
                 timeout(time: 25, unit: 'MINUTES') {
                     sh '''
@@ -41,43 +41,69 @@ pipeline {
                         export DB_PASS="$DB_PASS"
                         export JWT_SECRET="$JWT_SECRET"
 
-                        echo "=== ENV CHECK ==="
-                        node -p "process.version + ' ' + process.platform + ' ' + process.arch" || true
-                        npm -v || true
+                        command -v docker >/dev/null 2>&1 || (echo "ERROR: docker CLI not available inside Jenkins container" && exit 1)
+
+                        echo "=== ENV CHECK (HOST) ==="
+                        uname -a || true
                         cat /etc/os-release || true
-                        echo "================="
+                        docker version
+                        docker image ls | head -n 20 || true
+                        echo "========================"
 
-                        npm_install() {
-                          if [ -f package-lock.json ]; then
-                            npm ci
-                          else
-                            npm install --no-audit --no-fund
-                          fi
+                        NODE_IMAGE="node:20-bullseye"
+
+                        npm_install_and_build() {
+                          dir="$1"
+                          echo "[JENKINS] Build ${dir} using ${NODE_IMAGE}"
+                          docker run --rm \
+                            -u "$(id -u):$(id -g)" \
+                            -e DB_PASS="$DB_PASS" \
+                            -e JWT_SECRET="$JWT_SECRET" \
+                            -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
+                            -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
+                            -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
+                            -v "$PWD:/work" \
+                            -w "/work/${dir}" \
+                            "${NODE_IMAGE}" \
+                            bash -lc '
+                              set -e
+                              if [ -f package-lock.json ]; then
+                                npm ci
+                              else
+                                npm install --no-audit --no-fund
+                              fi
+                              npm run build
+                            '
                         }
 
-                        build_one() {
-                          name="$1"
-                          dir="$2"
-                          echo "[JENKINS] Build ${name}"
-                          cd "$dir"
-                          npm_install
-                          npm run build
-                          cd - >/dev/null
-                        }
+                        npm_install_and_build "portfolio"
+                        npm_install_and_build "cybersecurity-quiz"
+                        npm_install_and_build "cybersecurity-planner"
 
-                        build_one "portfolio" "portfolio"
-                        build_one "cybersecurity-quiz" "cybersecurity-quiz"
-                        build_one "cybersecurity-planner" "cybersecurity-planner"
+                        echo "[JENKINS] Build gantt frontend (lightningcss safe) using ${NODE_IMAGE}"
+                        docker run --rm \
+                          -u "$(id -u):$(id -g)" \
+                          -e DB_PASS="$DB_PASS" \
+                          -e JWT_SECRET="$JWT_SECRET" \
+                          -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
+                          -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
+                          -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
+                          -v "$PWD:/work" \
+                          -w "/work/gantt/frontend" \
+                          "${NODE_IMAGE}" \
+                          bash -lc '
+                            set -e
+                            if [ -f package-lock.json ]; then
+                              npm ci
+                            else
+                              npm install --no-audit --no-fund
+                            fi
+                            npm rebuild lightningcss --verbose || true
+                            npm rebuild --verbose || true
+                            npm run build
+                          '
 
-                        echo "[JENKINS] Build gantt frontend (lightningcss safe)"
-                        cd gantt/frontend
-                        npm_install
-                        npm rebuild lightningcss --verbose || true
-                        npm rebuild --verbose || true
-                        npm run build
-                        cd - >/dev/null
-
-                        build_one "mario-game" "mario-game"
+                        npm_install_and_build "mario-game"
 
                         echo "=== BUILD_FRONTENDS_DONE ==="
                     '''

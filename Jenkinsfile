@@ -17,6 +17,7 @@ pipeline {
 
         JENKINS_CONTAINER = "jenkins"
         WS = "/var/jenkins_home/workspace/workflow-portfolio"
+        NODE_IMAGE = "node:20-bullseye"
     }
 
     stages {
@@ -37,22 +38,21 @@ pipeline {
 
         stage('Build Frontends') {
             steps {
-                timeout(time: 30, unit: 'MINUTES') {
+                timeout(time: 40, unit: 'MINUTES') {
                     sh '''
                         set -e
-
-                        docker inspect "$JENKINS_CONTAINER" >/dev/null 2>&1 || (echo "ERROR: container '$JENKINS_CONTAINER' not found" && exit 2)
+                        docker inspect "$JENKINS_CONTAINER" >/dev/null
 
                         build_node_project() {
                           DIR="$1"
-                          NODE_IMAGE="$2"
+                          FIX_LIGHTNING="$2"
 
                           if [ ! -f "$WS/$DIR/package.json" ]; then
                             echo "[JENKINS] SKIP (no package.json): $DIR"
                             return 0
                           fi
 
-                          echo "[JENKINS] Build $DIR with $NODE_IMAGE"
+                          echo "[JENKINS] Build $DIR"
 
                           docker run --rm \
                             --volumes-from "$JENKINS_CONTAINER" \
@@ -63,22 +63,24 @@ pipeline {
                             -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
                             -w "$WS/$DIR" \
                             "$NODE_IMAGE" \
-                            bash -lc '
+                            bash -lc "
                               set -e
                               npm ci
+
+                              if [ '$FIX_LIGHTNING' = '1' ]; then
+                                echo '[FIX] rebuilding lightningcss from source'
+                                npm rebuild lightningcss --build-from-source
+                              fi
+
                               npm run build
-                            '
+                            "
                         }
 
-                        build_node_project "portfolio" "node:20-bullseye"
-                        build_node_project "cybersecurity-quiz" "node:20-bullseye"
-                        build_node_project "cybersecurity-planner" "node:20-bullseye"
-
-                        # If gantt/frontend has native lightningcss issues on Node 20, use Node 18
-                        build_node_project "gantt/frontend" "node:18-bullseye"
-
-                        # mario-game is static HTML -> skip automatically because no package.json
-                        build_node_project "mario-game" "node:20-bullseye"
+                        build_node_project "portfolio" "0"
+                        build_node_project "cybersecurity-quiz" "0"
+                        build_node_project "cybersecurity-planner" "0"
+                        build_node_project "gantt/frontend" "1"
+                        build_node_project "mario-game" "0"
 
                         echo "=== BUILD_FRONTENDS_DONE ==="
                     '''
@@ -103,10 +105,7 @@ pipeline {
 
     post {
         always {
-            sh '''
-                set +e
-                docker ps --format "table {{.Names}}\\t{{.Status}}"
-            '''
+            sh 'docker ps --format "table {{.Names}}\\t{{.Status}}" || true'
         }
     }
 }

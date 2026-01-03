@@ -49,45 +49,33 @@ pipeline {
                           fi
                         }
 
-                        echo "[JENKINS] Build portfolio"
-                        cd portfolio
-                        rm -rf node_modules
-                        npm_install
-                        npm run build
-                        cd ..
+                        build_one() {
+                          name="$1"
+                          dir="$2"
+                          echo "[JENKINS] Build ${name}"
+                          cd "$dir"
+                          rm -rf node_modules
+                          npm_install
+                          npm run build
+                          cd - >/dev/null
+                        }
 
-                        echo "[JENKINS] Build cybersecurity-quiz"
-                        cd cybersecurity-quiz
-                        rm -rf node_modules
-                        npm_install
-                        npm run build
-                        cd ..
-
-                        echo "[JENKINS] Build cybersecurity-planner"
-                        cd cybersecurity-planner
-                        rm -rf node_modules
-                        npm_install
-                        npm run build
-                        cd ..
+                        build_one "portfolio" "portfolio"
+                        build_one "cybersecurity-quiz" "cybersecurity-quiz"
+                        build_one "cybersecurity-planner" "cybersecurity-planner"
 
                         echo "[JENKINS] Build gantt frontend (lightningcss safe)"
                         cd gantt/frontend
                         rm -rf node_modules
                         npm_install
 
-                        # Fix natif lightningcss / tailwind postcss
                         npm rebuild lightningcss --verbose || true
                         npm rebuild --verbose || true
 
                         npm run build
-                        cd ../..
+                        cd - >/dev/null
 
-                        echo "[JENKINS] Build mario-game"
-                        cd mario-game
-                        rm -rf node_modules
-                        npm_install
-                        npm run build
-                        cd ..
+                        build_one "mario-game" "mario-game"
 
                         echo "=== BUILD_FRONTENDS_DONE ==="
                     '''
@@ -103,6 +91,7 @@ pipeline {
 
                         command -v docker >/dev/null 2>&1 || (echo "ERROR: docker CLI not available inside Jenkins container" && exit 1)
                         docker version
+                        docker compose version
 
                         export DB_PASS="$DB_PASS"
                         export JWT_SECRET="$JWT_SECRET"
@@ -110,7 +99,10 @@ pipeline {
                         echo "[JENKINS] docker compose pull/build/up"
                         docker compose pull
                         docker compose build
-                        docker compose up -d
+
+                        # Important: do NOT start the "jenkins" service from infra compose
+                        docker compose up -d --remove-orphans --no-build \
+                          portfolio quiz planner db backend frontend mario
 
                         echo "=== DOCKER_DEPLOY_DONE ==="
                     '''

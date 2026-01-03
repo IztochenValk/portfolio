@@ -88,22 +88,18 @@ build_gantt_frontend() {
 
     rm -rf node_modules
 
-    # Forcer Linux x64 GNU + éviter ignore-scripts implicite
     export npm_config_platform=linux
     export npm_config_arch=x64
     export npm_config_libc=gnu
     unset npm_config_ignore_scripts || true
 
-    # Install strict
     npm ci --include=optional || npm install --include=optional --no-audit --no-fund
 
-    # Si lightningcss ne charge pas, on force le binaire platform et on le copie
-    if node -e "require(\"lightningcss\")" >/dev/null 2>&1; then
+    if node -e "require(\\"lightningcss\\")" >/dev/null 2>&1; then
       echo "lightningcss OK"
     else
       echo "lightningcss missing binary -> force platform package + manual copy"
 
-      # Récupérer la version EXACTE de lightningcss depuis package-lock.json
       LC_VER="$(node - <<\"NODE\"
 const fs = require(\"fs\");
 const lock = JSON.parse(fs.readFileSync(\"package-lock.json\", \"utf8\"));
@@ -125,7 +121,6 @@ NODE
 
       echo "Detected lightningcss version: $LC_VER"
 
-      # Installer le package binaire correspondant (sans toucher le lock)
       npm i --no-save --no-audit --no-fund "lightningcss-linux-x64-gnu@$LC_VER"
 
       BIN_SRC="node_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node"
@@ -141,15 +136,13 @@ NODE
       mkdir -p "node_modules/lightningcss"
       cp -f "$BIN_SRC" "$BIN_DST"
 
-      # Vérifier que ça charge
-      node -e "require(\"lightningcss\")"
+      node -e "require(\\"lightningcss\\")"
       echo "lightningcss OK after manual copy"
     fi
 
     npm run build
   '
 }
-
 
 build_node_if_exists "portfolio"
 build_node_if_exists "cybersecurity-quiz"

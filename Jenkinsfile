@@ -11,7 +11,6 @@ pipeline {
         JWT_SECRET = credentials('jwt-secret-gantt')
         GITHUB_PAT = credentials('github-pat')
 
-        // Stabilise npm dans Jenkins (évite cache pourri dans /var/jenkins_home)
         NPM_CONFIG_CACHE = "/tmp/.npm"
         NPM_CONFIG_FUND  = "false"
         NPM_CONFIG_AUDIT = "false"
@@ -42,34 +41,39 @@ pipeline {
                         cat /etc/os-release || true
                         echo "================="
 
+                        npm_install() {
+                          if [ -f package-lock.json ]; then
+                            npm ci
+                          else
+                            npm install --no-audit --no-fund
+                          fi
+                        }
+
                         echo "[JENKINS] Build portfolio"
                         cd portfolio
                         rm -rf node_modules
-                        npm ci
+                        npm_install
                         npm run build
                         cd ..
 
                         echo "[JENKINS] Build cybersecurity-quiz"
                         cd cybersecurity-quiz
                         rm -rf node_modules
-                        npm ci
+                        npm_install
                         npm run build
                         cd ..
 
                         echo "[JENKINS] Build cybersecurity-planner"
                         cd cybersecurity-planner
                         rm -rf node_modules
-                        npm ci
+                        npm_install
                         npm run build
                         cd ..
 
-                        echo "[JENKINS] Build gantt frontend (fix lightningcss)"
+                        echo "[JENKINS] Build gantt frontend (lightningcss safe)"
                         cd gantt/frontend
-
-                        rm -rf node_modules package-lock.json
-                        npm cache clean --force || true
-
-                        npm ci
+                        rm -rf node_modules
+                        npm_install
 
                         # Fix natif lightningcss / tailwind postcss
                         npm rebuild lightningcss --verbose || true
@@ -81,7 +85,7 @@ pipeline {
                         echo "[JENKINS] Build mario-game"
                         cd mario-game
                         rm -rf node_modules
-                        npm ci
+                        npm_install
                         npm run build
                         cd ..
 
@@ -96,6 +100,9 @@ pipeline {
                 dir('infra') {
                     sh '''
                         set -ex
+
+                        command -v docker >/dev/null 2>&1 || (echo "ERROR: docker CLI not available inside Jenkins container" && exit 1)
+                        docker version
 
                         export DB_PASS="$DB_PASS"
                         export JWT_SECRET="$JWT_SECRET"
@@ -117,7 +124,11 @@ pipeline {
             sh '''
                 set +e
                 echo "=== POST: docker ps ==="
-                docker ps --format "table {{.Names}}\t{{.Ports}}\t{{.Status}}" || true
+                if command -v docker >/dev/null 2>&1; then
+                  docker ps --format "table {{.Names}}\t{{.Ports}}\t{{.Status}}"
+                else
+                  echo "docker not available in this Jenkins runtime"
+                fi
                 echo "=== POST DONE ==="
             '''
         }

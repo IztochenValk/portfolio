@@ -17,7 +17,7 @@ pipeline {
 
         NODE_IMAGE = "node:20-bullseye"
         JENKINS_CONTAINER = "jenkins"
-        WORKSPACE_PATH = "/var/jenkins_home/workspace/workflow-portfolio"
+        WS = "/var/jenkins_home/workspace/workflow-portfolio"
     }
 
     stages {
@@ -36,16 +36,17 @@ pipeline {
             }
         }
 
-        stage('Build Frontends') {
+        stage('Build Frontends (Dockerized Node)') {
             steps {
-                timeout(time: 30, unit: 'MINUTES') {
+                timeout(time: 25, unit: 'MINUTES') {
                     sh '''
                         set -e
+                        command -v docker >/dev/null 2>&1 || exit 1
+                        docker inspect "$JENKINS_CONTAINER" >/dev/null 2>&1 || exit 2
 
                         build_dir() {
                           DIR="$1"
-                          echo "[JENKINS] Build $DIR"
-
+                          EXTRA_ENV="$2"
                           docker run --rm \
                             --volumes-from "$JENKINS_CONTAINER" \
                             -e DB_PASS="$DB_PASS" \
@@ -53,7 +54,8 @@ pipeline {
                             -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
                             -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
                             -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
-                            -w "$WORKSPACE_PATH/$DIR" \
+                            $EXTRA_ENV \
+                            -w "$WS/$DIR" \
                             "$NODE_IMAGE" \
                             bash -lc '
                               set -e
@@ -63,19 +65,18 @@ pipeline {
                             '
                         }
 
-                        build_dir "portfolio"
-                        build_dir "cybersecurity-quiz"
-                        build_dir "cybersecurity-planner"
-                        build_dir "gantt/frontend"
-                        build_dir "mario-game"
-
-                        echo "[JENKINS] All frontends built"
+                        build_dir "portfolio" ""
+                        build_dir "cybersecurity-quiz" ""
+                        build_dir "cybersecurity-planner" ""
+                        # Disable lightningcss for CI
+                        build_dir "gantt/frontend" "-e TAILWIND_DISABLE_LIGHTNINGCSS=1"
+                        build_dir "mario-game" ""
                     '''
                 }
             }
         }
 
-        stage('Build & Deploy Docker') {
+        stage('Build & Deploy with Docker') {
             steps {
                 dir('infra') {
                     sh '''
@@ -92,9 +93,7 @@ pipeline {
 
     post {
         always {
-            sh '''
-                docker ps --format "table {{.Names}}\\t{{.Status}}"
-            '''
+            sh 'docker ps --format "table {{.Names}}\\t{{.Status}}" || true'
         }
     }
 }

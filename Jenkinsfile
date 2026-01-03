@@ -34,7 +34,7 @@ pipeline {
 
         stage('Build Frontends (Node only)') {
             steps {
-                timeout(time: 40, unit: 'MINUTES') {
+                timeout(time: 45, unit: 'MINUTES') {
                     sh '''
                         set -e
 
@@ -42,14 +42,9 @@ pipeline {
                         NODE_IMAGE="node:20-bullseye"
                         WS="/var/jenkins_home/workspace/workflow-portfolio"
 
-                        build_node() {
+                        run_node() {
                           DIR="$1"
-                          echo "=== BUILD NODE: $DIR ==="
-
-                          if [ ! -f "$WS/$DIR/package.json" ]; then
-                            echo "SKIP $DIR (no package.json)"
-                            return 0
-                          fi
+                          shift
 
                           docker run --rm \
                             --volumes-from "$JENKINS_CONTAINER" \
@@ -60,23 +55,54 @@ pipeline {
                             -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
                             -w "$WS/$DIR" \
                             "$NODE_IMAGE" \
-                            bash -lc "
-                              set -e
-                              npm ci || npm install --no-audit --no-fund
+                            bash -lc "$*"
+                        }
 
-                              if [ '$DIR' = 'gantt/frontend' ]; then
-                                echo '[FIX] rebuilding lightningcss from source'
-                                npm rebuild lightningcss --build-from-source
-                              fi
+                        build_node() {
+                          DIR="$1"
+                          echo "=== BUILD NODE: $DIR ==="
 
-                              npm run build
-                            "
+                          if [ ! -f "$WS/$DIR/package.json" ]; then
+                            echo "SKIP $DIR (no package.json)"
+                            return 0
+                          fi
+
+                          run_node "$DIR" "
+                            set -e
+                            rm -rf node_modules
+                            npm ci --include=optional || npm install --no-audit --no-fund
+                            npm run build
+                          "
+                        }
+
+                        build_gantt_frontend() {
+                          DIR="gantt/frontend"
+                          echo "=== BUILD NODE (SPECIAL): $DIR ==="
+
+                          run_node "$DIR" "
+                            set -e
+                            rm -rf node_modules
+
+                            # IMPORTANT: include optional deps (where platform binaries usually live)
+                            npm ci --include=optional || npm install --no-audit --no-fund
+
+                            # If the platform binary is missing, install it explicitly
+                            if [ ! -f node_modules/lightningcss/lightningcss.linux-x64-gnu.node ]; then
+                              echo '[FIX] lightningcss binary missing, installing platform package'
+                              npm i -D lightningcss-linux-x64-gnu
+                            fi
+
+                            # Hard check: fail early if still broken
+                            node -e \"require('lightningcss'); console.log('lightningcss OK')\"
+
+                            npm run build
+                          "
                         }
 
                         build_node "portfolio"
                         build_node "cybersecurity-quiz"
                         build_node "cybersecurity-planner"
-                        build_node "gantt/frontend"
+                        build_gantt_frontend
 
                         echo "=== NODE BUILDS DONE ==="
                     '''

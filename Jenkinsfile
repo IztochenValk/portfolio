@@ -40,11 +40,17 @@ pipeline {
                 timeout(time: 30, unit: 'MINUTES') {
                     sh '''
                         set -e
-                        docker inspect "$JENKINS_CONTAINER" >/dev/null
 
-                        build() {
+                        docker inspect "$JENKINS_CONTAINER" >/dev/null 2>&1 || (echo "ERROR: container '$JENKINS_CONTAINER' not found" && exit 2)
+
+                        build_node_project() {
                           DIR="$1"
                           NODE_IMAGE="$2"
+
+                          if [ ! -f "$WS/$DIR/package.json" ]; then
+                            echo "[JENKINS] SKIP (no package.json): $DIR"
+                            return 0
+                          fi
 
                           echo "[JENKINS] Build $DIR with $NODE_IMAGE"
 
@@ -59,20 +65,22 @@ pipeline {
                             "$NODE_IMAGE" \
                             bash -lc '
                               set -e
-                              test -f package.json
                               npm ci
                               npm run build
                             '
                         }
 
-                        # Node 20 OK
-                        build "portfolio" "node:20-bullseye"
-                        build "cybersecurity-quiz" "node:20-bullseye"
-                        build "cybersecurity-planner" "node:20-bullseye"
-                        build "mario-game" "node:20-bullseye"
+                        build_node_project "portfolio" "node:20-bullseye"
+                        build_node_project "cybersecurity-quiz" "node:20-bullseye"
+                        build_node_project "cybersecurity-planner" "node:20-bullseye"
 
-                        # Node 18 REQUIRED for lightningcss
-                        build "gantt/frontend" "node:18-bullseye"
+                        # If gantt/frontend has native lightningcss issues on Node 20, use Node 18
+                        build_node_project "gantt/frontend" "node:18-bullseye"
+
+                        # mario-game is static HTML -> skip automatically because no package.json
+                        build_node_project "mario-game" "node:20-bullseye"
+
+                        echo "=== BUILD_FRONTENDS_DONE ==="
                     '''
                 }
             }
@@ -95,7 +103,10 @@ pipeline {
 
     post {
         always {
-            sh 'docker ps --format "table {{.Names}}\\t{{.Status}}" || true'
+            sh '''
+                set +e
+                docker ps --format "table {{.Names}}\\t{{.Status}}"
+            '''
         }
     }
 }

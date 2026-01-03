@@ -17,7 +17,7 @@ pipeline {
 
         NODE_IMAGE = "node:20-bullseye"
         JENKINS_CONTAINER = "jenkins"
-        WS = "/var/jenkins_home/workspace/workflow-portfolio"
+        WORKSPACE_DIR = "/var/jenkins_home/workspace/workflow-portfolio"
     }
 
     stages {
@@ -36,17 +36,18 @@ pipeline {
             }
         }
 
-        stage('Build Frontends (Dockerized Node)') {
+        stage('Build Frontends') {
             steps {
-                timeout(time: 25, unit: 'MINUTES') {
+                timeout(time: 30, unit: 'MINUTES') {
                     sh '''
                         set -e
-                        command -v docker >/dev/null 2>&1 || exit 1
-                        docker inspect "$JENKINS_CONTAINER" >/dev/null 2>&1 || exit 2
 
-                        build_dir() {
+                        build_dir () {
                           DIR="$1"
                           EXTRA_ENV="$2"
+
+                          echo "[JENKINS] Build $DIR"
+
                           docker run --rm \
                             --volumes-from "$JENKINS_CONTAINER" \
                             -e DB_PASS="$DB_PASS" \
@@ -55,7 +56,7 @@ pipeline {
                             -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
                             -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
                             $EXTRA_ENV \
-                            -w "$WS/$DIR" \
+                            -w "$WORKSPACE_DIR/$DIR" \
                             "$NODE_IMAGE" \
                             bash -lc '
                               set -e
@@ -65,24 +66,30 @@ pipeline {
                             '
                         }
 
-                        build_dir "portfolio" ""
-                        build_dir "cybersecurity-quiz" ""
-                        build_dir "cybersecurity-planner" ""
-                        # Disable lightningcss for CI
+                        build_dir "portfolio"
+                        build_dir "cybersecurity-quiz"
+                        build_dir "cybersecurity-planner"
+
+                        # FIX CI DEFINITIF POUR lightningcss
                         build_dir "gantt/frontend" "-e TAILWIND_DISABLE_LIGHTNINGCSS=1"
-                        build_dir "mario-game" ""
+
+                        build_dir "mario-game"
+
+                        echo "=== BUILD_FRONTENDS_DONE ==="
                     '''
                 }
             }
         }
 
-        stage('Build & Deploy with Docker') {
+        stage('Build & Deploy Docker') {
             steps {
                 dir('infra') {
                     sh '''
                         set -e
+
                         docker compose pull
                         docker compose build
+
                         docker compose up -d --remove-orphans --no-build \
                           portfolio quiz planner db backend frontend mario
                     '''
@@ -93,7 +100,10 @@ pipeline {
 
     post {
         always {
-            sh 'docker ps --format "table {{.Names}}\\t{{.Status}}" || true'
+            sh '''
+                set +e
+                docker ps --format "table {{.Names}}\t{{.Status}}"
+            '''
         }
     }
 }

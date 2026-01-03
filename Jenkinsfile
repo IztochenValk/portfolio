@@ -32,67 +32,60 @@ pipeline {
             }
         }
 
-        stage('Build Frontends (Dockerized Node)') {
-            steps {
-                timeout(time: 25, unit: 'MINUTES') {
-                    sh '''
-                        set -ex
+stage('Build Frontends (Dockerized Node)') {
+    steps {
+        timeout(time: 25, unit: 'MINUTES') {
+            sh '''
+                set -ex
 
-                        command -v docker >/dev/null 2>&1 || (echo "ERROR: docker CLI not available inside Jenkins container" && exit 1)
+                command -v docker >/dev/null 2>&1 || (echo "ERROR: docker CLI not available" && exit 1)
 
-                        echo "=== WORKSPACE CHECK ==="
-                        echo "WORKSPACE=$WORKSPACE"
-                        ls -la "$WORKSPACE"
-                        echo "======================="
+                JENKINS_CONTAINER="jenkins"
+                NODE_IMAGE="node:20-bullseye"
+                WS="/var/jenkins_home/workspace/workflow-portfolio"
 
-                        NODE_IMAGE="node:20-bullseye"
+                echo "=== CHECK JENKINS CONTAINER ==="
+                docker ps --format "table {{.Names}}\\t{{.Status}}" | sed -n '1,10p'
+                docker inspect "$JENKINS_CONTAINER" >/dev/null 2>&1 || (echo "ERROR: container '$JENKINS_CONTAINER' not found" && exit 2)
 
-                        npm_install_and_build() {
-                          dir="$1"
-                          echo "[JENKINS] Build ${dir} using ${NODE_IMAGE}"
+                build_dir() {
+                  dir="$1"
+                  echo "[JENKINS] Build ${dir}"
 
-                          if [ ! -f "$WORKSPACE/${dir}/package.json" ]; then
-                            echo "[JENKINS] ERROR: missing $WORKSPACE/${dir}/package.json"
-                            echo "[JENKINS] Listing $WORKSPACE/${dir}:"
-                            ls -la "$WORKSPACE/${dir}" || true
-                            exit 2
-                          fi
-
-                          docker run --rm \
-                            -u 0:0 \
-                            -e DB_PASS="$DB_PASS" \
-                            -e JWT_SECRET="$JWT_SECRET" \
-                            -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
-                            -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
-                            -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
-                            -v "$WORKSPACE:/work" \
-                            -w "/work/${dir}" \
-                            "${NODE_IMAGE}" \
-                            bash -lc '
-                              set -e
-                              if [ -f package-lock.json ]; then
-                                npm ci
-                              else
-                                npm install --no-audit --no-fund
-                              fi
-                              npm run build
-                            '
-                        }
-
-                        npm_install_and_build "portfolio"
-                        npm_install_and_build "cybersecurity-quiz"
-                        npm_install_and_build "cybersecurity-planner"
-
-                        echo "[JENKINS] Build gantt frontend (lightningcss safe) using ${NODE_IMAGE}"
-                        npm_install_and_build "gantt/frontend"
-
-                        npm_install_and_build "mario-game"
-
-                        echo "=== BUILD_FRONTENDS_DONE ==="
-                    '''
+                  docker run --rm \
+                    --volumes-from "$JENKINS_CONTAINER" \
+                    -e DB_PASS="$DB_PASS" \
+                    -e JWT_SECRET="$JWT_SECRET" \
+                    -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
+                    -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
+                    -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
+                    -w "${WS}/${dir}" \
+                    "${NODE_IMAGE}" \
+                    bash -lc '
+                      set -e
+                      ls -la
+                      test -f package.json
+                      if [ -f package-lock.json ]; then
+                        npm ci
+                      else
+                        npm install --no-audit --no-fund
+                      fi
+                      npm run build
+                    '
                 }
-            }
+
+                build_dir "portfolio"
+                build_dir "cybersecurity-quiz"
+                build_dir "cybersecurity-planner"
+                build_dir "gantt/frontend"
+                build_dir "mario-game"
+
+                echo "=== BUILD_FRONTENDS_DONE ==="
+            '''
         }
+    }
+}
+
 
         stage('Build & Deploy with Docker') {
             steps {

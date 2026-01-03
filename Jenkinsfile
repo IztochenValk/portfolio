@@ -32,60 +32,68 @@ pipeline {
             }
         }
 
-stage('Build Frontends (Dockerized Node)') {
-    steps {
-        timeout(time: 25, unit: 'MINUTES') {
-            sh '''
-                set -ex
+        stage('Build Frontends (Dockerized Node)') {
+            steps {
+                timeout(time: 25, unit: 'MINUTES') {
+                    sh '''
+                        set -ex
 
-                command -v docker >/dev/null 2>&1 || (echo "ERROR: docker CLI not available" && exit 1)
+                        command -v docker >/dev/null 2>&1 || (echo "ERROR: docker CLI not available" && exit 1)
 
-                JENKINS_CONTAINER="jenkins"
-                NODE_IMAGE="node:20-bullseye"
-                WS="/var/jenkins_home/workspace/workflow-portfolio"
+                        JENKINS_CONTAINER="jenkins"
+                        NODE_IMAGE="node:20-bullseye"
+                        WS="/var/jenkins_home/workspace/workflow-portfolio"
 
-                echo "=== CHECK JENKINS CONTAINER ==="
-                docker ps --format "table {{.Names}}\\t{{.Status}}" | sed -n '1,10p'
-                docker inspect "$JENKINS_CONTAINER" >/dev/null 2>&1 || (echo "ERROR: container '$JENKINS_CONTAINER' not found" && exit 2)
+                        echo "=== CHECK JENKINS CONTAINER ==="
+                        docker ps --format "table {{.Names}}\\t{{.Status}}" | sed -n '1,10p'
+                        docker inspect "$JENKINS_CONTAINER" >/dev/null 2>&1 || (echo "ERROR: container '$JENKINS_CONTAINER' not found" && exit 2)
 
-                build_dir() {
-                  dir="$1"
-                  echo "[JENKINS] Build ${dir}"
+                        build_dir() {
+                          dir="$1"
+                          enable_lightning_fix="$2"
 
-                  docker run --rm \
-                    --volumes-from "$JENKINS_CONTAINER" \
-                    -e DB_PASS="$DB_PASS" \
-                    -e JWT_SECRET="$JWT_SECRET" \
-                    -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
-                    -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
-                    -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
-                    -w "${WS}/${dir}" \
-                    "${NODE_IMAGE}" \
-                    bash -lc '
-                      set -e
-                      ls -la
-                      test -f package.json
-                      if [ -f package-lock.json ]; then
-                        npm ci
-                      else
-                        npm install --no-audit --no-fund
-                      fi
-                      npm run build
-                    '
+                          echo "[JENKINS] Build ${dir}"
+
+                          docker run --rm \
+                            --volumes-from "$JENKINS_CONTAINER" \
+                            -e DB_PASS="$DB_PASS" \
+                            -e JWT_SECRET="$JWT_SECRET" \
+                            -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
+                            -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
+                            -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
+                            -w "${WS}/${dir}" \
+                            "${NODE_IMAGE}" \
+                            bash -lc "
+                              set -e
+                              ls -la
+                              test -f package.json
+
+                              if [ -f package-lock.json ]; then
+                                npm ci
+                              else
+                                npm install --no-audit --no-fund
+                              fi
+
+                              if [ '${enable_lightning_fix}' = '1' ]; then
+                                npm rebuild lightningcss --build-from-source || true
+                                npm rebuild || true
+                              fi
+
+                              npm run build
+                            "
+                        }
+
+                        build_dir "portfolio" "0"
+                        build_dir "cybersecurity-quiz" "0"
+                        build_dir "cybersecurity-planner" "0"
+                        build_dir "gantt/frontend" "1"
+                        build_dir "mario-game" "0"
+
+                        echo "=== BUILD_FRONTENDS_DONE ==="
+                    '''
                 }
-
-                build_dir "portfolio"
-                build_dir "cybersecurity-quiz"
-                build_dir "cybersecurity-planner"
-                build_dir "gantt/frontend"
-                build_dir "mario-game"
-
-                echo "=== BUILD_FRONTENDS_DONE ==="
-            '''
+            }
         }
-    }
-}
-
 
         stage('Build & Deploy with Docker') {
             steps {

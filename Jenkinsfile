@@ -95,50 +95,41 @@ build_gantt_frontend() {
 
     npm ci --include=optional || npm install --include=optional --no-audit --no-fund
 
-    if node -e "require(\\"lightningcss\\")" >/dev/null 2>&1; then
-      echo "lightningcss OK"
+    if node -e "require(\\"@tailwindcss/oxide\\")" >/dev/null 2>&1; then
+      echo "tailwind oxide OK"
+      npm run build
+      exit 0
+    fi
+
+    echo "tailwind oxide native binding missing -> patch"
+
+    ARCH="$(node -p "process.arch")"
+    if ldd --version 2>&1 | head -1 | grep -qi musl; then
+      LIBC="musl"
     else
-      echo "lightningcss missing binary -> force platform package + manual copy"
+      LIBC="gnu"
+    fi
 
-      LC_VER="$(node - <<\"NODE\"
+    OX_VER="$(node - <<\"NODE\"
 const fs = require(\"fs\");
-const lock = JSON.parse(fs.readFileSync(\"package-lock.json\", \"utf8\"));
-
-function pickVersion(obj) {
-  if (!obj) return null;
-  if (obj.packages && obj.packages[\"node_modules/lightningcss\"] && obj.packages[\"node_modules/lightningcss\"].version)
-    return obj.packages[\"node_modules/lightningcss\"].version;
-  if (obj.dependencies && obj.dependencies.lightningcss && obj.dependencies.lightningcss.version)
-    return obj.dependencies.lightningcss.version;
+const lock = JSON.parse(fs.readFileSync(\"package-lock.json\",\"utf8\"));
+function pick(lock) {
+  if (lock.packages?.[\"node_modules/@tailwindcss/oxide\"]?.version) return lock.packages[\"node_modules/@tailwindcss/oxide\"].version;
+  if (lock.dependencies?.[\"@tailwindcss/oxide\"]?.version) return lock.dependencies[\"@tailwindcss/oxide\"].version;
   return null;
 }
-
-const v = pickVersion(lock);
+const v = pick(lock);
 if (!v) process.exit(2);
 process.stdout.write(v);
 NODE
 )"
+    echo "Detected @tailwindcss/oxide version: $OX_VER (arch=$ARCH libc=$LIBC)"
 
-      echo "Detected lightningcss version: $LC_VER"
+    PKG="@tailwindcss/oxide-linux-${ARCH}-${LIBC}"
+    npm i --no-save --no-audit --no-fund "${PKG}@${OX_VER}"
 
-      npm i --no-save --no-audit --no-fund "lightningcss-linux-x64-gnu@$LC_VER"
-
-      BIN_SRC="node_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node"
-      BIN_DST="node_modules/lightningcss/lightningcss.linux-x64-gnu.node"
-
-      if [[ ! -f "$BIN_SRC" ]]; then
-        echo "ERROR: $BIN_SRC not found after install"
-        ls -la node_modules | head -200 || true
-        ls -la node_modules/lightningcss* || true
-        exit 3
-      fi
-
-      mkdir -p "node_modules/lightningcss"
-      cp -f "$BIN_SRC" "$BIN_DST"
-
-      node -e "require(\\"lightningcss\\")"
-      echo "lightningcss OK after manual copy"
-    fi
+    node -e "require(\\"@tailwindcss/oxide\\")"
+    echo "tailwind oxide OK after patch"
 
     npm run build
   '

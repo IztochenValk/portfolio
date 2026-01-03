@@ -37,25 +37,22 @@ pipeline {
                 timeout(time: 45, unit: 'MINUTES') {
                     sh '''#!/usr/bin/env bash
 set -euo pipefail
-
 trap 'echo; echo "[FAIL] line=$LINENO cmd=$BASH_COMMAND"; echo; exit 1' ERR
 
 JENKINS_CONTAINER="jenkins"
 NODE_IMAGE="node:20-bullseye"
+GANTT_NODE_IMAGE="node:20-bookworm"
 WS="/var/jenkins_home/workspace/workflow-portfolio"
-
-echo "[INFO] WS=$WS"
-echo "[INFO] NODE_IMAGE=$NODE_IMAGE"
-echo "[INFO] JENKINS_CONTAINER=$JENKINS_CONTAINER"
 
 docker inspect "$JENKINS_CONTAINER" >/dev/null 2>&1 || { echo "ERROR: container '$JENKINS_CONTAINER' not found"; exit 2; }
 
 run_node() {
-  local DIR="$1"
-  shift || true
+  local IMG="$1"
+  local DIR="$2"
+  shift 2 || true
 
   echo
-  echo "----- [RUN NODE] $DIR -----"
+  echo "----- [RUN NODE] img=$IMG dir=$DIR -----"
 
   docker run --rm \
     --volumes-from "$JENKINS_CONTAINER" \
@@ -65,7 +62,7 @@ run_node() {
     -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
     -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
     -w "$WS/$DIR" \
-    "$NODE_IMAGE" \
+    "$IMG" \
     bash -lc "$*"
 }
 
@@ -79,9 +76,8 @@ build_node() {
     return 0
   fi
 
-  run_node "$DIR" '
+  run_node "$NODE_IMAGE" "$DIR" '
     set -euo pipefail
-    echo "[IN CONTAINER] pwd=$(pwd)"
     node -v
     npm -v
     rm -rf node_modules
@@ -95,27 +91,19 @@ build_gantt_frontend() {
   echo
   echo "=== BUILD NODE (SPECIAL): $DIR ==="
 
-  if [[ ! -f "$WS/$DIR/package.json" ]]; then
-    echo "ERROR: $DIR/package.json missing"
-    exit 3
-  fi
-
-  run_node "$DIR" '
+  run_node "$GANTT_NODE_IMAGE" "$DIR" '
     set -euo pipefail
-    echo "[IN CONTAINER] pwd=$(pwd)"
     node -v
     npm -v
 
     rm -rf node_modules
     npm ci --include=optional || npm install --no-audit --no-fund
 
-    # lightningcss native binary: ensure it exists
-    if [[ ! -f node_modules/lightningcss/lightningcss.linux-x64-gnu.node ]]; then
-      echo "[FIX] lightningcss binary missing -> installing platform package"
-      npm i -D lightningcss-linux-x64-gnu
-    fi
+    echo "=== POSTCSS CONFIG DUMP ==="
+    ls -la postcss.config.* || true
+    sed -n "1,200p" postcss.config.js || true
+    echo "=========================="
 
-    node -e "require(\\"lightningcss\\"); console.log(\\"lightningcss OK\\")"
     npm run build
   '
 }
@@ -138,7 +126,6 @@ echo "=== NODE BUILDS DONE ==="
 set -euo pipefail
 echo "=== MARIO GAME STATIC ==="
 test -f mario-game/index.html
-ls -la mario-game | sed -n '1,120p'
 echo "Mario game OK (static files only)"
 '''
             }

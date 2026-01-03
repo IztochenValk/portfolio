@@ -15,9 +15,8 @@ pipeline {
         NPM_CONFIG_FUND  = "false"
         NPM_CONFIG_AUDIT = "false"
 
-        NODE_IMAGE = "node:20-bullseye"
         JENKINS_CONTAINER = "jenkins"
-        WORKSPACE_DIR = "/var/jenkins_home/workspace/workflow-portfolio"
+        WS = "/var/jenkins_home/workspace/workflow-portfolio"
     }
 
     stages {
@@ -41,12 +40,13 @@ pipeline {
                 timeout(time: 30, unit: 'MINUTES') {
                     sh '''
                         set -e
+                        docker inspect "$JENKINS_CONTAINER" >/dev/null
 
-                        build_dir () {
+                        build() {
                           DIR="$1"
-                          EXTRA_ENV="$2"
+                          NODE_IMAGE="$2"
 
-                          echo "[JENKINS] Build $DIR"
+                          echo "[JENKINS] Build $DIR with $NODE_IMAGE"
 
                           docker run --rm \
                             --volumes-from "$JENKINS_CONTAINER" \
@@ -55,8 +55,7 @@ pipeline {
                             -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
                             -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
                             -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
-                            $EXTRA_ENV \
-                            -w "$WORKSPACE_DIR/$DIR" \
+                            -w "$WS/$DIR" \
                             "$NODE_IMAGE" \
                             bash -lc '
                               set -e
@@ -66,16 +65,14 @@ pipeline {
                             '
                         }
 
-                        build_dir "portfolio"
-                        build_dir "cybersecurity-quiz"
-                        build_dir "cybersecurity-planner"
+                        # Node 20 OK
+                        build "portfolio" "node:20-bullseye"
+                        build "cybersecurity-quiz" "node:20-bullseye"
+                        build "cybersecurity-planner" "node:20-bullseye"
+                        build "mario-game" "node:20-bullseye"
 
-                        # FIX CI DEFINITIF POUR lightningcss
-                        build_dir "gantt/frontend" "-e TAILWIND_DISABLE_LIGHTNINGCSS=1"
-
-                        build_dir "mario-game"
-
-                        echo "=== BUILD_FRONTENDS_DONE ==="
+                        # Node 18 REQUIRED for lightningcss
+                        build "gantt/frontend" "node:18-bullseye"
                     '''
                 }
             }
@@ -86,10 +83,8 @@ pipeline {
                 dir('infra') {
                     sh '''
                         set -e
-
                         docker compose pull
                         docker compose build
-
                         docker compose up -d --remove-orphans --no-build \
                           portfolio quiz planner db backend frontend mario
                     '''
@@ -100,10 +95,7 @@ pipeline {
 
     post {
         always {
-            sh '''
-                set +e
-                docker ps --format "table {{.Names}}\t{{.Status}}"
-            '''
+            sh 'docker ps --format "table {{.Names}}\\t{{.Status}}" || true'
         }
     }
 }

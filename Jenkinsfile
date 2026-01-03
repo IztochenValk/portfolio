@@ -75,26 +75,30 @@ build_node_if_exists() {
   fi
 
   run_node "$DIR" '
+    set -euo pipefail
     rm -rf node_modules
-    npm ci --include=optional || npm install --no-audit --no-fund
+    npm ci --include=optional || npm install --include=optional --no-audit --no-fund
     npm run build
   '
 }
 
 build_gantt_frontend() {
   run_node "gantt/frontend" '
+    set -euo pipefail
+
     rm -rf node_modules
-    npm ci --include=optional || npm install --no-audit --no-fund
 
-    BIN_SRC="node_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node"
-    BIN_DST="node_modules/lightningcss/lightningcss.linux-x64-gnu.node"
+    # Install strict first
+    npm ci --include=optional || npm install --include=optional --no-audit --no-fund
 
-    if [[ -f "$BIN_SRC" && ! -f "$BIN_DST" ]]; then
-      cp "$BIN_SRC" "$BIN_DST"
+    # Verify lightningcss loads. If not, force npm install to resolve platform optional deps.
+    if node -e "require(\\"lightningcss\\")" >/dev/null 2>&1; then
+      echo "lightningcss OK after npm ci"
+    else
+      echo "lightningcss missing after npm ci, forcing npm install"
+      npm install --include=optional --no-audit --no-fund
+      node -e "require(\\"lightningcss\\")"
     fi
-
-    test -f "$BIN_DST"
-    node -e "require(\\"lightningcss\\")"
 
     npm run build
   '
@@ -114,7 +118,7 @@ echo "=== FRONTENDS BUILD DONE ==="
         stage('Mario Game (Static)') {
             steps {
                 sh '''#!/usr/bin/env bash
-set -e
+set -euo pipefail
 test -f mario-game/index.html
 echo "Mario game OK (static)"
 '''
@@ -125,7 +129,7 @@ echo "Mario game OK (static)"
             steps {
                 dir('infra') {
                     sh '''#!/usr/bin/env bash
-set -e
+set -euo pipefail
 docker compose pull
 docker compose build
 docker compose up -d --remove-orphans

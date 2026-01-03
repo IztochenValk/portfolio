@@ -86,92 +86,6 @@ build_node_if_exists() {
   '
 }
 
-lockver() {
-  node - <<'NODE'
-const fs = require("fs");
-const lock = JSON.parse(fs.readFileSync("package-lock.json","utf8"));
-const name = process.argv[1];
-const v =
-  lock.packages?.[`node_modules/${name}`]?.version ||
-  lock.dependencies?.[name]?.version ||
-  null;
-if (!v) process.exit(2);
-process.stdout.write(v);
-NODE
-}
-
-patch_tailwind_oxide() {
-  # expects: ARCH LIBC already set
-  local OX_VER
-  OX_VER="$(node - <<'NODE'
-const fs = require("fs");
-const lock = JSON.parse(fs.readFileSync("package-lock.json","utf8"));
-const v =
-  lock.packages?.["node_modules/@tailwindcss/oxide"]?.version ||
-  lock.dependencies?.["@tailwindcss/oxide"]?.version ||
-  null;
-if (!v) process.exit(2);
-process.stdout.write(v);
-NODE
-)"
-  local PKG="@tailwindcss/oxide-linux-${ARCH}-${LIBC}"
-  echo "Patching oxide: ${PKG}@${OX_VER}"
-  npm i --no-save --no-audit --no-fund "${PKG}@${OX_VER}"
-
-  # manual place .node into @tailwindcss/oxide/dist (postinstall can silently fail in CI)
-  local OX_NODE
-  OX_NODE="$(find "node_modules/${PKG}" -name "*.node" -type f | head -1 || true)"
-  if [[ -z "$OX_NODE" ]]; then
-    echo "ERROR: oxide binary not found in node_modules/${PKG}"
-    ls -la "node_modules" | head -200 || true
-    ls -la "node_modules/@tailwindcss" || true
-    exit 20
-  fi
-
-  mkdir -p node_modules/@tailwindcss/oxide/dist
-  cp -f "$OX_NODE" "node_modules/@tailwindcss/oxide/dist/$(basename "$OX_NODE")"
-
-  node -e "require('@tailwindcss/oxide')"
-  node -e "require('@tailwindcss/postcss')"
-}
-
-patch_lightningcss() {
-  # expects: ARCH LIBC already set
-  local LC_VER
-  LC_VER="$(node - <<'NODE'
-const fs = require("fs");
-const lock = JSON.parse(fs.readFileSync("package-lock.json","utf8"));
-const v =
-  lock.packages?.["node_modules/lightningcss"]?.version ||
-  lock.dependencies?.["lightningcss"]?.version ||
-  null;
-if (!v) process.exit(2);
-process.stdout.write(v);
-NODE
-)"
-  local PKG="lightningcss-linux-${ARCH}-${LIBC}"
-  echo "Patching lightningcss: ${PKG}@${LC_VER}"
-  npm i --no-save --no-audit --no-fund "${PKG}@${LC_VER}"
-
-  local SRC="node_modules/${PKG}/lightningcss.linux-${ARCH}-${LIBC}.node"
-  local DST="node_modules/lightningcss/lightningcss.linux-${ARCH}-${LIBC}.node"
-
-  # fallback: find any .node inside platform package if name differs
-  if [[ ! -f "$SRC" ]]; then
-    SRC="$(find "node_modules/${PKG}" -name "*.node" -type f | head -1 || true)"
-  fi
-
-  if [[ -z "${SRC:-}" || ! -f "$SRC" ]]; then
-    echo "ERROR: lightningcss binary not found in node_modules/${PKG}"
-    ls -la "node_modules/lightningcss"* || true
-    exit 21
-  fi
-
-  mkdir -p node_modules/lightningcss
-  cp -f "$SRC" "$DST"
-  node -e "require('lightningcss')"
-}
-
 build_gantt_frontend() {
   run_node "gantt/frontend" '
     set -euo pipefail
@@ -186,13 +100,79 @@ build_gantt_frontend() {
       LIBC="gnu"
     fi
 
-    # If @tailwindcss/postcss fails native binding, fix oxide placement
-    if ! node -e "require(\"@tailwindcss/postcss\")" >/dev/null 2>&1; then
+    patch_tailwind_oxide() {
+      local OX_VER PKG OX_NODE
+
+      OX_VER="$(node - <<\"NODE\"
+const fs = require(\"fs\");
+const lock = JSON.parse(fs.readFileSync(\"package-lock.json\",\"utf8\"));
+const v =
+  lock.packages?.[\"node_modules/@tailwindcss/oxide\"]?.version ||
+  lock.dependencies?.[\"@tailwindcss/oxide\"]?.version ||
+  null;
+if (!v) process.exit(2);
+process.stdout.write(v);
+NODE
+)"
+      PKG="@tailwindcss/oxide-linux-${ARCH}-${LIBC}"
+      echo "Patching oxide: ${PKG}@${OX_VER}"
+
+      npm i --no-save --no-audit --no-fund "${PKG}@${OX_VER}"
+
+      OX_NODE="$(find "node_modules/${PKG}" -name "*.node" -type f | head -1 || true)"
+      if [[ -z "$OX_NODE" ]]; then
+        echo "ERROR: oxide binary not found in node_modules/${PKG}"
+        ls -la "node_modules/@tailwindcss" || true
+        exit 20
+      fi
+
+      mkdir -p node_modules/@tailwindcss/oxide/dist
+      cp -f "$OX_NODE" "node_modules/@tailwindcss/oxide/dist/$(basename "$OX_NODE")"
+
+      node -e "require(\\"@tailwindcss/oxide\\")"
+      node -e "require(\\"@tailwindcss/postcss\\")"
+      echo "oxide/postcss OK after patch"
+    }
+
+    patch_lightningcss() {
+      local LC_VER PKG SRC DST
+
+      LC_VER="$(node - <<\"NODE\"
+const fs = require(\"fs\");
+const lock = JSON.parse(fs.readFileSync(\"package-lock.json\",\"utf8\"));
+const v =
+  lock.packages?.[\"node_modules/lightningcss\"]?.version ||
+  lock.dependencies?.[\"lightningcss\"]?.version ||
+  null;
+if (!v) process.exit(2);
+process.stdout.write(v);
+NODE
+)"
+      PKG="lightningcss-linux-${ARCH}-${LIBC}"
+      echo "Patching lightningcss: ${PKG}@${LC_VER}"
+
+      npm i --no-save --no-audit --no-fund "${PKG}@${LC_VER}"
+
+      SRC="$(find "node_modules/${PKG}" -name "*.node" -type f | head -1 || true)"
+      if [[ -z "$SRC" ]]; then
+        echo "ERROR: lightningcss binary not found in node_modules/${PKG}"
+        ls -la "node_modules/lightningcss"* || true
+        exit 21
+      fi
+
+      DST="node_modules/lightningcss/$(basename "$SRC")"
+      mkdir -p node_modules/lightningcss
+      cp -f "$SRC" "$DST"
+
+      node -e "require(\\"lightningcss\\")"
+      echo "lightningcss OK after patch"
+    }
+
+    if ! node -e "require(\\"@tailwindcss/postcss\\")" >/dev/null 2>&1; then
       patch_tailwind_oxide
     fi
 
-    # If lightningcss is involved anywhere, ensure its binary exists too
-    if ! node -e "require(\"lightningcss\")" >/dev/null 2>&1; then
+    if ! node -e "require(\\"lightningcss\\")" >/dev/null 2>&1; then
       patch_lightningcss
     fi
 

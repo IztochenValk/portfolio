@@ -88,25 +88,34 @@ build_node() {
 
 build_gantt_frontend() {
   local DIR="gantt/frontend"
-  echo
   echo "=== BUILD NODE (SPECIAL): $DIR ==="
 
-  run_node "$GANTT_NODE_IMAGE" "$DIR" '
+  run_node "$DIR" '
     set -euo pipefail
-    node -v
-    npm -v
 
     rm -rf node_modules
     npm ci --include=optional || npm install --no-audit --no-fund
 
-    echo "=== POSTCSS CONFIG DUMP ==="
-    ls -la postcss.config.* || true
-    sed -n "1,200p" postcss.config.js || true
-    echo "=========================="
+    echo "=== LIGHTNINGCSS DEBUG ==="
+    ls -la node_modules/lightningcss || true
+    ls -la node_modules/lightningcss-linux-x64-gnu || true
+
+    BIN_SRC="node_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node"
+    BIN_DST="node_modules/lightningcss/lightningcss.linux-x64-gnu.node"
+
+    if [[ -f "$BIN_SRC" && ! -f "$BIN_DST" ]]; then
+      echo "[FIX] copying native binding into lightningcss package"
+      cp "$BIN_SRC" "$BIN_DST"
+    fi
+
+    test -f "$BIN_DST"
+
+    node -e "require(\"lightningcss\"); console.log(\"lightningcss native OK\")"
 
     npm run build
   '
 }
+
 
 build_node "portfolio"
 build_node "cybersecurity-quiz"

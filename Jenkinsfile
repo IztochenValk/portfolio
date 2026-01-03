@@ -35,101 +35,98 @@ pipeline {
         stage('Build Frontends (Node only)') {
             steps {
                 timeout(time: 45, unit: 'MINUTES') {
-                    sh '''
-                        set -e
+                    sh '''#!/usr/bin/env bash
+set -euo pipefail
 
-                        JENKINS_CONTAINER="jenkins"
-                        NODE_IMAGE="node:20-bullseye"
-                        WS="/var/jenkins_home/workspace/workflow-portfolio"
+JENKINS_CONTAINER="jenkins"
+NODE_IMAGE="node:20-bullseye"
+WS="/var/jenkins_home/workspace/workflow-portfolio"
 
-                        run_node() {
-                          DIR="$1"
-                          shift
+docker inspect "$JENKINS_CONTAINER" >/dev/null 2>&1 || { echo "ERROR: container '$JENKINS_CONTAINER' not found"; exit 2; }
 
-                          docker run --rm \
-                            --volumes-from "$JENKINS_CONTAINER" \
-                            -e DB_PASS="$DB_PASS" \
-                            -e JWT_SECRET="$JWT_SECRET" \
-                            -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
-                            -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
-                            -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
-                            -w "$WS/$DIR" \
-                            "$NODE_IMAGE" \
-                            bash -lc "$*"
-                        }
+run_node() {
+  local DIR="$1"
+  shift || true
+  docker run --rm \
+    --volumes-from "$JENKINS_CONTAINER" \
+    -e DB_PASS="$DB_PASS" \
+    -e JWT_SECRET="$JWT_SECRET" \
+    -e NPM_CONFIG_CACHE="$NPM_CONFIG_CACHE" \
+    -e NPM_CONFIG_FUND="$NPM_CONFIG_FUND" \
+    -e NPM_CONFIG_AUDIT="$NPM_CONFIG_AUDIT" \
+    -w "$WS/$DIR" \
+    "$NODE_IMAGE" \
+    bash -lc "$*"
+}
 
-                        build_node() {
-                          DIR="$1"
-                          echo "=== BUILD NODE: $DIR ==="
+build_node() {
+  local DIR="$1"
+  echo "=== BUILD NODE: $DIR ==="
 
-                          if [ ! -f "$WS/$DIR/package.json" ]; then
-                            echo "SKIP $DIR (no package.json)"
-                            return 0
-                          fi
+  if [[ ! -f "$WS/$DIR/package.json" ]]; then
+    echo "SKIP $DIR (no package.json)"
+    return 0
+  fi
 
-                          run_node "$DIR" "
-                            set -e
-                            rm -rf node_modules
-                            npm ci --include=optional || npm install --no-audit --no-fund
-                            npm run build
-                          "
-                        }
+  run_node "$DIR" '
+    set -euo pipefail
+    rm -rf node_modules
+    npm ci --include=optional || npm install --no-audit --no-fund
+    npm run build
+  '
+}
 
-                        build_gantt_frontend() {
-                          DIR="gantt/frontend"
-                          echo "=== BUILD NODE (SPECIAL): $DIR ==="
+build_gantt_frontend() {
+  local DIR="gantt/frontend"
+  echo "=== BUILD NODE (SPECIAL): $DIR ==="
 
-                          run_node "$DIR" "
-                            set -e
-                            rm -rf node_modules
+  run_node "$DIR" '
+    set -euo pipefail
+    rm -rf node_modules
+    npm ci --include=optional || npm install --no-audit --no-fund
 
-                            # IMPORTANT: include optional deps (where platform binaries usually live)
-                            npm ci --include=optional || npm install --no-audit --no-fund
+    # Fix lightningcss native binary (platform package may be missing)
+    if [[ ! -f node_modules/lightningcss/lightningcss.linux-x64-gnu.node ]]; then
+      echo "[FIX] lightningcss binary missing -> installing platform package"
+      npm i -D lightningcss-linux-x64-gnu
+    fi
 
-                            # If the platform binary is missing, install it explicitly
-                            if [ ! -f node_modules/lightningcss/lightningcss.linux-x64-gnu.node ]; then
-                              echo '[FIX] lightningcss binary missing, installing platform package'
-                              npm i -D lightningcss-linux-x64-gnu
-                            fi
+    node -e "require(\\"lightningcss\\"); console.log(\\"lightningcss OK\\")"
+    npm run build
+  '
+}
 
-                            # Hard check: fail early if still broken
-                            node -e \"require('lightningcss'); console.log('lightningcss OK')\"
+build_node "portfolio"
+build_node "cybersecurity-quiz"
+build_node "cybersecurity-planner"
+build_gantt_frontend
 
-                            npm run build
-                          "
-                        }
-
-                        build_node "portfolio"
-                        build_node "cybersecurity-quiz"
-                        build_node "cybersecurity-planner"
-                        build_gantt_frontend
-
-                        echo "=== NODE BUILDS DONE ==="
-                    '''
+echo "=== NODE BUILDS DONE ==="
+'''
                 }
             }
         }
 
         stage('Mario Game (Static)') {
             steps {
-                sh '''
-                    set -e
-                    echo "=== MARIO GAME STATIC ==="
-                    test -f mario-game/index.html
-                    echo "Mario game OK (static files only)"
-                '''
+                sh '''#!/usr/bin/env bash
+set -euo pipefail
+echo "=== MARIO GAME STATIC ==="
+test -f mario-game/index.html
+echo "Mario game OK (static files only)"
+'''
             }
         }
 
         stage('Build & Deploy Docker') {
             steps {
                 dir('infra') {
-                    sh '''
-                        set -e
-                        docker compose pull
-                        docker compose build
-                        docker compose up -d --remove-orphans
-                    '''
+                    sh '''#!/usr/bin/env bash
+set -euo pipefail
+docker compose pull
+docker compose build
+docker compose up -d --remove-orphans
+'''
                 }
             }
         }
@@ -137,11 +134,11 @@ pipeline {
 
     post {
         always {
-            sh '''
-                set +e
-                echo "=== RUNNING CONTAINERS ==="
-                docker ps --format "table {{.Names}}\\t{{.Status}}\\t{{.Ports}}"
-            '''
+            sh '''#!/usr/bin/env bash
+set +e
+echo "=== RUNNING CONTAINERS ==="
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+'''
         }
     }
 }

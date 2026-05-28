@@ -220,6 +220,3 @@ jobs:
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GHCR_USER: ${{ secrets.GHCR_USER }}
-        env:
-          GHCR_PAT: ${{ secrets.GHCR_PAT }}
-          GHCR_USER: ${{ secrets.GHCR_USER }}

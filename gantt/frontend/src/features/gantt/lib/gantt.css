@@ -1,0 +1,354 @@
+@import "@styles/tokens.css";
+
+/* ------------------------------------------------------------
+   Thème (variables) – Light par défaut
+------------------------------------------------------------- */
+.gantt {
+  /* Couleurs */
+  --g-bg:     #ffffff;
+  --g-fg:     #111827; /* texte primaire */
+  --g-muted:  #6b7280; /* texte secondaire */
+  --g-border: #e5e7eb; /* séparateurs/contours */
+  --g-grid:   #e5e7eb; /* lignes de grille */
+  --g-marker: rgba(0,0,0,.06);
+  --g-today:  #ef4444;
+
+  /* Dimensions */
+  --header-month-h: 28px;
+  --header-day-h:   32px;
+  --tooltip-gap:    10px;
+
+  /* Fournies ailleurs par le JS/config : */
+  /* --label-width, --day-width, --total-days, --bar-height */
+  background: transparent;
+  color: var(--g-fg);
+  position: relative;
+  overflow: auto;
+}
+
+/* Dark theme */
+[data-theme="dark"] .gantt {
+  --g-bg:     #0f172a; /* slate-900 */
+  --g-fg:     #e5e7eb; /* texte clair */
+  --g-muted:  #94a3b8; /* slate-400 */
+  --g-border: #263143;
+  --g-grid:   #1f2937;
+  --g-marker: rgba(255,255,255,.08);
+  --g-today:  #f43f5e;
+}
+
+/* ------------------------------------------------------------
+   Timeline (header 2 lignes)
+------------------------------------------------------------- */
+.gantt .timeline {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--g-bg);
+  display: grid;
+  grid-template-columns: var(--label-width) repeat(var(--total-days), var(--day-width));
+  grid-template-rows: var(--header-month-h) var(--header-day-h);
+  border-bottom: 1px solid var(--g-border);
+}
+/* Cellule sticky de gauche (titre + contrôles) */
+.gantt .timeline > .label {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  width: var(--label-width);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  background: var(--g-bg);
+  color: var(--g-fg);
+  border-right: 1px solid var(--g-border);
+}
+
+/* Mois & jours */
+.gantt .timeline .month {
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--g-fg);
+  opacity: .9;
+  background: var(--g-bg);
+}
+.gantt .timeline .day {
+  grid-row: 2;
+  text-align: center;
+  font-size: 12px;
+  padding: 2px 0;
+  color: var(--g-muted);
+}
+
+/* Composants MUI dans le header gauche */
+.gantt .timeline .label .MuiIconButton-root,
+.gantt .timeline .label .MuiToggleButton-root {
+  color: var(--g-muted);
+  background: transparent;
+  border-color: var(--g-border);
+}
+.gantt .timeline .label .MuiToggleButton-root.Mui-selected {
+  color: var(--g-fg);
+  background: rgba(99,102,241,.12); /* indigo-500 à 12% */
+  border-color: var(--g-border);
+}
+
+/* ------------------------------------------------------------
+   Variante : header noir en dark (opt-in)
+   Activer avec: <div class="gantt" data-dark-header="true" ...>
+------------------------------------------------------------- */
+.gantt[data-dark-header="true"][data-theme="dark"] .timeline,
+.gantt[data-dark-header="true"][data-theme="dark"] .timeline > .label,
+.gantt[data-dark-header="true"][data-theme="dark"] .timeline .month,
+.gantt[data-dark-header="true"][data-theme="dark"] .timeline .day {
+  background: #000;
+  color: #fff;
+  border-color: var(--g-border);
+}
+.gantt[data-dark-header="true"][data-theme="dark"] .timeline {
+  border-bottom-color: #0a0a0a;
+}
+
+/* ------------------------------------------------------------
+   Marqueurs verticaux
+------------------------------------------------------------- */
+.gantt .marker-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--g-marker);
+  z-index: 0;
+  pointer-events: none;
+}
+.gantt .today-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: var(--g-today);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   Liste des lignes
+------------------------------------------------------------- */
+.gantt #rows { position: relative; }
+
+/* Rangée = label | bar-zone */
+.gantt .row {
+  display: flex;
+  min-height: 80px;
+  width: 100%;
+}
+
+/* Colonne gauche (titres + icônes) – sticky */
+.gantt .row > .label {
+  flex: 0 0 var(--label-width);
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  position: sticky;
+  left: 0;
+  z-index: 12;
+  background: var(--g-bg);
+  color: var(--g-fg);
+  border-right: 1px solid var(--g-border);
+  border-top: 1px solid var(--g-border);
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Zone barres (droite) */
+.gantt .row > .bar-zone {
+  position: relative;
+  flex: 0 0 calc(var(--total-days) * var(--day-width));
+  height: 100%;
+  z-index: 1;
+  border-top: 1px solid var(--g-border);
+  touch-action: none;
+  background: transparent;
+}
+
+/* Grille des cellules de jours */
+.gantt .cell {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: var(--day-width);
+  border-right: 1px solid var(--g-grid);
+  pointer-events: none;
+}
+
+/* Drag-over visuel */
+.gantt .row.is-drag-over { outline: 2px solid #2563eb; outline-offset: -2px; }
+
+/* ------------------------------------------------------------
+   Barres
+------------------------------------------------------------- */
+.gantt .bar,
+.gantt .task-bar {
+  position: absolute;
+  z-index: 1;
+  cursor: grab;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  box-sizing: border-box;
+  height: var(--bar-height);
+  color: #fff;
+  border-radius: 0;
+  background-color: var(--bar-color, #60a5fa);
+}
+.gantt .bar.dragging { cursor: grabbing; }
+
+.gantt .resize-handle {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 8px;
+  cursor: ew-resize;
+  z-index: 3;
+  pointer-events: auto;
+  touch-action: none;
+  background: transparent;
+}
+.gantt .resize-handle.left  { left: -4px; }
+.gantt .resize-handle.right { right: -4px; }
+
+/* ------------------------------------------------------------
+   Tooltip
+------------------------------------------------------------- */
+.gantt .tooltip {
+  position: absolute;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 3;
+  box-shadow: 0 6px 20px rgba(0,0,0,.18);
+}
+[data-theme="dark"] .gantt .tooltip {
+  background: #0b1220;
+  color: #e5e7eb;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+}
+.gantt .tooltip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+}
+.gantt .tooltip[data-pos="above"]::after { top: 100%;  border-top-color: currentColor; }
+.gantt .tooltip[data-pos="below"]::after { bottom: 100%; border-bottom-color: currentColor; }
+
+/* ------------------------------------------------------------
+   Démarcations début/fin de barre (edges)
+------------------------------------------------------------- */
+.gantt { --timeline-height: 60px; }
+.gantt #boundaries {
+  position: absolute;
+  top: var(--timeline-height, 60px);
+  left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.gantt .bar-edge {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 0;
+  border-right: 2px dashed var(--bar-edge-color, rgba(100,116,139,.9));
+  opacity: .9;
+}
+.gantt .bar-edge.start { --bar-edge-color: rgba(99,102,241,.9); }
+.gantt .bar-edge.end   { --bar-edge-color: rgba(99,102,241,.9); }
+
+/* Toggle visuel des edges */
+.gantt[data-show-edges="off"] .bar-edge { display: none; }
+
+/* ------------------------------------------------------------
+   Séparateurs de lignes
+   Choix via data-row-sep="bottom|top|none" (default=bottom)
+------------------------------------------------------------- */
+.gantt { --row-sep-color: #e2e8f0; }
+
+.gantt .row { border-bottom: 1px solid var(--row-sep-color); }
+.gantt .row > .label { border-bottom: 1px solid var(--row-sep-color); }
+
+.gantt[data-row-sep="top"] .row {
+  border-bottom: 0;
+  border-top: 1px solid var(--row-sep-color);
+}
+.gantt[data-row-sep="top"] .row > .label {
+  border-bottom: 0;
+  border-top: 1px solid var(--row-sep-color);
+}
+.gantt[data-row-sep="none"] .row,
+.gantt[data-row-sep="none"] .row > .label {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+/* ------------------------------------------------------------
+   Masquages (labels/bars)
+------------------------------------------------------------- */
+.gantt[data-labels="off"] { --label-width: 0px; }
+.gantt[data-labels="off"] .row > .label,
+.gantt[data-labels="off"] .timeline > .label {
+  display: none;
+}
+
+.gantt[data-bars="off"] .bar,
+.gantt[data-bars="off"] .task-bar {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   Contrôles flottants (ex: bouton œil)
+------------------------------------------------------------- */
+.gantt .gantt-controls {
+  position: sticky;
+  top: 6px;
+  left: 6px;
+  z-index: 30;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  padding-left: 6px;
+  pointer-events: auto;
+  color: inherit;
+}
+.gantt .gantt-controls .label-toggle {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .9;
+}
+.gantt .gantt-controls .label-toggle:hover { opacity: 1; }
+.gantt .gantt-controls .label-toggle svg { width: 18px; height: 18px; display: block; }
+
+
+

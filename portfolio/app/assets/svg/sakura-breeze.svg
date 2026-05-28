@@ -1,0 +1,1102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" class="sakura-stage" v-html="svg">
+  <defs>
+<style scoped>
+    /* Conteneur centré */
+    .scene {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* SVG responsive, sans interférer avec ses styles internes */
+    svg {
+      width: 100%;
+      max-width: 1024px;
+      height: auto;
+      display: block;
+    }
+       [filter="url(#softShadow)"]{
+      transform-box: fill-box;
+      transform-origin: 50% 55%;
+      animation: softShadowFloat 5.2s cubic-bezier(.45,0,.55,1) infinite;
+      will-change: transform;
+    }
+
+    @keyframes softShadowFloat{
+      0%   { transform: translate3d(0px, 0px, 0); }
+      20%  { transform: translate3d(10.6px, 2.1px, 0); }
+      45%  { transform: translate3d(-5.2px, 1.4px, 0); }
+      70%  { transform: translate3d(2.4px, -1.8px, 0); }
+      90%  { transform: translate3d(-1.2px, -0.8px, 0); }
+      100% { transform: translate3d(0px, 0px, 0); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      [filter="url(#softShadow)"]{ animation: none; }
+    }
+/* Désynchronisation (marche si les fleurs partagent le même parent) */
+[filter="url(#softShadow)"]:nth-of-type(3n+1){
+  animation-delay: -1.1s;
+  animation-duration: 7.8s;
+}
+[filter="url(#softShadow)"]:nth-of-type(3n+2){
+  animation-delay: -2.6s;
+  animation-duration: 6.3s;
+}
+[filter="url(#softShadow)"]:nth-of-type(3n){
+  animation-delay: -3.9s;
+  animation-duration: 5.4s;
+}
+
+
+
+
+  .spin-flower {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: spin360 9s linear infinite;
+    will-change: transform;
+  }
+  .spin-flower--slow { animation-duration: 14s; }
+  .spin-flower--fast { animation-duration: 6.5s; }
+
+  .spin-flower--d1 { animation-delay: .6s; }
+  .spin-flower--d2 { animation-delay: 1.4s; }
+  .spin-flower--d3 { animation-delay: 2.2s; }
+
+  @keyframes spin360 {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+/* Pétales portés par le vent */
+.sakura-petal {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: petal-drift 9s linear infinite;
+  will-change: transform, opacity;
+}
+
+.sakura-petal--slow { animation-duration: 12s; }
+.sakura-petal--fast { animation-duration: 7s; }
+
+.sakura-petal--d1 { animation-delay: -1.5s; }
+.sakura-petal--d2 { animation-delay: -3.2s; }
+.sakura-petal--d3 { animation-delay: -5.1s; }
+
+@keyframes petal-drift {
+  0% {
+    transform: translate(0px, -40px) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  50% {
+    transform: translate(60px, 220px) rotate(160deg);
+  }
+  100% {
+    transform: translate(120px, 520px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+  /* IMPORTANT: coordonnées dans le repère du viewBox (0..1024) */
+  .branch-sway{
+    transform-box: view-box;
+    transform-origin: 960px 220px; /* point fixe du tronc */
+    animation: branchSwayMain 5.8s cubic-bezier(.45,0,.55,1) infinite;
+    will-change: transform;
+  }
+
+  .branch-sway--tertiary{
+    transform-box: view-box;
+    transform-origin: 932.303px 509.018px; /* point fixe de la petite branche */
+    animation: branchSwaySmall 5.8s cubic-bezier(.45,0,.55,1) infinite;
+    will-change: transform;
+  }
+
+  /* optionnel si tu l’utilises ailleurs */
+  .branch-sway--secondary{
+    transform-box: view-box;
+    transform-origin: 520px 635px;
+    animation: branchSwaySmall 6.6s cubic-bezier(.45,0,.55,1) infinite;
+    animation-delay: -1.2s;
+    will-change: transform;
+  }
+
+  @keyframes branchSwayMain{
+    0%   { transform: rotate(0deg) translateX(0); }
+    50%  { transform: rotate(-1.2deg) translateX(-6px); }
+    100% { transform: rotate(0deg) translateX(0); }
+  }
+
+  @keyframes branchSwaySmall{
+    0%   { transform: rotate(0deg); }
+    50%  { transform: rotate(-0.6deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .branch-sway, .branch-sway--tertiary, .branch-sway--secondary { animation: none; }
+  }
+</style>
+
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="branchGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f1713"/>
+      <stop offset="0.45" stop-color="#3a2a23"/>
+      <stop offset="1" stop-color="#170f0c"/>
+    </linearGradient>
+    <radialGradient id="petalGrad" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#ffe9f2"/>
+      <stop offset="0.55" stop-color="#ffc1d8"/>
+      <stop offset="1" stop-color="#f49cbc"/>
+    </radialGradient>
+    <radialGradient id="petalGradDeep" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#ffd7ea"/>
+      <stop offset="0.6" stop-color="#ff9bc4"/>
+      <stop offset="1" stop-color="#e565a5"/>
+    </radialGradient>
+    <radialGradient id="coreGrad" cx="45%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#ffb2cf"/>
+      <stop offset="0.65" stop-color="#f06aa6"/>
+      <stop offset="1" stop-color="#c94a86"/>
+    </radialGradient>
+    <radialGradient id="budGrad" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#ffd0e3"/>
+      <stop offset="0.55" stop-color="#ff87bb"/>
+      <stop offset="1" stop-color="#d74a86"/>
+    </radialGradient>
+    <filter id="softShadow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+      <feOffset dx="0" dy="2" result="off"/>
+      <feColorMatrix in="off" type="matrix" values="0 0 0 0 0&#10;                0 0 0 0 0&#10;                0 0 0 0 0&#10;                0 0 0 .22 0" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="petalGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.2" result="g"/>
+      <feMerge>
+        <feMergeNode in="g"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+<symbol id="blossomSymbol" viewBox="-80 -80 160 160">
+  <g id="blossom" filter="url(#petalGlow)">
+    <g filter="url(#softShadow)">
+      <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+      <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+      <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+      <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+      <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+      <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+      <g fill="#4a2b2d" opacity="0.35">
+        <circle cx="-18" cy="-6" r="1.8"/>
+        <circle cx="-10" cy="-18" r="1.7"/>
+        <circle cx="2" cy="-22" r="1.6"/>
+        <circle cx="14" cy="-14" r="1.7"/>
+        <circle cx="20" cy="2" r="1.6"/>
+        <circle cx="12" cy="16" r="1.6"/>
+        <circle cx="-6" cy="18" r="1.6"/>
+        <circle cx="-18" cy="10" r="1.6"/>
+      </g>
+    </g>
+  </g>
+</symbol>
+
+    <g id="blossomDeep" filter="url(#petalGlow)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGradDeep)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <path id="lPetal" d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z"/>
+    <g id="blossomLance" filter="url(#petalGlow)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g id="blossomLanceDeep" filter="url(#petalGlow)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g id="bud" filter="url(#softShadow)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g id="fallPetal" filter="url(#softShadow)">
+      <path d="M 0,-18 C 10,-16 14,-6 10,4 C 6,14 -6,14 -10,4 C -14,-6 -10,-16 0,-18 Z" fill="url(#petalGrad)" opacity="0.92"/>
+      <path d="M 0,-18 C 2,-10 2,0 0,10" fill="none" stroke="#e06aa0" stroke-width="1.3" opacity="0.25"/>
+    </g>
+    <linearGradient id="gradient-1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f1713"/>
+      <stop offset="0.45" stop-color="#3a2a23"/>
+      <stop offset="1" stop-color="#170f0c"/>
+    </linearGradient>
+    <linearGradient id="gradient-2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f1713"/>
+      <stop offset="0.45" stop-color="#3a2a23"/>
+      <stop offset="1" stop-color="#170f0c"/>
+    </linearGradient>
+    <linearGradient id="gradient-3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f1713"/>
+      <stop offset="0.45" stop-color="#3a2a23"/>
+      <stop offset="1" stop-color="#170f0c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <g id="leftText">
+    <text x="92" y="120" font-family="Georgia, 'Times New Roman', serif" font-size="34" fill="#111" style="white-space: pre;">
+      <tspan x="92" dy="0">J</tspan>
+      <tspan x="92" dy="44">A</tspan>
+      <tspan x="92" dy="44">P</tspan>
+      <tspan x="92" dy="44">A</tspan>
+      <tspan x="92" dy="44">N</tspan>
+      <tspan x="92" dy="44">F</tspan>
+      <tspan x="92" dy="44">L</tspan>
+      <tspan x="92" dy="44">O</tspan>
+      <tspan x="92" dy="44">W</tspan>
+      <tspan x="92" dy="44">E</tspan>
+      <tspan x="92" dy="44">R</tspan>
+    </text>
+    <text x="132" y="120" font-family="Georgia, 'Times New Roman', serif" font-size="34" fill="#e65d9a" style="white-space: pre;">
+      <tspan x="132" dy="0">S</tspan>
+      <tspan x="132" dy="44">A</tspan>
+      <tspan x="132" dy="44">K</tspan>
+      <tspan x="132" dy="44">U</tspan>
+      <tspan x="132" dy="44">R</tspan>
+      <tspan x="132" dy="44">A</tspan>
+    </text>
+  </g>
+  <g id="branch">
+  <g id="leftBouquet">
+    <g filter="url(#petalGlow)" transform="matrix(0.843815, -0.148787, 0.147703, 0.837666, 340.194951, 458.719733)" style="">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGradDeep)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(1.11584, 0.27821, -0.27821, 1.11584, 527.661324, 497.384407)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.888952, 0.124934, -0.120803, 0.859556, 261.218632, 550.623482)" style="">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGradDeep)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.966763, 0.31412, -0.324468, 0.998609, 429.189032, 507.934273)" style="">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.834098, -0.271015, 0.205431, 0.632251, 264.450993, 640.697092)" style="">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.915456, -0.253853, 0.253853, 0.915456, 163.216342, 851.952039)" style="transform-origin: -8.62466px -0.330345px;">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+
+    <g filter="url(#petalGlow)" transform="matrix(0.832767, 0.087527, -0.098312, 0.935376, 195.140521, 634.789499)" style="">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.9500000476837158, 0, 0, 0.9500000476837158, 175, 520)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.8500000238418579, 0, 0, 0.8500000238418579, 195, 585)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g id="group-1" class="branch" transform="matrix(-1.114592, 0, 0, -0.856343, 1355.348043, 1036.524918)" style="">
+<g class="branch-sway">
+<path
+  d="M 260,760
+     C 380,720 460,680 560,610
+     C 650,545 720,460 760,420"
+  fill="none"
+  stroke="url(#branchGrad)"
+  stroke-width="34"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+/>
+<path
+  d="M 760,420
+     C 820,350 880,300 960,220"
+  fill="none"
+  stroke="url(#branchGrad)"
+  stroke-width="8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+/>
+</g>
+<g class="branch-sway--tertiary">
+  <path
+    d="M 601.274 563.899 C 655.438 554.752 715.623 545.605 775.814 538.288 C 842.024 530.239 890.17 519.994 932.303 509.018"
+    fill="none"
+    stroke="url(#gradient-1)"
+    stroke-width="16"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.95"
+    style="stroke-width: 10;"
+  />
+</g>
+      <path d="M 690,500 C 735,475 785,450 835,430 C 890,408 930,380 965,350" fill="none" stroke="url(#branchGrad)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+
+      <path d="M 430 690 C 410 710 382.045 719.067 354.045 733.067" fill="none" stroke="#201613" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.800000011920929, 0, 0, 0.800000011920929, 235, 620)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.8199999928474426, 0, 0, 0.8199999928474426, 355, 605)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.75, 0, 0, 0.75, 365, 535)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.7799999713897705, 0, 0, 0.7799999713897705, 190, 465)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.7199999690055847, 0, 0, 0.7199999690055847, 305, 485)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+  </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.8803328756417093, -0.18712052917148486, 0.18712052917148486, 0.8803328756417093, 345, 565)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+  <g id="petals" opacity="0.95">
+    <g filter="url(#softShadow)" transform="matrix(0.8803328756417093, 0.18712052917148486, -0.18712052917148486, 0.8803328756417093, 700, 790)">
+      <path d="M 0,-18 C 10,-16 14,-6 10,4 C 6,14 -6,14 -10,4 C -14,-6 -10,-16 0,-18 Z" fill="url(#petalGrad)" opacity="0.92"/>
+      <path d="M 0,-18 C 2,-10 2,0 0,10" fill="none" stroke="#e06aa0" stroke-width="1.3" opacity="0.25"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.7132923872213651, -0.23176274578121053, 0.23176274578121053, 0.7132923872213651, 735, 835)">
+      <path d="M 0,-18 C 10,-16 14,-6 10,4 C 6,14 -6,14 -10,4 C -14,-6 -10,-16 0,-18 Z" fill="url(#petalGrad)" opacity="0.92"/>
+      <path d="M 0,-18 C 2,-10 2,0 0,10" fill="none" stroke="#e06aa0" stroke-width="1.3" opacity="0.25"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.6464392675562523, 0.0679435048622039, -0.0679435048622039, 0.6464392675562523, 760, 875)">
+      <path d="M 0,-18 C 10,-16 14,-6 10,4 C 6,14 -6,14 -10,4 C -14,-6 -10,-16 0,-18 Z" fill="url(#petalGrad)" opacity="0.92"/>
+      <path d="M 0,-18 C 2,-10 2,0 0,10" fill="none" stroke="#e06aa0" stroke-width="1.3" opacity="0.25"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.5941608648547728, -0.08350386389418456, 0.08350386389418456, 0.5941608648547728, 905, 745)">
+      <path d="M 0,-18 C 10,-16 14,-6 10,4 C 6,14 -6,14 -10,4 C -14,-6 -10,-16 0,-18 Z" fill="url(#petalGrad)" opacity="0.92"/>
+      <path d="M 0,-18 C 2,-10 2,0 0,10" fill="none" stroke="#e06aa0" stroke-width="1.3" opacity="0.25"/>
+    </g>
+  </g>
+<g class="branch-sway--ternary">
+  <path
+    d="M 830.657 559.359 C 841.257 540.534 853.036 521.711 864.816 506.651 C 877.774 490.088 887.196 469.003 895.442 446.415"
+    fill="none"
+    stroke="url(#gradient-2)"
+    stroke-width="16"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.95"
+    style="stroke-width: 6;"
+  />
+</g>
+
+<path d="M 276.484 773.736 C 298.206 757.271 322.345 740.809 346.485 727.637 C 373.04 713.151 392.348 694.71 409.246 674.954" fill="none" stroke="url(#gradient-3)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" opacity="0.95" style="stroke-width: 6; transform-origin: 342.864px 724.345px;"/>
+  <g id="blooms">
+    <g filter="url(#petalGlow)" transform="matrix(1.1388082554429753, -0.16004906278592995, 0.16004906278592995, 1.1388082554429753, 285, 785)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGradDeep)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.8314254839445909, 0.17672494215209641, -0.17672494215209641, 0.8314254839445909, 240, 835)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+
+
+    <g filter="url(#petalGlow)" transform="matrix(0.8314254839445909, 0.17672494215209641, -0.17672494215209641, 0.8314254839445909, 220, 755)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+
+
+    <g filter="url(#petalGlow)" transform="matrix(0.8083980615258348, -0.26266445258624455, 0.26266445258624455, 0.8083980615258348, 335, 830)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.9500000476837158, 0, 0, 0.9500000476837158, 225, 865)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.8500000238418579, 0, 0, 0.8500000238418579, 355, 865)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.699999988079071, 0, 0, 0.699999988079071, 285, 865)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.9355674123208907, -0.16496577706377416, 0.16496577706377416, 0.9355674123208907, 470, 735)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.7132923872213651, 0.23176274578121053, -0.23176274578121053, 0.7132923872213651, 525, 685)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.800000011920929, 0, 0, 0.800000011920929, 410, 770)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.75, 0, 0, 0.75, 560, 770)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(1.1771256459011774, 0.08231264367481488, -0.08231264367481488, 1.1771256459011774, 610, 635)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGradDeep)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.8538602344961463, -0.2128912669741341, 0.2128912669741341, 0.8538602344961463, 560, 610)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.873266188348876, 0.21772971469150215, -0.21772971469150215, 0.873266188348876, 660, 610)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.75, 0, 0, 0.75, 540, 590)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.7199999690055847, 0, 0, 0.7199999690055847, 690, 585)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.6200000047683716, 0, 0, 0.6200000047683716, 635, 565)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(1.0397814249589876, -0.1461317493717781, 0.1461317493717781, 1.0397814249589876, 725, 470)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGradDeep)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGradDeep)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.8607698839815778, 0.182962286928228, -0.182962286928228, 0.8607698839815778, 770, 485)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.8083980615258348, 0.26266445258624455, -0.26266445258624455, 0.8083980615258348, 690, 505)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.7799999713897705, 0, 0, 0.7799999713897705, 670, 455)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.7199999690055847, 0, 0, 0.7199999690055847, 805, 455)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.6800000071525574, 0, 0, 0.6800000071525574, 820, 505)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(1.1091002417125249, 0.15587387373890235, -0.15587387373890235, 1.1091002417125249, 845, 620)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGradDeep)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGradDeep)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.8075423504261167, -0.14239150444485432, 0.14239150444485432, 0.8075423504261167, 885, 650)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.6921083912818454, 0.19845888764502073, -0.19845888764502073, 0.6921083912818454, 910, 610)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.7799999713897705, 0, 0, 0.7799999713897705, 865, 690)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.6800000071525574, 0, 0, 0.6800000071525574, 935, 688)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.8370866135400233, 0.14760095515698596, -0.14760095515698596, 0.8370866135400233, 920, 305)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.8199999928474426, 0, 0, 0.8199999928474426, 880, 285)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#softShadow)" transform="matrix(0.7199999690055847, 0, 0, 0.7199999690055847, 952, 275)">
+      <circle cx="0" cy="0" r="14" fill="url(#budGrad)"/>
+      <ellipse cx="-4" cy="-6" rx="6" ry="4" fill="#ffe1ee" opacity="0.85"/>
+      <path d="M -14,0 C -26,4 -28,12 -18,18" fill="none" stroke="#2b1f1a" stroke-width="2" opacity="0.45"/>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.7724090652866282, -0.10855501476707669, 0.10855501476707669, 0.7724090652866282, 915, 520)">
+      <g filter="url(#softShadow)">
+        <path fill="url(#petalGrad)" d="M 0,-54 C 22,-62 46,-44 44,-18 C 42,6 18,20 0,12 C -18,20 -42,6 -44,-18 C -46,-44 -22,-62 0,-54 Z"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(72)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(144)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(216)"/>
+        <path fill="url(#petalGrad)" d="M 51,-17 C 70,-1 64,27 38,34 C 13,42 -5,23 -3,5 C -11,-9 -1,-33 23,-37 C 47,-41 66,-33 51,-17 Z" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.35">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+    <g filter="url(#petalGlow)" transform="matrix(0.6657395500691303, 0.21631189237869355, -0.21631189237869355, 0.6657395500691303, 865, 410)">
+      <g filter="url(#softShadow)">
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, 0.9510565162951535, -0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, 0.5877852522924731, -0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(-0.8090169943749475, -0.5877852522924731, 0.5877852522924731, -0.8090169943749475, 0, 0)" fill="url(#petalGrad)"/>
+        <path d="M 0,-62 C 13,-64 22,-54 20,-36 C 18,-18 9,-7 0,-3 C -9,-7 -18,-18 -20,-36 C -22,-54 -13,-64 0,-62 Z" transform="matrix(0.3090169943749474, -0.9510565162951535, 0.9510565162951535, 0.3090169943749474, 0, 0)" fill="url(#petalGrad)"/>
+        <circle cx="0" cy="0" r="12" fill="url(#coreGrad)"/>
+        <circle cx="0" cy="0" r="5" fill="#ffd1e5" opacity="0.85"/>
+        <g fill="#4a2b2d" opacity="0.3">
+          <circle cx="-18" cy="-6" r="1.8"/>
+          <circle cx="-10" cy="-18" r="1.7"/>
+          <circle cx="2" cy="-22" r="1.6"/>
+          <circle cx="14" cy="-14" r="1.7"/>
+          <circle cx="20" cy="2" r="1.6"/>
+          <circle cx="12" cy="16" r="1.6"/>
+          <circle cx="-6" cy="18" r="1.6"/>
+          <circle cx="-18" cy="10" r="1.6"/>
+        </g>
+      </g>
+    </g>
+  </g>
+<!-- Pétales de sakura dans la brise -->
+<g opacity="0.9">
+  <ellipse cx="420" cy="120" rx="6" ry="12" fill="url(#petalGrad)"
+    class="sakura-petal sakura-petal--slow sakura-petal--d1"/>
+  <ellipse cx="460" cy="90" rx="5" ry="10" fill="url(#petalGrad)"
+    class="sakura-petal sakura-petal--fast sakura-petal--d2"/>
+  <ellipse cx="510" cy="140" rx="6" ry="11" fill="url(#petalGrad)"
+    class="sakura-petal sakura-petal--slow sakura-petal--d3"/>
+  <ellipse cx="560" cy="110" rx="4.5" ry="9" fill="url(#petalGrad)"
+    class="sakura-petal sakura-petal--fast"/>
+    <ellipse cx="390" cy="80"  rx="5"  ry="10" fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d1"/>
+<ellipse cx="300" cy="40"  rx="5"  ry="10" fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d1"/>
+<ellipse cx="360" cy="90"  rx="6"  ry="12" fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast sakura-petal--d2"/>
+<ellipse cx="420" cy="30"  rx="4.5" ry="9"  fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d3"/>
+<ellipse cx="480" cy="110" rx="5.5" ry="11" fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast"/>
+<ellipse cx="540" cy="50"  rx="6"  ry="12" fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d1"/>
+<ellipse cx="600" cy="100" rx="4.5" ry="9"  fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast sakura-petal--d2"/>
+
+<ellipse cx="260" cy="160" rx="5"  ry="10" fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d3"/>
+<ellipse cx="340" cy="200" rx="6"  ry="12" fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast"/>
+<ellipse cx="420" cy="180" rx="4.5" ry="9"  fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d1"/>
+<ellipse cx="500" cy="230" rx="5.5" ry="11" fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast sakura-petal--d2"/>
+<ellipse cx="580" cy="190" rx="6"  ry="12" fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d3"/>
+<ellipse cx="660" cy="240" rx="4.5" ry="9"  fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast"/>
+<ellipse cx="140" cy="20"  rx="5"  ry="10" fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d1"/>
+<ellipse cx="220" cy="140" rx="6"  ry="12" fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast sakura-petal--d2"/>
+<ellipse cx="300" cy="60"  rx="4.5" ry="9"  fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d3"/>
+
+<ellipse cx="760" cy="40"  rx="5.5" ry="11" fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast"/>
+<ellipse cx="840" cy="120" rx="6"  ry="12" fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d1"/>
+
+<ellipse cx="120" cy="260" rx="5"  ry="10" fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d2"/>
+<ellipse cx="260" cy="320" rx="6"  ry="12" fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast"/>
+<ellipse cx="420" cy="360" rx="4.5" ry="9"  fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d3"/>
+
+<ellipse cx="700" cy="300" rx="5.5" ry="11" fill="url(#petalGrad)" class="sakura-petal sakura-petal--fast sakura-petal--d1"/>
+<ellipse cx="880" cy="360" rx="6"  ry="12" fill="url(#petalGrad)" class="sakura-petal sakura-petal--slow sakura-petal--d2"/>
+
+</g>
+
+</svg>

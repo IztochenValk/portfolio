@@ -1,0 +1,121 @@
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Node / JavaScript / TypeScript ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+.cache/
+.next/
+out/
+coverage/
+h5p-api/.env
+.env.*.local
+*.pem
+
+# === Front-end bundlers ===
+.vite/
+.vitepress/dist
+.svelte-kit
+.nuxt/
+.storybook/
+.hugo_build.lock
+
+# === React Native / Expo ===
+.expo/
+.expo-shared/
+*.apk
+*.aab
+
+# === Java / Spring Boot ===
+target/
+*.jar
+*.war
+*.ear
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.sqlite3
+.venv/
+env/
+venv/
+
+# === PHP / Composer / Laravel / Symfony ===
+vendor/
+composer.lock
+storage/
+bootstrap/cache/
+h5p-api/.env
+.env.local
+.env.*.backup
+
+# === Java /.gradle ===
+.gradle/
+*.class
+bin/
+build/
+
+# === Go ===
+bin/
+*.exe
+
+# === Ruby ===
+.bundle/
+Gemfile.lock
+
+# === Logs & runtime ===
+logs/
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# === Docker ===
+/docker-compose.override.yml
+/.docker/
+/docker-data/
+
+# === Databases ===
+*.db
+*.sqlite
+*.sqlite3
+*.pdb
+*.mdb
+
+# === IDEs & editors ===
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*.swn
+*.orig
+
+# === Tests ===
+test-results/
+junit-report.xml
+
+# === Secrets locaux (ne JAMAIS commit) ===
+mdp-jenkins.txt
+projets-app-ports.txt
+.env
+*.env
+!.env.example
+
+# === Misc ===
+tmp/
+temp/
+*.tmp
+*.bak
+*.cache
+
+# Nuxt build output
+portfolio/.output/

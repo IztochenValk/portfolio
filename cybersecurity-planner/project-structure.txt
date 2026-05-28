@@ -1,0 +1,109 @@
+📦 Structure du projet à partir de .
+----------------------------------------
+📁 build
+📄 collect_gantt_files.sh
+📁 dist
+  📁 assets
+    📄 index-CdbfRYdt.js
+    📄 index-DOCQaU8Y.css
+    📄 toredobyte-signin-background-ekOuCVum.png
+  📄 index.html
+📄 fix_log.txt
+📄 index.html
+📄 package.json
+📄 package-lock.json
+📄 postcss.config.js
+📄 project_log.txt
+📄 project-export.txt
+📄 project-structure.txt
+📁 public
+📄 README.md
+📄 scan-project.sh
+📁 src
+  📄 App.tsx
+  📁 assets
+    📁 fonts
+    📁 images
+      📄 images.d.ts
+      📄 toredobyte-signin-background.png
+    📁 styles
+      📄 global.css
+  📁 components
+    📁 common
+      📄 DarkModeToggle.tsx
+      📄 DashboardCard.tsx
+      📄 ProgressBar.tsx
+      📄 ResponsiveCard.tsx
+      📄 SecurityTechStack.tsx
+      📄 VersionsButtons.py
+    📁 layout
+      📄 Layout.tsx
+      📄 MainLayout.tsx
+      📄 Navbar.tsx
+    📄 SecurityTechStack.jsx
+    📁 ui
+      📄 card.tsx
+  📁 context
+    📄 ThemeContext.tsx
+    📄 ToastProvider.tsx
+  📁 hooks
+    📄 useAuth.ts
+  📄 index.css
+  📄 index.tsx
+  📁 pages
+    📄 Dashboard.tsx
+    📄 Profile.tsx
+    📁 Replay
+      📄 Replay.tsx
+    📁 Reports
+      📄 Reports.tsx
+    📄 SignIn.tsx
+    📄 SignIn-with-wordpress.tsx
+    📁 ThreatOpsPlanner
+      📁 components
+        📄 index.ts
+        📁 layout
+          📄 PlannerContainer.tsx
+          📄 SidebarMenu.tsx
+        📄 MitreSection.tsx
+        📄 ProgressBar.tsx
+        📄 SaveScenario.tsx
+        📁 sections
+          📁 mittre
+            📄 MittreSection.tsx
+          📁 progress
+            📄 ProgressBar.tsx
+          📄 ResponsiveCard.tsx
+          📄 SecurityTechStack.tsx
+          📄 TellMeTheTruth.tsx
+        📄 VersionsButtons.tsx
+      📄 index.tsx
+      📁 layout
+      📁 sections
+        📁 mitre
+        📁 progress
+        📁 security
+      📄 ThreatOpsPlanner.tsx
+  📁 routes
+    📄 AppRoutes.tsx
+    📄 PrivateRoute.tsx
+    📄 RedirectIfAuthenticated.tsx
+  📁 services
+  📁 state
+    📁 actions
+      📄 authActions.ts
+      📄 mitreActions.ts
+      📄 progressActions.ts
+    📁 mitre
+      📄 mitre.reducer.ts
+    📁 reducers
+      📄 authReducer.ts
+      📄 mitreReducer.ts
+      📄 progressReducer.ts
+      📄 rootReducer.ts
+    📄 store.ts
+  📁 utils
+    📄 helpers.ts
+📄 tailwind.config.js
+📄 tsconfig.json
+📄 vite.config.ts

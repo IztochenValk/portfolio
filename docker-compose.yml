@@ -1,0 +1,38 @@
+services:
+  portfolio:
+    image: ghcr.io/iztochenvalk/portfolio-portfolio:latest
+    container_name: portfolio
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+
+  cybersecurity-quiz:
+    image: ghcr.io/iztochenvalk/portfolio-cybersecurity-quiz:latest
+    container_name: cybersecurity-quiz
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+
+  cybersecurity-planner:
+    image: ghcr.io/iztochenvalk/portfolio-cybersecurity-planner:latest
+    container_name: cybersecurity-planner
+    restart: unless-stopped
+    ports:
+      - "3002:80"
+
+  mario-game:
+    image: ghcr.io/iztochenvalk/portfolio-mario-game:latest
+    container_name: mario-game
+    restart: unless-stopped
+    ports:
+      - "3003:80"
+
+  h5p-api:
+    image: ghcr.io/iztochenvalk/portfolio-h5p-api:latest
+    container_name: h5p-api
+    restart: unless-stopped
+    ports:
+      - "3011:3000"
+    environment:
+      PORT: 3000
+      OPENAI_API_KEY: ${OPENAI_API_KEY}

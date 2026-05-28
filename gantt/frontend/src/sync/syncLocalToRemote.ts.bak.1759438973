@@ -1,0 +1,91 @@
+// src/sync/syncLocalToRemote.ts
+import { createProject } from "@api";
+import { AUTH_KEY } from "../services/axios-globals";
+import type { Project } from "../types/project";
+import {
+  readProjects, upsertProject, removeProject,
+  readPending, dropPending, saveIdMap
+} from "../repos/localRepo";
+
+/**
+ * Pousse vers la BDD :
+ *  - toutes les créations en attente (store 'pending')
+ *  - tous les projets d'ID négative (créés offline sans pending)
+ * Ensuite:
+ *  - remplace les IDs locales par les IDs serveur
+ *  - nettoie les flags LS “invité/offline”
+ *  - optionnellement reload si mapping effectué (pour garantir routes/états clean)
+ */
+export async function syncNow(opts: { forceReloadOnMapped?: boolean } = {}) {
+  const { forceReloadOnMapped = true } = opts;
+  const token = (typeof localStorage !== "undefined") ? localStorage.getItem(AUTH_KEY) : null;
+  if (!token) return; // pas authentifié → rien
+
+  let mappedAny = false;
+
+  // 1) Rejoue la file d'attente des créations
+  try {
+    const pendings = await readPending();
+    for (const op of pendings) {
+      if (op.type === "create" && op.entity === "project") {
+        try {
+          const payload = op.payload || {};
+          const created = await createProject({
+            name: payload.name,
+            description: payload.description ?? undefined,
+          });
+          // map id temporaire si présent
+          const tempId: number | undefined = payload?.id;
+          if (typeof tempId === "number" && tempId < 0 && created?.id) {
+            await saveIdMap("project", tempId, created.id);
+            // remplace dans le cache local
+            try { await removeProject(tempId); } catch {}
+            const merged: Project = { id: created.id, name: created.name, description: created.description ?? null } as any;
+            await upsertProject(merged);
+            mappedAny = true;
+          }
+          await dropPending(op.cid);
+        } catch (e) {
+          // on n’arrête pas la sync : on passe au suivant
+          // (le pending restera et sera retenté)
+          // console.warn("pending create project failed", e);
+        }
+      }
+    }
+  } catch {/* ignore */ }
+
+  // 2) Pousse les projets d’ID négative qui ne sont pas en pending
+  try {
+    const locals = await readProjects();
+    const offline = locals.filter(p => typeof p.id === "number" && p.id < 0);
+    for (const p of offline) {
+      try {
+        const created = await createProject({ name: p.name, description: (p as any).description ?? undefined });
+        if (created?.id) {
+          await saveIdMap("project", p.id, created.id);
+          try { await removeProject(p.id); } catch {}
+          const merged: Project = { id: created.id, name: created.name, description: created.description ?? null } as any;
+          await upsertProject(merged);
+          mappedAny = true;
+        }
+      } catch {/* laisser en local si échec */}
+    }
+  } catch {/* ignore */}
+
+  // 3) Nettoyage LS soft (on garde authToken)
+  try {
+    const toDrop = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i) as string;
+      if (!k) continue;
+      // purge flags/babioles offline/guest ; NE TOUCHE PAS authToken ni vos prefs
+      if (/^(guestMode|offline|pending|temp|__offline__)/i.test(k)) toDrop.push(k);
+    }
+    toDrop.forEach(k => localStorage.removeItem(k));
+  } catch {/* ignore */}
+
+  // 4) Si mapping effectué, reload (pour routes /projects/-123 → /projects/42)
+  if (mappedAny && forceReloadOnMapped && typeof window !== "undefined") {
+    setTimeout(() => { try { window.location.reload(); } catch {} }, 0);
+  }
+}

@@ -1,0 +1,219 @@
+name: CI/CD - Build, Test, Publish & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ===========================================================================
+  # 1. Quality gate : lint, typecheck et tests sur le portfolio (Nuxt)
+  # ===========================================================================
+  quality:
+    name: Lint, Typecheck & Test (portfolio)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: portfolio/package-lock.json
+
+      - name: Install dependencies
+        working-directory: portfolio
+        run: npm ci
+
+      - name: Lint
+        working-directory: portfolio
+        run: npm run lint
+        continue-on-error: true # warning seulement tant que les configs ne sont pas durcies
+
+      - name: Type check
+        working-directory: portfolio
+        run: npm run typecheck
+        continue-on-error: true
+
+      - name: Unit tests
+        working-directory: portfolio
+        run: npm test
+
+  # ===========================================================================
+  # 2. Détecter quels sous-projets ont changé (optimisation)
+  # ===========================================================================
+  changes:
+    name: Detect changed projects
+    runs-on: ubuntu-latest
+    outputs:
+      portfolio: ${{ steps.filter.outputs.portfolio }}
+      cybersecurity-quiz: ${{ steps.filter.outputs.cybersecurity-quiz }}
+      cybersecurity-planner: ${{ steps.filter.outputs.cybersecurity-planner }}
+      mario-game: ${{ steps.filter.outputs.mario-game }}
+      h5p-api: ${{ steps.filter.outputs.h5p-api }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Filter changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            portfolio:
+              - 'portfolio/**'
+            cybersecurity-quiz:
+              - 'cybersecurity-quiz/**'
+            cybersecurity-planner:
+              - 'cybersecurity-planner/**'
+            mario-game:
+              - 'mario-game/**'
+            h5p-api:
+              - 'h5p-api/**'
+
+  # ===========================================================================
+  # 3. Build & push des images modifiées (matrix, parallèle)
+  # ===========================================================================
+  build-and-push:
+    name: Build ${{ matrix.project }}
+    needs: [quality, changes]
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - portfolio
+          - cybersecurity-quiz
+          - cybersecurity-planner
+          - mario-game
+          - h5p-api
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Check if this project changed
+        id: should_build
+        run: |
+          case "${{ matrix.project }}" in
+            portfolio) changed="${{ needs.changes.outputs.portfolio }}" ;;
+            cybersecurity-quiz) changed="${{ needs.changes.outputs.cybersecurity-quiz }}" ;;
+            cybersecurity-planner) changed="${{ needs.changes.outputs.cybersecurity-planner }}" ;;
+            mario-game) changed="${{ needs.changes.outputs.mario-game }}" ;;
+            h5p-api) changed="${{ needs.changes.outputs.h5p-api }}" ;;
+          esac
+          # Force rebuild si workflow_dispatch
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            changed="true"
+          fi
+          echo "should_build=$changed" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        if: steps.should_build.outputs.should_build == 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        if: steps.should_build.outputs.should_build == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker metadata
+        if: steps.should_build.outputs.should_build == 'true'
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/iztochenvalk/portfolio-${{ matrix.project }}
+          tags: |
+            type=raw,value=latest
+            type=sha
+
+      - name: Build and push
+        if: steps.should_build.outputs.should_build == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: ./${{ matrix.project }}
+          file: ./${{ matrix.project }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ matrix.project }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.project }}
+
+      - name: Scan image with Trivy
+        if: steps.should_build.outputs.should_build == 'true'
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ghcr.io/iztochenvalk/portfolio-${{ matrix.project }}:latest
+          format: sarif
+          output: trivy-${{ matrix.project }}.sarif
+          severity: CRITICAL,HIGH
+          exit-code: 0 # ne bloque pas le pipeline pour l'instant
+          ignore-unfixed: true
+
+      - name: Upload Trivy SARIF
+        if: steps.should_build.outputs.should_build == 'true'
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-${{ matrix.project }}.sarif
+          category: trivy-${{ matrix.project }}
+        continue-on-error: true
+
+  # ===========================================================================
+  # 4. Déploiement SSH sur VM (uniquement sur main + tous les builds OK)
+  # ===========================================================================
+  deploy:
+    name: Deploy to VM
+    needs: build-and-push
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Copy docker-compose.yml to VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "/home/deploy/portfolio-deploy"
+
+      - name: Deploy on VM over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            set -e
+            mkdir -p /home/deploy/portfolio-deploy
+            cd /home/deploy/portfolio-deploy
+
+            cat > .env <<EOF
+            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            EOF
+
+            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
+
+            docker compose pull
+            docker compose up -d --remove-orphans
+
+            docker image prune -f
+            docker ps

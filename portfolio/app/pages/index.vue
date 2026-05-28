@@ -206,7 +206,7 @@
           </li>
           <li>
             <a class="link link-primary" href="https://languebulgare.fr" target="_blank" rel="noreferrer">languebulgare.fr</a>
-            — création intégrale du site (en bulgare) sur le CMS HelloAsso&nbsp;: arborescence, contenus, mise en page, formulaires d'adhésion et de don.
+            — création intégrale du site (en bulgare) sur le CMS AssoConnect&nbsp;: arborescence, contenus, mise en page, formulaires d'adhésion et de don.
           </li>
         </ul>
         <p class="mt-2 opacity-80">
@@ -214,9 +214,17 @@
         </p>
         <div class="mt-3 flex flex-wrap gap-2">
           <span class="badge badge-soft badge-primary">WordPress</span>
-          <span class="badge badge-soft badge-primary">HelloAsso</span>
+          <span class="badge badge-soft badge-primary">AssoConnect</span>
           <span class="badge badge-soft badge-primary">HTML/CSS</span>
           <span class="badge badge-soft badge-primary">Traduction BG→FR</span>
+        </div>
+        <div class="mt-4">
+          <NuxtLink
+            to="/stage/langue-bulgare"
+            class="btn btn-sm btn-outline btn-primary"
+          >
+            Voir le détail du stage →
+          </NuxtLink>
         </div>
       </div>
     </div>

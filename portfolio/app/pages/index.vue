@@ -202,22 +202,21 @@
         <ul class="mt-2 list-disc list-inside space-y-1 opacity-80">
           <li>
             <a class="link link-primary" href="https://wp.languebulgare.fr" target="_blank" rel="noreferrer">wp.languebulgare.fr</a>
-            — conception et intégration de la page d'accueil sur WordPress, traduction et adaptation FR/BG de plusieurs contenus.
+            — conception et intégration de la page d'accueil sur WordPress, traduction de certains contenus depuis le bulgare.
           </li>
           <li>
             <a class="link link-primary" href="https://languebulgare.fr" target="_blank" rel="noreferrer">languebulgare.fr</a>
-            — création intégrale du site sur HelloAsso&nbsp;: arborescence, contenus, mise en page, formulaires d'adhésion et de don.
+            — création intégrale du site (en bulgare) sur le CMS HelloAsso&nbsp;: arborescence, contenus, mise en page, formulaires d'adhésion et de don.
           </li>
         </ul>
         <p class="mt-2 opacity-80">
-          Optimisation SEO bilingue (FR/BG) et accompagnement des utilisateurs dans la prise en main des deux CMS.
+          Accompagnement des utilisateurs de l'association dans la prise en main des deux CMS.
         </p>
         <div class="mt-3 flex flex-wrap gap-2">
           <span class="badge badge-soft badge-primary">WordPress</span>
           <span class="badge badge-soft badge-primary">HelloAsso</span>
-          <span class="badge badge-soft badge-primary">SEO</span>
           <span class="badge badge-soft badge-primary">HTML/CSS</span>
-          <span class="badge badge-soft badge-primary">FR/BG</span>
+          <span class="badge badge-soft badge-primary">Traduction BG→FR</span>
         </div>
       </div>
     </div>
@@ -412,64 +411,80 @@
       </section>
 
 
-      <!-- WORKFLOW IA -->
-      <section id="workflow-ia" class="mx-auto max-w-6xl px-4 py-14">
-        <h2 class="text-3xl font-bold">Mon workflow IA</h2>
+      <!-- CI/CD & TESTS -->
+      <section id="ci-cd" class="mx-auto max-w-6xl px-4 py-14">
+        <h2 class="text-3xl font-bold">Pipeline CI/CD &amp; tests</h2>
         <p class="mt-2 max-w-3xl opacity-80">
-          J'utilise Claude Code et Cursor au quotidien, mais avec une règle simple&nbsp;:
-          je comprends ce que je commit, même quand c'est l'IA qui l'a écrit. L'IA accélère le travail
-          de plomberie&nbsp;; elle ne remplace pas la compréhension du code, l'esprit critique,
-          ni le souci de la qualité.
+          Ce portfolio et ses sous-projets sont déployés via un pipeline GitHub Actions complet&nbsp;:
+          lint, typecheck et tests automatisés avant chaque build, puis publication des images Docker
+          vers GHCR et déploiement SSH sur une VM Ubuntu derrière un reverse proxy nginx.
         </p>
 
-        <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-8 grid gap-4 md:grid-cols-3">
           <div class="card border border-base-300 bg-base-100">
             <div class="card-body">
-              <h3 class="card-title text-lg">Quand j'utilise l'IA</h3>
+              <h3 class="card-title text-lg">Pipeline CI/CD</h3>
               <ul class="text-sm opacity-80 list-disc list-inside space-y-1">
-                <li>Boilerplate et scaffolding répétitif</li>
-                <li>Refactorisation guidée d'une fonction connue</li>
-                <li>Tests unitaires à partir d'une spec claire</li>
-                <li>Première passe de documentation</li>
-                <li>Explorer une lib ou une API inconnue</li>
+                <li>GitHub Actions multi-jobs</li>
+                <li>Build matriciel parallèle (4 images)</li>
+                <li>Optimisation paths-filter (rebuild ciblé)</li>
+                <li>Scan de sécurité Trivy (SARIF → GitHub Security)</li>
+                <li>Publication GHCR + cache layers</li>
               </ul>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <span class="badge badge-soft badge-primary">GitHub Actions</span>
+                <span class="badge badge-soft badge-primary">Docker</span>
+                <span class="badge badge-soft badge-primary">GHCR</span>
+                <span class="badge badge-soft badge-primary">Trivy</span>
+              </div>
             </div>
           </div>
 
           <div class="card border border-base-300 bg-base-100">
             <div class="card-body">
-              <h3 class="card-title text-lg">Quand je n'utilise pas l'IA</h3>
+              <h3 class="card-title text-lg">Tests &amp; qualité</h3>
               <ul class="text-sm opacity-80 list-disc list-inside space-y-1">
-                <li>Décisions d'architecture</li>
-                <li>Code touchant à la sécurité (auth, crypto, secrets)</li>
-                <li>Debug de bugs subtils — je lis et raisonne d'abord</li>
-                <li>Premier passage sur un domaine métier nouveau</li>
-                <li>Code review&nbsp;: l'IA m'aide à voir, pas à juger</li>
+                <li>Vitest pour les tests unitaires</li>
+                <li>ESLint config Nuxt + Prettier</li>
+                <li>TypeScript strict</li>
+                <li>Lint + typecheck bloquants en CI</li>
+                <li>Reproductibilité via Docker</li>
               </ul>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <span class="badge badge-soft badge-primary">Vitest</span>
+                <span class="badge badge-soft badge-primary">ESLint</span>
+                <span class="badge badge-soft badge-primary">Prettier</span>
+                <span class="badge badge-soft badge-primary">TypeScript</span>
+              </div>
             </div>
           </div>
 
           <div class="card border border-base-300 bg-base-100">
             <div class="card-body">
-              <h3 class="card-title text-lg">Garde-fous que je m'impose</h3>
+              <h3 class="card-title text-lg">Déploiement</h3>
               <ul class="text-sm opacity-80 list-disc list-inside space-y-1">
-                <li>Je relis chaque diff avant commit</li>
-                <li>Je teste manuellement le résultat avant de pousser</li>
-                <li>Je refuse les suggestions que je ne saurais pas écrire seul</li>
-                <li>Pas de secrets ni d'infos sensibles dans les prompts</li>
-                <li>L'IA en plus de la rigueur, pas à la place</li>
+                <li>SSH automatique vers VM Ubuntu 24.04</li>
+                <li>Docker Compose + reverse proxy nginx</li>
+                <li>Sous-domaines dédiés par projet</li>
+                <li>Utilisateur applicatif isolé (sans sudo)</li>
+                <li>Secrets gérés via GitHub Actions</li>
               </ul>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <span class="badge badge-soft badge-primary">Ubuntu</span>
+                <span class="badge badge-soft badge-primary">nginx</span>
+                <span class="badge badge-soft badge-primary">Docker Compose</span>
+                <span class="badge badge-soft badge-primary">SSH</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="mt-6 flex flex-wrap gap-2">
-          <span class="badge badge-soft badge-primary">Claude Code</span>
-          <span class="badge badge-soft badge-primary">Cursor</span>
-          <span class="badge badge-soft badge-primary">GitHub Copilot</span>
-          <span class="badge badge-soft badge-primary">Prompt engineering</span>
-          <span class="badge badge-soft badge-primary">Code review critique</span>
-        </div>
+        <p class="mt-6 text-sm opacity-70">
+          Code source du pipeline visible dans
+          <a class="link link-primary" href="https://github.com/IztochenValk/portfolio/blob/main/.github/workflows/docker-publish.yml" target="_blank" rel="noreferrer">
+            .github/workflows/docker-publish.yml
+          </a>.
+        </p>
       </section>
 
 

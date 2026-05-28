@@ -40,7 +40,7 @@ const showProfile = ref(false)
           <a class="btn btn-ghost btn-sm" href="/#expertise">Expertise</a>
           <a class="btn btn-ghost btn-sm" href="/#experience">Expérience</a>
           <NuxtLink to="/projets" class="btn btn-ghost btn-sm">Projets</NuxtLink>
-          <a class="btn btn-ghost btn-sm" href="/#workflow-ia">Workflow IA</a>
+          <a class="btn btn-ghost btn-sm" href="/#ci-cd">CI/CD &amp; Tests</a>
           <NuxtLink to="/visual-lab" class="btn btn-ghost btn-sm">Visual Lab</NuxtLink>
           <a class="btn btn-primary btn-sm" href="/#contact">Contact</a>
         </nav>
@@ -64,7 +64,7 @@ const showProfile = ref(false)
             <li><a href="/#expertise">Expertise</a></li>
             <li><a href="/#experience">Expérience</a></li>
             <li><NuxtLink to="/projets">Projets</NuxtLink></li>
-            <li><a href="/#workflow-ia">Workflow IA</a></li>
+            <li><a href="/#ci-cd">CI/CD &amp; Tests</a></li>
             <li><NuxtLink to="/visual-lab">Visual Lab</NuxtLink></li>
             <li class="mt-1">
               <a class="btn btn-primary btn-sm w-full" href="/#contact">Contact</a>

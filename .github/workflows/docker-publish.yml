@@ -157,7 +157,9 @@ jobs:
 
       - name: Scan image with Trivy
         if: steps.should_build.outputs.should_build == 'true'
-        uses: aquasecurity/trivy-action@0.28.0
+        # Note : tous les tags trivy-action ont migré vers le préfixe `v` après l'incident
+        # de supply chain de mars 2025 (https://github.com/aquasecurity/trivy-action/security)
+        uses: aquasecurity/trivy-action@v0.35.0
         with:
           image-ref: ghcr.io/iztochenvalk/portfolio-${{ matrix.project }}:latest
           format: sarif

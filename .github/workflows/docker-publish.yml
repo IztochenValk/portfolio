@@ -175,8 +175,13 @@ jobs:
         continue-on-error: true
 
   # ===========================================================================
-  # 4. Déploiement SSH sur VM (uniquement sur main + tous les builds OK)
+  # 4. Déploiement SSH sur VM (automatique sur push main)
   # ===========================================================================
+  # Secrets requis sur le repo (Settings → Secrets and variables → Actions) :
+  #   - VM_HOST, VM_USER, VM_SSH_KEY : accès SSH à la VM
+  #   - GHCR_PAT, GHCR_USER : token GitHub avec scope read:packages
+  # Optionnel :
+  #   - OPENAI_API_KEY : clé OpenAI pour h5p-api (h5p-api fonctionne sans, /evaluate indispo)
   deploy:
     name: Deploy to VM
     needs: build-and-push
@@ -201,19 +206,25 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
+          envs: GHCR_PAT,GHCR_USER,OPENAI_API_KEY
           script: |
             set -e
             mkdir -p /home/deploy/portfolio-deploy
             cd /home/deploy/portfolio-deploy
 
+            # Crée le .env (OPENAI_API_KEY peut être vide, h5p-api le gère)
             cat > .env <<EOF
-            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            OPENAI_API_KEY=${OPENAI_API_KEY:-}
             EOF
 
-            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
+            echo "${GHCR_PAT}" | docker login ghcr.io -u "${GHCR_USER}" --password-stdin
 
             docker compose pull
             docker compose up -d --remove-orphans
 
             docker image prune -f
             docker ps
+        env:
+          GHCR_PAT: ${{ secrets.GHCR_PAT }}
+          GHCR_USER: ${{ secrets.GHCR_USER }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

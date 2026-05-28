@@ -14,7 +14,6 @@ build/
 .next/
 out/
 coverage/
-h5p-api/.env
 .env.*.local
 *.pem
 
@@ -53,7 +52,6 @@ vendor/
 composer.lock
 storage/
 bootstrap/cache/
-h5p-api/.env
 .env.local
 .env.*.backup
 

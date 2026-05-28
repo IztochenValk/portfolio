@@ -26,7 +26,7 @@ if (-not (Test-Path ".git")) {
 }
 
 # Verifier qu'il n'y a plus de fichiers sensibles
-$secrets = @("projets-app-ports.txt", "h5p-api/.env")
+$secrets = @("projets-app-ports.txt")
 $found = @()
 foreach ($f in $secrets) {
     if (Test-Path $f) { $found += $f }
@@ -78,7 +78,6 @@ git commit -m "Initial commit: portfolio monorepo" `
   -m "- cybersecurity-planner (React + Vite)" `
   -m "- gantt (Vue + Node.js + Postgres)" `
   -m "- mario-game (HTML5 Canvas)" `
-  -m "- h5p-api (Node.js + Express + OpenAI)" `
   -m "" `
   -m "Includes Docker-based CI/CD pipeline (GitHub Actions to GHCR, SSH deploy)."
 

@@ -31,12 +31,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
-          cache-dependency-path: portfolio/package-lock.json
+
+      - name: Update npm to latest
+        run: npm install -g npm@latest
 
       - name: Install dependencies
+        # `npm ci` ne suffit pas : le package-lock.json est généré sous Windows,
+        # donc les bindings natifs Linux (oxc-parser, etc.) n'y sont pas listés.
+        # Bug npm connu : https://github.com/npm/cli/issues/4828
+        # Workaround : `npm install --include=optional` résout les bindings au runtime.
         working-directory: portfolio
-        run: npm ci
+        run: npm install --include=optional --no-audit --no-fund
 
       - name: Lint
         working-directory: portfolio
@@ -63,7 +68,6 @@ jobs:
       cybersecurity-quiz: ${{ steps.filter.outputs.cybersecurity-quiz }}
       cybersecurity-planner: ${{ steps.filter.outputs.cybersecurity-planner }}
       mario-game: ${{ steps.filter.outputs.mario-game }}
-      h5p-api: ${{ steps.filter.outputs.h5p-api }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -81,8 +85,6 @@ jobs:
               - 'cybersecurity-planner/**'
             mario-game:
               - 'mario-game/**'
-            h5p-api:
-              - 'h5p-api/**'
 
   # ===========================================================================
   # 3. Build & push des images modifiées (matrix, parallèle)
@@ -100,7 +102,6 @@ jobs:
           - cybersecurity-quiz
           - cybersecurity-planner
           - mario-game
-          - h5p-api
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -113,7 +114,6 @@ jobs:
             cybersecurity-quiz) changed="${{ needs.changes.outputs.cybersecurity-quiz }}" ;;
             cybersecurity-planner) changed="${{ needs.changes.outputs.cybersecurity-planner }}" ;;
             mario-game) changed="${{ needs.changes.outputs.mario-game }}" ;;
-            h5p-api) changed="${{ needs.changes.outputs.h5p-api }}" ;;
           esac
           # Force rebuild si workflow_dispatch
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
@@ -180,8 +180,6 @@ jobs:
   # Secrets requis sur le repo (Settings → Secrets and variables → Actions) :
   #   - VM_HOST, VM_USER, VM_SSH_KEY : accès SSH à la VM
   #   - GHCR_PAT, GHCR_USER : token GitHub avec scope read:packages
-  # Optionnel :
-  #   - OPENAI_API_KEY : clé OpenAI pour h5p-api (h5p-api fonctionne sans, /evaluate indispo)
   deploy:
     name: Deploy to VM
     needs: build-and-push
@@ -198,7 +196,7 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
           source: "docker-compose.yml"
-          target: "/home/deploy/portfolio-deploy"
+          target: "portfolio-deploy"
 
       - name: Deploy on VM over SSH
         uses: appleboy/ssh-action@v1.2.0
@@ -206,16 +204,11 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
-          envs: GHCR_PAT,GHCR_USER,OPENAI_API_KEY
+          envs: GHCR_PAT,GHCR_USER
           script: |
             set -e
-            mkdir -p /home/deploy/portfolio-deploy
-            cd /home/deploy/portfolio-deploy
-
-            # Crée le .env (OPENAI_API_KEY peut être vide, h5p-api le gère)
-            cat > .env <<EOF
-            OPENAI_API_KEY=${OPENAI_API_KEY:-}
-            EOF
+            mkdir -p ~/portfolio-deploy
+            cd ~/portfolio-deploy
 
             echo "${GHCR_PAT}" | docker login ghcr.io -u "${GHCR_USER}" --password-stdin
 
@@ -227,4 +220,6 @@ jobs:
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GHCR_USER: ${{ secrets.GHCR_USER }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        env:
+          GHCR_PAT: ${{ secrets.GHCR_PAT }}
+          GHCR_USER: ${{ secrets.GHCR_USER }}

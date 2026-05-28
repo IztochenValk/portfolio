@@ -26,13 +26,3 @@ services:
     restart: unless-stopped
     ports:
       - "3003:80"
-
-  h5p-api:
-    image: ghcr.io/iztochenvalk/portfolio-h5p-api:latest
-    container_name: h5p-api
-    restart: unless-stopped
-    ports:
-      - "3011:3000"
-    environment:
-      PORT: 3000
-      OPENAI_API_KEY: ${OPENAI_API_KEY}

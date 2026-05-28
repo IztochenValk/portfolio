@@ -12,9 +12,9 @@ Monorepo regroupant mon portfolio personnel (Nuxt 4 / Vue 3) et plusieurs mini-p
 
 ## Stack
 - **Frontend** : Nuxt 4, Vue 3, Pinia, TypeScript, Tailwind 4, DaisyUI
-- **Backend** : Node.js (Express), API OpenAI (H5P), Java Spring Boot (Bibliospace)
+- **Backend** : Node.js (Express), Java Spring Boot (Bibliospace)
 - **Infra** : Docker, Docker Compose, GitHub Container Registry, GitHub Actions
-- **CI/CD** : Build matriciel des 5 images Docker, déploiement SSH sur VM
+- **CI/CD** : Build matriciel des images Docker, déploiement SSH sur VM
 
 ## Structure
 ```
@@ -22,9 +22,7 @@ portfolio/              Portfolio Nuxt 4 (vitrine principale)
 cybersecurity-quiz/     Quiz React + Vite
 cybersecurity-planner/  Planner React + Vite
 gantt/                  Frontend + Backend Gantt (Node + Postgres)
-h5p-api/                API Node.js d'évaluation OpenAI
 mario-game/             Mini-jeu navigateur (Canvas)
-infra/                  docker-compose, configuration déploiement
 .github/workflows/      Pipeline CI/CD GitHub Actions
 ```
 
@@ -38,13 +36,14 @@ npm install
 npm run dev   # http://localhost:3000
 ```
 
-Pour l'API H5P, copier `.env.example` en `.env` et renseigner la clé OpenAI.
-
 ## CI/CD
 
 Voir `.github/workflows/docker-publish.yml` :
-- Build et push des images Docker vers GHCR à chaque push sur `main`
-- Déploiement automatique sur VM via SSH (`docker compose pull` + `up -d`)
+- Job `quality` : lint, typecheck, tests Vitest avant tout build
+- Job `changes` : `paths-filter` pour ne rebuilder que ce qui a changé
+- Job `build-and-push` : matrix parallèle des images Docker vers GHCR
+- Scan **Trivy** de chaque image (résultats SARIF uploadés dans GitHub Security)
+- Job `deploy` : SSH sur VM avec `docker compose pull` + `up -d` (sur push main)
 
 ## Auteur
 Florian Chague · florian.chague2@gmail.com · https://github.com/IztochenValk

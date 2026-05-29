@@ -3,52 +3,46 @@
     <div class="max-w-5xl mx-auto space-y-10">
       <nav class="text-xs breadcrumb text-base-content/60">
         <ul>
-          <li><NuxtLink to="/">Accueil</NuxtLink></li>
-          <li><NuxtLink to="/projets">Projets</NuxtLink></li>
-          <li>Quiz cybersécurité</li>
+          <li><NuxtLink to="/">{{ t('nav.home') }}</NuxtLink></li>
+          <li><NuxtLink to="/projets">{{ t('nav.projects') }}</NuxtLink></li>
+          <li>{{ t('quiz.title') }}</li>
         </ul>
       </nav>
 
       <header class="space-y-4">
         <p class="text-xs font-semibold tracking-[0.3em] uppercase text-primary">
-          Étude de cas
+          {{ t('quiz.eyebrow') }}
         </p>
         <h1 class="text-3xl md:text-4xl font-semibold">
-          Quiz interactif de cybersécurité
+          {{ t('quiz.title') }}
         </h1>
         <p class="max-w-2xl text-sm md:text-base text-base-content/80">
-          Une application de quiz en ligne pour tester et renforcer les connaissances en cybersécurité&nbsp;:
-          bonnes pratiques, menaces courantes, OWASP, gestion des mots de passe, phishing, etc.
-          Pensée comme un outil pédagogique rapide à utiliser et simple à déployer.
+          {{ t('quiz.intro') }}
         </p>
       </header>
 
       <section class="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1.4fr)] items-start">
         <div class="space-y-4">
-          <h2 class="text-lg font-semibold">Objectifs du projet</h2>
+          <h2 class="text-lg font-semibold">{{ t('common.objectivesTitle') }}</h2>
           <p class="text-sm text-base-content/80">
-            L’objectif est de proposer un quiz moderne, responsive et agréable à utiliser, avec un vrai
-            intérêt pédagogique&nbsp;: chaque question est accompagnée d’une explication détaillée pour
-            aider l’utilisateur à comprendre ses erreurs et à progresser.
+            {{ t('quiz.objP1') }}
           </p>
           <p class="text-sm text-base-content/80">
-            Le projet est développé comme une application React autonome, embarquée dans ce portfolio via
-            une simple <code>&lt;iframe&gt;</code>, ce qui démontre la capacité à intégrer différents stacks
-            dans un même environnement front-end.
+            {{ t('quiz.objP2Before') }}<code>&lt;iframe&gt;</code>{{ t('quiz.objP2After') }}
           </p>
         </div>
 
         <aside class="card bg-base-200/80 border border-base-300/70 shadow-lg text-sm">
           <div class="card-body gap-3">
-            <h2 class="card-title text-base">Détails techniques</h2>
+            <h2 class="card-title text-base">{{ t('common.techDetailsTitle') }}</h2>
 
             <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Rôle</p>
-              <p>Conception, développement front-end et contenu pédagogique.</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.roleLabel') }}</p>
+              <p>{{ t('quiz.roleText') }}</p>
             </div>
 
             <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Stack</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.stackLabel') }}</p>
               <div class="flex flex-wrap gap-2">
                 <span
                   v-for="tech in techStack"
@@ -61,14 +55,14 @@
             </div>
 
             <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Statut</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.statusLabel') }}</p>
               <span class="badge badge-warning badge-outline badge-sm">
-                En développement actif
+                {{ t('quiz.statusText') }}
               </span>
             </div>
 
             <div class="space-y-2 pt-2">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Liens</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.linksLabel') }}</p>
               <div class="flex flex-wrap gap-2">
                 <a
                   v-if="demoUrl"
@@ -77,7 +71,7 @@
                   rel="noreferrer"
                   class="btn btn-xs btn-primary"
                 >
-                  Ouvrir la démo
+                  {{ t('common.openDemo') }}
                 </a>
 
                 <a
@@ -87,11 +81,11 @@
                   rel="noreferrer"
                   class="btn btn-xs btn-outline"
                 >
-                  Voir le code
+                  {{ t('common.viewCode') }}
                 </a>
 
                 <span v-if="!demoUrl && !repoUrl" class="text-xs text-base-content/60">
-                  Les liens seront ajoutés dès la mise en ligne publique.
+                  {{ t('quiz.linksTbd') }}
                 </span>
               </div>
             </div>
@@ -100,7 +94,7 @@
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-lg font-semibold">Fonctionnalités principales</h2>
+        <h2 class="text-lg font-semibold">{{ t('common.featuresTitle') }}</h2>
         <div class="grid gap-3 md:grid-cols-2">
           <div
             v-for="feature in features"
@@ -119,7 +113,7 @@
 
       <section class="space-y-4">
         <div class="flex items-center justify-between gap-2">
-          <h2 class="text-lg font-semibold">Demo intégrée</h2>
+          <h2 class="text-lg font-semibold">{{ t('common.embeddedDemoTitle') }}</h2>
           <a
             v-if="quizUrl"
             :href="quizUrl"
@@ -127,20 +121,19 @@
             rel="noreferrer"
             class="btn btn-xs btn-outline"
           >
-            Ouvrir en plein écran
+            {{ t('common.fullscreen') }}
           </a>
         </div>
 
         <p class="text-sm text-base-content/80">
-          Le quiz ci-dessous est chargé en tant qu’application React autonome, hébergée séparément et
-          intégrée dans ce portfolio via une iframe.
+          {{ t('quiz.demoDesc') }}
         </p>
 
         <div class="rounded-xl border border-base-300/80 overflow-hidden bg-base-200/70">
           <div class="bg-base-300/60 px-4 py-2 text-xs flex items-center justify-between">
-            <span class="text-base-content/70">Quiz cybersécurité · React app embarquée</span>
+            <span class="text-base-content/70">{{ t('quiz.iframeLabel') }}</span>
             <span class="text-[10px] text-base-content/60">
-              src: {{ quizUrl || 'URL à définir' }}
+              src: {{ quizUrl || t('common.urlTbd') }}
             </span>
           </div>
 
@@ -148,7 +141,7 @@
             <iframe
               v-if="quizUrl"
               :src="quizUrl"
-              title="Quiz cybersécurité"
+              title="Cybersecurity quiz"
               class="w-full h-full border-0"
               loading="lazy"
             />
@@ -156,7 +149,7 @@
               v-else
               class="w-full h-full flex items-center justify-center text-sm text-base-content/70"
             >
-              L’URL de la démo sera ajoutée dès que l’application sera déployée.
+              {{ t('common.demoUrlPending') }}
             </div>
           </div>
         </div>
@@ -166,7 +159,7 @@
           class="alert alert-info bg-base-200/70 border border-base-300/60 text-xs"
         >
           <span class="text-base-content/80">
-            Cette démo est affichée directement dans le portfolio. Pour une meilleure expérience, vous pouvez aussi l’ouvrir en plein écran.
+            {{ t('common.embedNote') }}
           </span>
         </div>
       </section>
@@ -175,44 +168,25 @@
 </template>
 
 <script setup lang="ts">
+const { t, tm } = useI18n()
+
 type Feature = { title: string; description: string }
 
-const techStack = ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'DaisyUI'] as const
+const techStack = ["React", "TypeScript", "Vite", "Tailwind CSS", "DaisyUI"] as const
 
-const features: Feature[] = [
-  {
-    title: 'Questions orientées cybersécurité',
-    description:
-      'Sélection de questions couvrant les bases de la sécurité web, la protection des données, les bonnes pratiques d’hygiène numérique et les menaces courantes.',
-  },
-  {
-    title: 'Explications détaillées',
-    description:
-      'Après chaque question, une explication claire aide à comprendre la bonne réponse et le contexte, pour transformer le quiz en vrai support pédagogique.',
-  },
-  {
-    title: 'Timer et scoring',
-    description:
-      'Gestion du temps, score final et feedback synthétique pour encourager la progression et comparer les résultats au fil des essais.',
-  },
-  {
-    title: 'Front-end autonome et réutilisable',
-    description:
-      'L’application est un front React indépendant, embarqué dans ce portfolio via iframe, ce qui permet de la réutiliser facilement dans d’autres contextes.',
-  },
-]
+const features = computed(() => tm<Feature[]>("quiz.features"))
 
 const config = useRuntimeConfig()
 
 const quizUrl = computed(() => {
   const url = (config.public as Record<string, unknown>)?.quizUrl
-  return typeof url === 'string' && url.trim().length > 0 ? url.trim() : ''
+  return typeof url === "string" && url.trim().length > 0 ? url.trim() : ""
 })
 
 const demoUrl = computed(() => quizUrl.value)
 
 const repoUrl = computed(() => {
   const url = (config.public as Record<string, unknown>)?.quizRepoUrl
-  return typeof url === 'string' && url.trim().length > 0 ? url.trim() : ''
+  return typeof url === "string" && url.trim().length > 0 ? url.trim() : ""
 })
 </script>

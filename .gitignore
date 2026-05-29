@@ -117,3 +117,5 @@ temp/
 
 # Nuxt build output
 portfolio/.output/
+
+.git.old/

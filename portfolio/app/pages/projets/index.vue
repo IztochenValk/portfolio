@@ -4,14 +4,13 @@
       <!-- En-tête de la page -->
       <header class="space-y-4">
         <p class="text-xs font-semibold tracking-[0.3em] uppercase text-primary">
-          Portfolio
+          {{ t('projects.eyebrow') }}
         </p>
         <h1 class="text-3xl md:text-4xl font-semibold">
-          Projets sélectionnés
+          {{ t('projects.title') }}
         </h1>
         <p class="max-w-2xl text-sm md:text-base text-base-content/70">
-          Un aperçu des projets sur lesquels je travaille actuellement&nbsp;:
-          applications web interactives, outils pédagogiques et expérimentations front-end.
+          {{ t('projects.subtitle') }}
         </p>
       </header>
 
@@ -35,15 +34,15 @@
 
               <span
                 class="badge badge-sm text-nowrap"
-                :class="project.status === 'En développement'
-                  ? 'badge-warning badge-outline'
-                  : project.status === 'En production'
+                :class="project.status === 'prod'
                   ? 'badge-success badge-outline'
-                  : project.status === 'Prototype jouable'
+                  : project.status === 'playable'
                   ? 'badge-info badge-outline'
+                  : project.status === 'dev'
+                  ? 'badge-warning badge-outline'
                   : 'badge-ghost'"
               >
-                {{ project.status }}
+                {{ statusLabel(project.status) }}
               </span>
             </div>
 
@@ -75,7 +74,7 @@
                   :to="project.internalRoute"
                   class="btn btn-sm btn-primary btn-outline"
                 >
-                  Démo
+                  {{ t('projects.demo') }}
                 </NuxtLink>
 
                 <!-- Code si disponible -->
@@ -86,7 +85,7 @@
                   rel="noreferrer"
                   class="btn btn-sm btn-ghost"
                 >
-                  Code
+                  {{ t('projects.code') }}
                 </a>
 
               </div>
@@ -99,20 +98,16 @@
 </template>
 
 <script setup lang="ts">
+const { t, tm } = useI18n()
+
 useSeoMeta({
-  title: "Projets — Florian Chague",
-  description:
-    "Sélection de projets full-stack : Bibliospace (fil rouge CDA, Java/Vue), quiz cybersécurité, planner sécurité, Gantt App et expérimentations.",
-  ogTitle: "Projets — Florian Chague",
-  ogDescription: "Portfolio de projets full-stack en Java, Vue.js, Nuxt.js, Node.js et React.",
+  title: () => t("projects.seoTitle"),
+  description: () => t("projects.seoDescription"),
+  ogTitle: () => t("projects.seoTitle"),
+  ogDescription: () => t("projects.seoDescription"),
 })
 
-type ProjectStatus =
-  | 'En développement'
-  | 'En préparation'
-  | 'Prototype jouable'
-  | 'En cours de conception'
-  | 'En production'
+type ProjectStatus = "prod" | "playable" | "dev" | "other"
 
 interface Project {
   slug: string
@@ -127,71 +122,59 @@ interface Project {
   repoUrl?: string | null
 }
 
-const projects: Project[] = [
+function statusLabel(status: ProjectStatus): string {
+  if (status === "prod") return t("projects.statusProd")
+  if (status === "playable") return t("projects.statusPlayable")
+  if (status === "dev") return t("projects.statusDev")
+  return ""
+}
+
+// Stable per-project metadata (slugs, tech, routes, status keys).
+const baseProjects: Array<
+  Pick<Project, "slug" | "tech" | "status" | "internalRoute" | "demoUrl" | "repoUrl">
+> = [
   {
-    slug: 'bibliospace',
-    title: 'Bibliospace — Projet fil rouge CDA',
-    tagline: 'Java Spring Boot · Vue.js · Full-stack',
-    description:
-      'Application web de gestion de bibliothèque personnelle développée comme projet fil rouge du CDA. Architecture full-stack avec API REST Java Spring Boot et front-end Vue.js, authentification, gestion des emprunts et tableau de bord utilisateur.',
-    tech: ['Java', 'Spring Boot', 'Vue.js', 'TypeScript', 'MySQL', 'Docker', 'CI/CD'],
-    status: 'En production',
-    context: 'Projet fil rouge soutenu pour l\'obtention du titre CDA (RNCP niveau 6).',
-    internalRoute: '/projets/bibliospace',
-    demoUrl: 'https://bibliospace.florianchague.dev',
-    repoUrl: 'https://github.com/IztochenValk/portfolio',
+    slug: "bibliospace",
+    tech: ["Java", "Spring Boot", "Vue.js", "TypeScript", "MySQL", "Docker", "CI/CD"],
+    status: "prod",
+    internalRoute: "/projets/bibliospace",
+    demoUrl: "https://bibliospace.florianchague.dev",
+    repoUrl: "https://github.com/IztochenValk/portfolio",
   },
   {
-    slug: 'quiz-cyber',
-    title: 'Quiz cybersécurité',
-    tagline: 'React.js · Pédagogie sécurité',
-    description:
-      'Application de quiz gamifiée sur les fondamentaux de la cybersécurité (Azure AZ-500, OWASP, bonnes pratiques) avec timer, scoring et explications détaillées après chaque question.',
-    tech: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'DaisyUI'],
-    status: 'En production',
-    context: 'Projet personnel orienté pédagogie cybersécurité.',
-    internalRoute: '/projets/quiz-cyber',
-    demoUrl: 'https://quiz.florianchague.dev',
-    repoUrl: 'https://github.com/IztochenValk/portfolio',
+    slug: "quiz-cyber",
+    tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "DaisyUI"],
+    status: "prod",
+    internalRoute: "/projets/quiz-cyber",
+    demoUrl: "https://quiz.florianchague.dev",
+    repoUrl: "https://github.com/IztochenValk/portfolio",
   },
   {
-    slug: 'cybersecurity-planner',
-    title: 'Cybersecurity Planner',
-    tagline: 'React.js · Plan d\'action sécurité',
-    description:
-      'Planificateur de tâches cybersécurité pour structurer audits, actions correctives et roadmap de sécurité, avec mapping MITRE ATT&CK.',
-    tech: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'DaisyUI'],
-    status: 'En production',
-    context: 'Échantillon d\'application React orientée gestion de la sécurité.',
-    internalRoute: '/projets/cybersecurity-planner',
-    demoUrl: 'https://planner.florianchague.dev',
-    repoUrl: 'https://github.com/IztochenValk/portfolio',
+    slug: "cybersecurity-planner",
+    tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "DaisyUI"],
+    status: "prod",
+    internalRoute: "/projets/cybersecurity-planner",
+    demoUrl: "https://planner.florianchague.dev",
+    repoUrl: "https://github.com/IztochenValk/portfolio",
   },
   {
-    slug: 'gantt-app',
-    title: 'Application de diagramme de Gantt en ligne',
-    tagline: 'Vue.js · Node.js · Postgres',
-    description:
-      'Outil web full-stack pour créer, suivre et exporter des diagrammes de Gantt. Backend Node.js + Postgres avec authentification JWT, front-end Vue/TypeScript et synchronisation locale/distante.',
-    tech: ['Vue.js', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'JWT', 'Docker'],
-    status: 'En production',
-    context: 'Outil personnel pour structurer et partager des plannings projet.',
-    internalRoute: '/projets/gantt-app',
-    demoUrl: 'https://gantt.florianchague.dev',
-    repoUrl: 'https://github.com/IztochenValk/portfolio',
-  },
-  {
-    slug: 'mario-game',
-    title: 'Mini jeu navigateur Super Mario',
-    tagline: 'JavaScript · Canvas / DOM',
-    description:
-      'Petit jeu inspiré de Super Mario pour le navigateur, avec gestion des collisions, du score et des contrôles clavier. Expérimentation pure JS — graphismes volontairement minimalistes, gameplay imparfait mais jouable.',
-    tech: ['JavaScript', 'HTML5 Canvas', 'CSS3'],
-    status: 'Prototype jouable',
-    context: 'Expérimentation gameplay et logique jeu 2D dans le navigateur.',
-    internalRoute: '/projets/mario-game',
-    demoUrl: 'https://mario.florianchague.dev',
-    repoUrl: 'https://github.com/IztochenValk/portfolio',
+    slug: "mario-game",
+    tech: ["JavaScript", "HTML5 Canvas", "CSS3"],
+    status: "playable",
+    internalRoute: "/projets/mario-game",
+    demoUrl: "https://mario.florianchague.dev",
+    repoUrl: "https://github.com/IztochenValk/portfolio",
   },
 ]
+
+// Localised, reactive project list.
+const projects = computed<Project[]>(() =>
+  baseProjects.map((p) => ({
+    ...p,
+    title: t(`projects.items.${p.slug}.title`),
+    tagline: t(`projects.items.${p.slug}.tagline`),
+    description: t(`projects.items.${p.slug}.description`),
+    context: t(`projects.items.${p.slug}.context`),
+  })),
+)
 </script>

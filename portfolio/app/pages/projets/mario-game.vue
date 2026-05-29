@@ -1,56 +1,29 @@
 <script setup lang="ts">
+const { t, tm } = useI18n()
+
 type Feature = { title: string; description: string }
 
-const pageTitle = 'Mini jeu Mario avec Phaser'
-
 useSeoMeta({
-  title: pageTitle,
-  description:
-    'Petit runner type Mario réalisé avec Phaser, servi dans un conteneur dédié et intégré dans le portfolio via une iframe.',
+  title: () => t("mario.seoTitle"),
+  description: () => t("mario.seoDescription"),
 })
 
-const techStack = ['JavaScript', 'Phaser 3', 'HTML5 Canvas', 'Vite', 'Docker'] as const
+const techStack = ["JavaScript", "Phaser 3", "HTML5 Canvas", "Vite", "Docker"] as const
 
-const features: Feature[] = [
-  {
-    title: 'Gameplay de type plateforme / runner',
-    description:
-      'Personnage jouable avec déplacements horizontaux, sauts, collisions avec le décor et gestion de la gravité.',
-  },
-  {
-    title: 'Gestion des obstacles et ennemis',
-    description:
-      'Apparition d’obstacles, plateformes et ennemis à éviter ou contourner pour avancer dans le niveau.',
-  },
-  {
-    title: 'Score et feedback visuel',
-    description:
-      'Système de score basé sur la progression et les collectibles, avec affichage HUD minimaliste.',
-  },
-  {
-    title: 'Intégration dans un conteneur dédié',
-    description:
-      'Jeu servi par une mini-app autonome (HTML/JS/Phaser), exposée sur un port spécifique et intégrée dans le portfolio via iframe.',
-  },
-  {
-    title: 'Version beta (bugs connus)',
-    description:
-      'Prototype jouable destiné à la démonstration. Des corrections sont prévues, notamment sur les collisions et le polish visuel.',
-  },
-]
+const features = computed(() => tm<Feature[]>("mario.features"))
 
 const config = useRuntimeConfig()
 
 const gameUrl = computed(() => {
   const url = (config.public as Record<string, unknown>)?.marioUrl
-  return typeof url === 'string' && url.trim().length > 0 ? url.trim() : ''
+  return typeof url === "string" && url.trim().length > 0 ? url.trim() : ""
 })
 
 const demoUrl = computed(() => gameUrl.value)
 
 const repoUrl = computed(() => {
   const url = (config.public as Record<string, unknown>)?.marioRepoUrl
-  return typeof url === 'string' && url.trim().length > 0 ? url.trim() : ''
+  return typeof url === "string" && url.trim().length > 0 ? url.trim() : ""
 })
 </script>
 
@@ -59,54 +32,46 @@ const repoUrl = computed(() => {
     <div class="max-w-5xl mx-auto space-y-10">
       <nav class="text-xs breadcrumb text-base-content/60">
         <ul>
-          <li><NuxtLink to="/">Accueil</NuxtLink></li>
-          <li><NuxtLink to="/projets">Projets</NuxtLink></li>
-          <li>{{ pageTitle }}</li>
+          <li><NuxtLink to="/">{{ t('nav.home') }}</NuxtLink></li>
+          <li><NuxtLink to="/projets">{{ t('nav.projects') }}</NuxtLink></li>
+          <li>{{ t('mario.pageTitle') }}</li>
         </ul>
       </nav>
 
       <header class="space-y-4">
         <p class="text-xs font-semibold tracking-[0.3em] uppercase text-primary">
-          Étude de cas
+          {{ t('mario.eyebrow') }}
         </p>
-        <h1 class="text-3xl md:text-4xl font-semibold">{{ pageTitle }}</h1>
+        <h1 class="text-3xl md:text-4xl font-semibold">{{ t('mario.pageTitle') }}</h1>
         <p class="max-w-2xl text-sm md:text-base text-base-content/80">
-          Petit jeu de plateforme de type Mario, développé en JavaScript avec Phaser et servi
-          dans un conteneur indépendant pour garder l’architecture du portfolio claire,
-          modulaire et facilement déployable.
+          {{ t('mario.intro') }}
         </p>
       </header>
 
       <section class="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1.4fr)] items-start">
         <div class="space-y-4">
-          <h2 class="text-lg font-semibold">Objectifs du projet</h2>
+          <h2 class="text-lg font-semibold">{{ t('common.objectivesTitle') }}</h2>
           <p class="text-sm text-base-content/80">
-            L’objectif est de proposer un mini jeu arcade rapide à lancer, montrant la maîtrise
-            de Phaser et l’intégration d’une web app de jeu dans un environnement plus large.
-            Le jeu est encapsulé dans un conteneur dédié, ce qui permet de le déployer ou le
-            déplacer sans impacter le portfolio.
+            {{ t('mario.objP1') }}
           </p>
           <p class="text-sm text-base-content/80">
-            Le jeu est développé comme une web app autonome, puis embarqué dans ce portfolio
-            via une iframe. Cette approche permet de le présenter comme un module technique
-            isolé tout en le contextualisant dans un cas d’usage ludique et interactif.
+            {{ t('mario.objP2') }}
           </p>
         </div>
 
         <aside class="card bg-base-200/80 border border-base-300/70 shadow-lg text-sm">
           <div class="card-body gap-3">
-            <h2 class="card-title text-base">Détails techniques</h2>
+            <h2 class="card-title text-base">{{ t('common.techDetailsTitle') }}</h2>
 
             <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Rôle</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.roleLabel') }}</p>
               <p>
-                Game design, intégration Phaser, configuration du conteneur et intégration
-                front-end dans le portfolio.
+                {{ t('mario.roleText') }}
               </p>
             </div>
 
             <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Stack</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.stackLabel') }}</p>
               <div class="flex flex-wrap gap-2">
                 <span
                   v-for="tech in techStack"
@@ -119,12 +84,12 @@ const repoUrl = computed(() => {
             </div>
 
             <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Statut</p>
-              <span class="badge badge-success badge-outline badge-sm">Prototype jouable</span>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.statusLabel') }}</p>
+              <span class="badge badge-success badge-outline badge-sm">{{ t('mario.statusText') }}</span>
             </div>
 
             <div class="space-y-2 pt-2">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Liens</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.linksLabel') }}</p>
               <div class="flex flex-wrap gap-2">
                 <a
                   v-if="demoUrl"
@@ -133,7 +98,7 @@ const repoUrl = computed(() => {
                   rel="noreferrer"
                   class="btn btn-xs btn-primary"
                 >
-                  Ouvrir la démo
+                  {{ t('common.openDemo') }}
                 </a>
 
                 <a
@@ -143,11 +108,11 @@ const repoUrl = computed(() => {
                   rel="noreferrer"
                   class="btn btn-xs btn-outline"
                 >
-                  Voir le code
+                  {{ t('common.viewCode') }}
                 </a>
 
                 <span v-if="!demoUrl && !repoUrl" class="text-xs text-base-content/60">
-                  Les liens seront ajoutés dès la publication du jeu.
+                  {{ t('mario.linksTbd') }}
                 </span>
               </div>
             </div>
@@ -156,7 +121,7 @@ const repoUrl = computed(() => {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-lg font-semibold">Fonctionnalités principales</h2>
+        <h2 class="text-lg font-semibold">{{ t('common.featuresTitle') }}</h2>
         <div class="grid gap-3 md:grid-cols-2">
           <div
             v-for="feature in features"
@@ -175,7 +140,7 @@ const repoUrl = computed(() => {
 
       <section class="space-y-4">
         <div class="flex items-center justify-between gap-2">
-          <h2 class="text-lg font-semibold">Démo intégrée</h2>
+          <h2 class="text-lg font-semibold">{{ t('common.embeddedDemoTitle') }}</h2>
           <a
             v-if="gameUrl"
             :href="gameUrl"
@@ -183,22 +148,21 @@ const repoUrl = computed(() => {
             rel="noreferrer"
             class="btn btn-xs btn-outline"
           >
-            Ouvrir en plein écran
+            {{ t('common.fullscreen') }}
           </a>
         </div>
 
         <p class="text-sm text-base-content/80">
-          Le mini jeu Mario-like est chargé ci-dessous en tant que web app autonome, servie
-          par un conteneur dédié et intégrée dans ce portfolio via une iframe.
+          {{ t('mario.demoDesc') }}
         </p>
 
         <div class="rounded-xl border border-base-300/80 overflow-hidden bg-base-200/70">
           <div class="bg-base-300/60 px-4 py-2 text-xs flex items-center justify-between">
             <span class="text-base-content/70">
-              Mini jeu Mario avec Phaser · Web app embarquée
+              {{ t('mario.iframeLabel') }}
             </span>
             <span class="text-[10px] text-base-content/60">
-              src: {{ gameUrl || 'URL à définir' }}
+              src: {{ gameUrl || t('common.urlTbd') }}
             </span>
           </div>
 
@@ -206,7 +170,7 @@ const repoUrl = computed(() => {
             <iframe
               v-if="gameUrl"
               :src="gameUrl"
-              title="Mini jeu Mario avec Phaser"
+              title="Mario mini-game with Phaser"
               class="w-full h-full border-0"
               loading="lazy"
             />
@@ -214,7 +178,7 @@ const repoUrl = computed(() => {
               v-else
               class="w-full h-full flex items-center justify-center text-sm text-base-content/70"
             >
-              L’URL de la démo sera ajoutée dès que le jeu sera déployé.
+              {{ t('mario.demoMissing') }}
             </div>
           </div>
         </div>
@@ -224,7 +188,7 @@ const repoUrl = computed(() => {
           class="alert alert-info bg-base-200/70 border border-base-300/60 text-xs"
         >
           <span class="text-base-content/80">
-            Cette démo est affichée directement dans le portfolio. Pour une meilleure expérience, vous pouvez aussi l’ouvrir en plein écran.
+            {{ t('common.embedNote') }}
           </span>
         </div>
       </section>

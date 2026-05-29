@@ -6,14 +6,16 @@
       </div>
 
       <div class="flex items-center gap-2 text-sm opacity-70">
-        <a class="link link-hover" href="/robots.txt">robots</a>
+        <a class="link link-hover" href="/robots.txt">{{ t('footer.robots') }}</a>
         <span class="opacity-30">•</span>
-        <a class="link link-hover" href="/docs/cv.pdf" target="_blank" rel="noreferrer">CV In English</a>
+        <a class="link link-hover" :href="cvHref" target="_blank" rel="noreferrer">{{ t('footer.cv') }}</a>
       </div>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
+const { t, locale } = useI18n()
+const cvHref = computed(() => (locale.value === "en" ? "/docs/cv-en.pdf" : "/docs/cv-fr.pdf"))
 const year = new Date().getFullYear()
 </script>

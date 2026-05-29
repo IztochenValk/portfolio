@@ -7,6 +7,8 @@ const emit = defineEmits<{
   close: []
 }>()
 
+const { t } = useI18n()
+
 const handleBackdropClick = () => {
   emit('close')
 }
@@ -52,7 +54,7 @@ const handleBackdropClick = () => {
               <div class="w-16 h-16 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100 overflow-hidden">
                 <img
                   src="/img/picture-cv.webp"
-                  alt="Photo de profil de Florian Chague"
+                  :alt="t('profile.imgAlt')"
                   loading="lazy"
                   width="64"
                   height="64"
@@ -65,14 +67,14 @@ const handleBackdropClick = () => {
                 Florian Chague
               </h2>
               <p class="text-sm opacity-80">
-                Développeur Full-Stack · CDA obtenu
+                {{ t('profile.role') }}
               </p>
               <div class="flex flex-wrap gap-2">
                 <span class="badge badge-primary badge-sm">
-                  Vue · Nuxt · Node
+                  {{ t('profile.badge1') }}
                 </span>
                 <span class="badge badge-outline badge-sm">
-                  Java · TypeScript
+                  {{ t('profile.badge2') }}
                 </span>
               </div>
             </div>
@@ -82,27 +84,26 @@ const handleBackdropClick = () => {
           <div class="grid gap-4 md:grid-cols-2">
             <div class="space-y-2">
               <h3 class="text-sm font-semibold uppercase tracking-wide opacity-70">
-                Coordonnées
+                {{ t('profile.contactTitle') }}
               </h3>
               <ul class="text-sm space-y-1">
                 <li class="flex gap-2">
-                  <span class="opacity-70">Email</span>
+                  <span class="opacity-70">{{ t('profile.emailLabel') }}</span>
                   <span class="font-medium">florian.chague2@gmail.com</span>
                 </li>
                 <li class="flex gap-2">
-                  <span class="opacity-70">Basé à</span>
-                  <span class="font-medium">Missègre / France </span>
+                  <span class="opacity-70">{{ t('profile.basedLabel') }}</span>
+                  <span class="font-medium">{{ t('profile.basedValue') }}</span>
                 </li>
               </ul>
             </div>
 
             <div class="space-y-2">
               <h3 class="text-sm font-semibold uppercase tracking-wide opacity-70">
-                Focus actuel
+                {{ t('profile.focusTitle') }}
               </h3>
               <p class="text-sm leading-snug opacity-90">
-                Développement full-stack Vue.js / Nuxt.js / Node.js.
-                À l'écoute d'opportunités internationales (Thaïlande / remote).
+                {{ t('profile.focusText') }}
               </p>
             </div>
           </div>
@@ -110,7 +111,7 @@ const handleBackdropClick = () => {
           <!-- Diplômes et docs -->
           <div class="space-y-2">
             <h3 class="text-sm font-semibold uppercase tracking-wide opacity-70">
-              Documents
+              {{ t('profile.docsTitle') }}
             </h3>
             <div class="flex flex-wrap gap-2">
               <a
@@ -118,28 +119,28 @@ const handleBackdropClick = () => {
                 target="_blank"
                 class="btn btn-xs md:btn-sm btn-outline"
               >
-                Diplôme de droit public
+                {{ t('profile.doc1') }}
               </a>
               <a
                 href="/docs/diplome-cci.jpg"
                 target="_blank"
                 class="btn btn-xs md:btn-sm btn-outline"
               >
-                Diplôme CCI / Web
+                {{ t('profile.doc2') }}
               </a>
               <a
                 href="/docs/anssi-certification.pdf"
                 target="_blank"
                 class="btn btn-xs md:btn-sm btn-outline"
               >
-                Certif. ANSSI
+                {{ t('profile.doc3') }}
               </a>
               <a
                 href="/docs/cnil-certification.pdf"
                 target="_blank"
                 class="btn btn-xs md:btn-sm btn-outline"
               >
-                Certif. CNIL
+                {{ t('profile.doc4') }}
               </a>
             </div>
           </div>
@@ -147,8 +148,7 @@ const handleBackdropClick = () => {
           <!-- Bas de modal -->
           <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between pt-2 border-t border-base-300">
             <p class="text-xs opacity-70 max-w-xs">
-              Portfolio + projets full-stack en évolution continue,
-              déployés via Docker et GitHub Actions sur sous-domaines dédiés.
+              {{ t('profile.footerText') }}
             </p>
 
             <div class="flex gap-2 justify-end">
@@ -157,14 +157,14 @@ const handleBackdropClick = () => {
                 class="btn btn-ghost btn-sm"
                 @click="emit('close')"
               >
-                Fermer
+                {{ t('profile.close') }}
               </button>
               <NuxtLink
                 to="/projets"
                 class="btn btn-primary btn-sm"
                 @click="emit('close')"
               >
-                Voir les projets
+                {{ t('profile.viewProjects') }}
               </NuxtLink>
             </div>
           </div>

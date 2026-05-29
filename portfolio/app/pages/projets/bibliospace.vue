@@ -3,66 +3,57 @@
     <div class="max-w-5xl mx-auto space-y-10">
       <nav class="text-xs breadcrumb text-base-content/60">
         <ul>
-          <li><NuxtLink to="/">Accueil</NuxtLink></li>
-          <li><NuxtLink to="/projets">Projets</NuxtLink></li>
+          <li><NuxtLink to="/">{{ t('nav.home') }}</NuxtLink></li>
+          <li><NuxtLink to="/projets">{{ t('nav.projects') }}</NuxtLink></li>
           <li>Bibliospace</li>
         </ul>
       </nav>
 
       <header class="space-y-4">
         <p class="text-xs font-semibold tracking-[0.3em] uppercase text-primary">
-          Projet fil rouge CDA
+          {{ t('bibliospace.eyebrow') }}
         </p>
         <h1 class="text-3xl md:text-4xl font-semibold">
-          Bibliospace — Application de gestion de bibliothèque
+          {{ t('bibliospace.title') }}
         </h1>
         <p class="max-w-2xl text-sm md:text-base text-base-content/80">
-          Application web full-stack développée comme projet fil rouge du titre
-          Concepteur Développeur d'Applications (CDA). Permet à un utilisateur de cataloguer
-          sa bibliothèque personnelle, suivre ses emprunts, ajouter des notes de lecture
-          et consulter des statistiques sur ses habitudes de lecture.
+          {{ t('bibliospace.intro') }}
         </p>
         <div class="flex flex-wrap gap-2">
-          <span class="badge badge-success badge-outline">En production</span>
+          <span class="badge badge-success badge-outline">{{ t('bibliospace.statusProd') }}</span>
           <a
             href="https://bibliospace.florianchague.dev"
             target="_blank"
             rel="noreferrer"
             class="btn btn-sm btn-primary"
           >
-            Voir la démo en ligne
+            {{ t('bibliospace.demoBtn') }}
           </a>
         </div>
       </header>
 
       <section class="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1.4fr)] items-start">
         <div class="space-y-4">
-          <h2 class="text-lg font-semibold">Contexte et objectifs</h2>
+          <h2 class="text-lg font-semibold">{{ t('bibliospace.contextTitle') }}</h2>
           <p class="text-sm text-base-content/80">
-            Bibliospace est le projet fil rouge soutenu pour l'obtention du titre RNCP de
-            Concepteur Développeur d'Applications. L'objectif&nbsp;: livrer une application
-            full-stack complète, de la conception à la mise en production, en respectant
-            les bonnes pratiques de l'industrie (architecture en couches, API REST,
-            tests, CI/CD, containerisation).
+            {{ t('bibliospace.contextP1') }}
           </p>
           <p class="text-sm text-base-content/80">
-            Le projet couvre l'ensemble du cycle&nbsp;: analyse des besoins, modélisation UML,
-            conception de la base de données, développement back-end (Spring Boot),
-            développement front-end (Vue.js), tests automatisés, pipeline CI/CD et déploiement.
+            {{ t('bibliospace.contextP2') }}
           </p>
         </div>
 
         <aside class="card bg-base-200/80 border border-base-300/70 shadow-lg text-sm">
           <div class="card-body gap-3">
-            <h2 class="card-title text-base">Détails techniques</h2>
+            <h2 class="card-title text-base">{{ t('common.techDetailsTitle') }}</h2>
 
             <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Rôle</p>
-              <p>Conception, développement full-stack, déploiement.</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.roleLabel') }}</p>
+              <p>{{ t('bibliospace.roleText') }}</p>
             </div>
 
             <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Stack</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('common.stackLabel') }}</p>
               <div class="flex flex-wrap gap-2">
                 <span
                   v-for="tech in techStack"
@@ -75,15 +66,15 @@
             </div>
 
             <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">Architecture</p>
-              <p>API REST Spring Boot + SPA Vue.js + base MySQL, containerisée Docker.</p>
+              <p class="text-xs uppercase tracking-[0.2em] text-base-content/60">{{ t('bibliospace.archLabel') }}</p>
+              <p>{{ t('bibliospace.archText') }}</p>
             </div>
           </div>
         </aside>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-lg font-semibold">Fonctionnalités principales</h2>
+        <h2 class="text-lg font-semibold">{{ t('common.featuresTitle') }}</h2>
         <div class="grid gap-3 md:grid-cols-2">
           <div
             v-for="feature in features"
@@ -101,7 +92,7 @@
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-lg font-semibold">Compétences CDA couvertes</h2>
+        <h2 class="text-lg font-semibold">{{ t('bibliospace.competencesTitle') }}</h2>
         <div class="grid gap-3 md:grid-cols-2">
           <div
             v-for="block in competences"
@@ -120,24 +111,24 @@
 
       <section class="space-y-4">
         <div class="flex items-center justify-between gap-2">
-          <h2 class="text-lg font-semibold">Démo</h2>
+          <h2 class="text-lg font-semibold">{{ t('bibliospace.demoTitle') }}</h2>
           <a
             href="https://bibliospace.florianchague.dev"
             target="_blank"
             rel="noreferrer"
             class="btn btn-xs btn-outline"
           >
-            Ouvrir en plein écran
+            {{ t('common.fullscreen') }}
           </a>
         </div>
 
         <p class="text-sm text-base-content/80">
-          Application déployée sur un sous-domaine dédié, accessible publiquement.
+          {{ t('bibliospace.demoNote') }}
         </p>
 
         <div class="rounded-xl border border-base-300/80 overflow-hidden bg-base-200/70">
           <div class="bg-base-300/60 px-4 py-2 text-xs flex items-center justify-between">
-            <span class="text-base-content/70">Bibliospace · Application full-stack</span>
+            <span class="text-base-content/70">{{ t('bibliospace.iframeLabel') }}</span>
             <span class="text-[10px] text-base-content/60">
               src: bibliospace.florianchague.dev
             </span>
@@ -158,78 +149,28 @@
 </template>
 
 <script setup lang="ts">
+const { t, tm } = useI18n()
+
 useSeoMeta({
-  title: "Bibliospace — Projet fil rouge CDA · Florian Chague",
-  description:
-    "Application web full-stack de gestion de bibliothèque personnelle. Projet fil rouge CDA en Java Spring Boot + Vue.js + MySQL, CI/CD Docker.",
-  ogTitle: "Bibliospace — Projet fil rouge CDA",
-  ogDescription: "Java Spring Boot + Vue.js + MySQL + Docker + CI/CD GitHub Actions",
+  title: () => t("bibliospace.seoTitle"),
+  description: () => t("bibliospace.seoDescription"),
+  ogTitle: () => t("bibliospace.seoTitle"),
+  ogDescription: () => t("bibliospace.seoDescription"),
 })
 
 type Feature = { title: string; description: string }
 type Competence = { title: string; items: string[] }
 
 const techStack = [
-  'Java',
-  'Spring Boot',
-  'Vue.js',
-  'TypeScript',
-  'MySQL',
-  'Docker',
-  'GitHub Actions',
+  "Java",
+  "Spring Boot",
+  "Vue.js",
+  "TypeScript",
+  "MySQL",
+  "Docker",
+  "GitHub Actions",
 ] as const
 
-const features: Feature[] = [
-  {
-    title: 'Catalogue personnel',
-    description:
-      'Ajouter, modifier et supprimer des livres, avec recherche par titre, auteur, genre ou tags. Import via ISBN avec récupération automatique des métadonnées.',
-  },
-  {
-    title: 'Suivi des emprunts',
-    description:
-      'Marquer des livres prêtés, suivre les dates de retour prévues et recevoir des rappels. Historique complet des prêts.',
-  },
-  {
-    title: 'Authentification et comptes utilisateurs',
-    description:
-      'Inscription, connexion sécurisée (JWT), gestion de profil et isolation des données par utilisateur.',
-  },
-  {
-    title: 'API REST documentée',
-    description:
-      'API Spring Boot exposant les ressources via REST, documentée avec OpenAPI/Swagger pour faciliter l\'intégration.',
-  },
-  {
-    title: 'Tests automatisés',
-    description:
-      'Tests unitaires JUnit côté back et tests de composants côté front pour garantir la non-régression à chaque évolution.',
-  },
-  {
-    title: 'Pipeline CI/CD',
-    description:
-      'Build et déploiement automatique via GitHub Actions, containerisation Docker, mise en production sur sous-domaine dédié.',
-  },
-]
-
-const competences: Competence[] = [
-  {
-    title: 'Développer une application sécurisée',
-    items: [
-      'Conception et modélisation UML (cas d\'utilisation, classes, séquences)',
-      'Implémentation back-end Java Spring Boot avec architecture en couches',
-      'Front-end Vue.js / TypeScript avec gestion d\'état',
-      'Authentification JWT et protection des routes',
-    ],
-  },
-  {
-    title: 'Concevoir et développer une application multicouche',
-    items: [
-      'Modélisation de la base MySQL (MCD/MLD)',
-      'API REST documentée OpenAPI',
-      'Tests unitaires et d\'intégration',
-      'Containerisation Docker et déploiement CI/CD',
-    ],
-  },
-]
+const features = computed(() => tm<Feature[]>("bibliospace.features"))
+const competences = computed(() => tm<Competence[]>("bibliospace.competences"))
 </script>

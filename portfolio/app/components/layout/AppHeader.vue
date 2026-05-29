@@ -3,6 +3,7 @@ import { ref } from "vue"
 import ThemeToggle from "@/components/ThemeToggle.vue"
 
 const showProfile = ref(false)
+const { t, locale, setLocale } = useI18n()
 </script>
 
 <template>
@@ -15,7 +16,7 @@ const showProfile = ref(false)
           type="button"
           class="avatar hover:opacity-80 hover:cursor-pointer transition"
           @click="showProfile = true"
-          aria-label="Ouvrir le profil"
+          :aria-label="t('nav.ariaProfile')"
         >
           <div class="w-10 rounded-full ring-1 ring-base-300 overflow-hidden">
             <img src="/img/picture-cv.webp" alt="Florian Chague" />
@@ -27,7 +28,7 @@ const showProfile = ref(false)
             Florian Chague
           </div>
           <div class="text-xs opacity-70">
-            Développeur web frontend & backend
+            {{ t('nav.roleSubtitle') }}
           </div>
         </NuxtLink>
       </div>
@@ -37,20 +38,45 @@ const showProfile = ref(false)
 
         <!-- Desktop navigation -->
         <nav class="hidden items-center gap-2 md:flex">
-          <a class="btn btn-ghost btn-sm" href="/#expertise">Expertise</a>
-          <a class="btn btn-ghost btn-sm" href="/#experience">Expérience</a>
-          <NuxtLink to="/projets" class="btn btn-ghost btn-sm">Projets</NuxtLink>
-          <a class="btn btn-ghost btn-sm" href="/#ci-cd">CI/CD &amp; Tests</a>
-          <NuxtLink to="/visual-lab" class="btn btn-ghost btn-sm">Visual Lab</NuxtLink>
-          <a class="btn btn-primary btn-sm" href="/#contact">Contact</a>
+          <a class="btn btn-ghost btn-sm" href="/#expertise">{{ t('nav.expertise') }}</a>
+          <a class="btn btn-ghost btn-sm" href="/#experience">{{ t('nav.experience') }}</a>
+          <NuxtLink to="/projets" class="btn btn-ghost btn-sm">{{ t('nav.projects') }}</NuxtLink>
+          <a class="btn btn-ghost btn-sm" href="/#ci-cd">{{ t('nav.cicd') }}</a>
+          <a class="btn btn-primary btn-sm" href="/#contact">{{ t('nav.contact') }}</a>
         </nav>
+
+        <!-- Language switcher -->
+        <div
+          class="join border border-base-300 rounded-btn"
+          role="group"
+          :aria-label="t('nav.ariaLang')"
+        >
+          <button
+            type="button"
+            class="join-item btn btn-xs"
+            :class="locale === 'fr' ? 'btn-primary' : 'btn-ghost'"
+            :aria-pressed="locale === 'fr'"
+            @click="setLocale('fr')"
+          >
+            FR
+          </button>
+          <button
+            type="button"
+            class="join-item btn btn-xs"
+            :class="locale === 'en' ? 'btn-primary' : 'btn-ghost'"
+            :aria-pressed="locale === 'en'"
+            @click="setLocale('en')"
+          >
+            EN
+          </button>
+        </div>
 
         <!-- Mobile hamburger -->
         <div class="dropdown dropdown-end md:hidden">
           <label
             tabindex="0"
             class="btn btn-ghost btn-sm"
-            aria-label="Ouvrir le menu"
+            :aria-label="t('nav.ariaMenu')"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -61,13 +87,12 @@ const showProfile = ref(false)
             tabindex="0"
             class="menu dropdown-content mt-3 w-56 rounded-box border border-base-300 bg-base-100 p-2 shadow"
           >
-            <li><a href="/#expertise">Expertise</a></li>
-            <li><a href="/#experience">Expérience</a></li>
-            <li><NuxtLink to="/projets">Projets</NuxtLink></li>
-            <li><a href="/#ci-cd">CI/CD &amp; Tests</a></li>
-            <li><NuxtLink to="/visual-lab">Visual Lab</NuxtLink></li>
+            <li><a href="/#expertise">{{ t('nav.expertise') }}</a></li>
+            <li><a href="/#experience">{{ t('nav.experience') }}</a></li>
+            <li><NuxtLink to="/projets">{{ t('nav.projects') }}</NuxtLink></li>
+            <li><a href="/#ci-cd">{{ t('nav.cicd') }}</a></li>
             <li class="mt-1">
-              <a class="btn btn-primary btn-sm w-full" href="/#contact">Contact</a>
+              <a class="btn btn-primary btn-sm w-full" href="/#contact">{{ t('nav.contact') }}</a>
             </li>
           </ul>
         </div>

@@ -32,7 +32,6 @@ export default defineNuxtConfig({
       quizUrl: process.env.NUXT_PUBLIC_QUIZ_URL || "https://quiz.florianchague.dev",
       plannerUrl: process.env.NUXT_PUBLIC_PLANNER_URL || "https://planner.florianchague.dev",
       marioUrl: process.env.NUXT_PUBLIC_MARIO_URL || "https://mario.florianchague.dev",
-      ganttUrl: process.env.NUXT_PUBLIC_GANTT_URL || "https://gantt.florianchague.dev",
       bibliospaceUrl: process.env.NUXT_PUBLIC_BIBLIOSPACE_URL || "https://bibliospace.florianchague.dev",
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://florianchague.dev",
     },
@@ -40,7 +39,6 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      htmlAttrs: { lang: "fr" },
       title: "Florian Chague — Développeur Full-Stack Vue.js / Nuxt.js / Node.js",
       meta: [
         { charset: "utf-8" },
@@ -79,7 +77,7 @@ export default defineNuxtConfig({
             "img-src 'self' data: blob: https:",
             "font-src 'self' data: https:",
             "connect-src 'self' https:",
-            "frame-src https://quiz.florianchague.dev https://planner.florianchague.dev https://mario.florianchague.dev https://gantt.florianchague.dev https://bibliospace.florianchague.dev",
+            "frame-src https://quiz.florianchague.dev https://planner.florianchague.dev https://mario.florianchague.dev https://bibliospace.florianchague.dev",
             "base-uri 'self'",
             "form-action 'self'",
             "object-src 'none'",

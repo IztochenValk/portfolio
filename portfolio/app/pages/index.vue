@@ -40,7 +40,8 @@
               </div>
               <div class="stat rounded-box border border-base-300 bg-base-200">
                 <div class="stat-title">{{ t('home.statBackendTitle') }}</div>
-                <div class="stat-value text-xl">Spring Boot / Node</div>
+                <div class="stat-value text-xl">Spring Boot</div>
+                <div class="stat-value text-xl">Node</div>
                 <div class="stat-desc opacity-70">{{ t('home.statBackendDesc') }}</div>
               </div>
             </div>

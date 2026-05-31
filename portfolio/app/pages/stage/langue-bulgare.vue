@@ -123,7 +123,6 @@
             </h3>
             <div class="flex flex-wrap gap-2">
               <span class="badge badge-soft badge-primary">AssoConnect</span>
-              <span class="badge badge-soft badge-primary">HTML/CSS</span>
               <span class="badge badge-soft badge-primary">Contenus bulgare</span>
             </div>
           </div>

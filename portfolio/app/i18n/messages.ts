@@ -40,13 +40,13 @@ export const fr: Messages = {
       "L’URL de la démo sera ajoutée dès que l’application sera déployée.",
   },
   home: {
-    seoTitle: "Florian Chague — Développeur Full-Stack Vue.js / Nuxt.js / Node.js",
+    seoTitle: "Florian Chague — Développeur Full-Stack Vue.js / Nuxt.js / Spring Boot / Node.js",
     seoDescription:
-      "Portfolio de Florian Chague — Développeur Full-Stack. CDA obtenu, expertise Vue.js / Nuxt.js / Node.js / Java, projets full-stack avec CI/CD Docker.",
+      "Portfolio de Florian Chague — Développeur Full-Stack. CDA obtenu, expertise Vue.js / Nuxt.js / Spring Boot / Node.js / Java, projets full-stack avec CI/CD Docker.",
     heroBadge: "Disponible immédiatement · Mobile international",
-    heroTitle: "Développeur Full-Stack — Vue.js / Nuxt.js / Node.js",
+    heroTitle: "Développeur Full-Stack — Vue.js / Nuxt.js / Spring Boot",
     heroIntroBefore: "Je conçois, développe et maintiens des applications web modernes en ",
-    heroIntroStack: "Vue.js / Nuxt.js, Node.js, TypeScript et Java",
+    heroIntroStack: "Vue.js / Nuxt.js, Spring Boot, Node.js, TypeScript et Java",
     heroIntroAfter:
       ". CDA fraîchement obtenu, je m’appuie sur Docker, MySQL et des pipelines CI/CD pour livrer du code propre, testé et maintenable — avec une attention particulière à l’expérience utilisateur et à la stabilité en production.",
     ctaContact: "Me contacter",
@@ -515,7 +515,7 @@ export const fr: Messages = {
   },
   profile: {
     role: "Développeur Full-Stack · CDA obtenu",
-    badge1: "Vue · Nuxt · Node",
+    badge1: "Vue · Nuxt · Spring Boot",
     badge2: "Java · TypeScript",
     contactTitle: "Coordonnées",
     emailLabel: "Email",
@@ -523,7 +523,7 @@ export const fr: Messages = {
     basedValue: "Missègre / France",
     focusTitle: "Focus actuel",
     focusText:
-      "Développement full-stack Vue.js / Nuxt.js / Node.js. À l’écoute d’opportunités internationales (Thaïlande / remote).",
+      "Développement full-stack Vue.js / Nuxt.js / Spring Boot. À l’écoute d’opportunités internationales (Thaïlande / remote).",
     docsTitle: "Documents",
     doc1: "Diplôme de droit public",
     doc2: "Diplôme CCI / Web",
@@ -574,13 +574,13 @@ export const en: Messages = {
       "The demo URL will be added once the application is deployed.",
   },
   home: {
-    seoTitle: "Florian Chague — Full-Stack Developer Vue.js / Nuxt.js / Node.js",
+    seoTitle: "Florian Chague — Full-Stack Developer Vue.js / Nuxt.js / Spring Boot / Node.js",
     seoDescription:
-      "Portfolio of Florian Chague — Full-Stack Developer. CDA qualified, expertise in Vue.js / Nuxt.js / Node.js / Java, full-stack projects with Docker CI/CD.",
+      "Portfolio of Florian Chague — Full-Stack Developer. CDA qualified, expertise in Vue.js / Nuxt.js / Spring Boot / Node.js / Java, full-stack projects with Docker CI/CD.",
     heroBadge: "Available immediately · Internationally mobile",
-    heroTitle: "Full-Stack Developer — Vue.js / Nuxt.js / Node.js",
+    heroTitle: "Full-Stack Developer — Vue.js / Nuxt.js / Spring Boot",
     heroIntroBefore: "I design, build and maintain modern web applications with ",
-    heroIntroStack: "Vue.js / Nuxt.js, Node.js, TypeScript and Java",
+    heroIntroStack: "Vue.js / Nuxt.js, Spring Boot, Node.js, TypeScript and Java",
     heroIntroAfter:
       ". Having just earned my CDA (French Application Developer-Designer qualification), I rely on Docker, MySQL and CI/CD pipelines to ship clean, tested and maintainable code — with particular attention to user experience and production stability.",
     ctaContact: "Get in touch",
@@ -1048,7 +1048,7 @@ export const en: Messages = {
   },
   profile: {
     role: "Full-Stack Developer · CDA qualified",
-    badge1: "Vue · Nuxt · Node",
+    badge1: "Vue · Nuxt · Spring Boot",
     badge2: "Java · TypeScript",
     contactTitle: "Contact details",
     emailLabel: "Email",
@@ -1056,7 +1056,7 @@ export const en: Messages = {
     basedValue: "Missègre / France",
     focusTitle: "Current focus",
     focusText:
-      "Full-stack development with Vue.js / Nuxt.js / Node.js. Open to international opportunities (Thailand / remote).",
+      "Full-stack development with Vue.js / Nuxt.js / Spring Boot. Open to international opportunities (Thailand / remote).",
     docsTitle: "Documents",
     doc1: "Public law diploma",
     doc2: "CCI / Web diploma",

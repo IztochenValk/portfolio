@@ -40,7 +40,7 @@
               </div>
               <div class="stat rounded-box border border-base-300 bg-base-200">
                 <div class="stat-title">{{ t('home.statBackendTitle') }}</div>
-                <div class="stat-value text-xl">Java / Node</div>
+                <div class="stat-value text-xl">Spring Boot / Node</div>
                 <div class="stat-desc opacity-70">{{ t('home.statBackendDesc') }}</div>
               </div>
             </div>
@@ -70,6 +70,7 @@
                   <span class="badge badge-soft badge-primary">JavaScript</span>
                   <span class="badge badge-soft badge-primary">TypeScript</span>
                   <span class="badge badge-soft badge-primary">Java</span>
+                  <span class="badge badge-soft badge-primary">Spring Boot</span>
                   <span class="badge badge-soft badge-primary">Node.js</span>
                   <span class="badge badge-soft badge-primary">Symfony</span>
                 </div>
@@ -340,6 +341,7 @@
                 <div class="mt-3 flex flex-wrap gap-2">
                   <span class="badge badge-soft badge-primary">Java</span>
                   <span class="badge badge-soft badge-primary">Symfony</span>
+                  <span class="badge badge-soft badge-primary">Spring Boot</span>
                   <span class="badge badge-soft badge-primary">Node.js</span>
                 </div>
               </div>

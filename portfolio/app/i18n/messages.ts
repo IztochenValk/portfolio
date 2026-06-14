@@ -170,11 +170,10 @@ export const fr: Messages = {
     ],
     cicdCol2Title: "Tests & qualité",
     cicdCol2: [
-      "Vitest pour les tests unitaires",
-      "ESLint config Nuxt + Prettier",
-      "TypeScript strict",
-      "Lint + typecheck bloquants en CI",
-      "Reproductibilité via Docker",
+      "Vitest pour les tests unitaires (front)",
+      "Cypress pour les tests end-to-end",
+      "Testcontainers pour les tests d’intégration",
+      "Mockito pour les tests unitaires back (mocking)",
     ],
     cicdCol3Title: "Déploiement",
     cicdCol3: [
@@ -705,11 +704,10 @@ export const en: Messages = {
     ],
     cicdCol2Title: "Tests & quality",
     cicdCol2: [
-      "Vitest for unit tests",
-      "Nuxt ESLint config + Prettier",
-      "Strict TypeScript",
-      "Blocking lint + typecheck in CI",
-      "Reproducibility via Docker",
+      "Vitest for unit tests (front-end)",
+      "Cypress for end-to-end tests",
+      "Testcontainers for integration tests",
+      "Mockito for back-end unit tests (mocking)",
     ],
     cicdCol3Title: "Deployment",
     cicdCol3: [

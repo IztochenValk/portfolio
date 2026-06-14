@@ -410,9 +410,9 @@
               </ul>
               <div class="mt-3 flex flex-wrap gap-2">
                 <span class="badge badge-soft badge-primary">Vitest</span>
-                <span class="badge badge-soft badge-primary">ESLint</span>
-                <span class="badge badge-soft badge-primary">Prettier</span>
-                <span class="badge badge-soft badge-primary">TypeScript</span>
+                <span class="badge badge-soft badge-primary">Cypress</span>
+                <span class="badge badge-soft badge-primary">Testcontainers</span>
+                <span class="badge badge-soft badge-primary">Mockito</span>
               </div>
             </div>
           </div>

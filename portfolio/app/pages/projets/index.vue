@@ -77,6 +77,17 @@
                   {{ t('projects.demo') }}
                 </NuxtLink>
 
+                <!-- Lien externe vers le site live (sans route interne) -->
+                <a
+                  v-else-if="project.demoUrl"
+                  :href="project.demoUrl"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="btn btn-sm btn-primary btn-outline"
+                >
+                  {{ t('projects.visit') }}
+                </a>
+
                 <!-- Code si disponible -->
                 <a
                   v-if="project.repoUrl"
@@ -140,6 +151,14 @@ const baseProjects: Array<
     internalRoute: "/projets/bibliospace",
     demoUrl: "https://bibliospace.florianchague.dev",
     repoUrl: "https://github.com/IztochenValk/portfolio",
+  },
+  {
+    slug: "langue-bulgare",
+    tech: ["Nuxt.js", "Vue.js", "TypeScript", "Spring Boot", "Java", "Docker", "CI/CD"],
+    status: "prod",
+    internalRoute: "/projets/langue-bulgare",
+    demoUrl: "https://langue-bulgare.florianchague.dev",
+    repoUrl: null,
   },
   {
     slug: "quiz-cyber",

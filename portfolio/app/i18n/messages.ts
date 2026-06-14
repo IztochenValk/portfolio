@@ -200,6 +200,7 @@ export const fr: Messages = {
     subtitle:
       "Un aperçu des projets sur lesquels je travaille actuellement : applications web interactives, outils pédagogiques et expérimentations front-end.",
     demo: "Démo",
+    visit: "Voir le site",
     code: "Code",
     statusProd: "En production",
     statusPlayable: "Prototype jouable",
@@ -212,6 +213,14 @@ export const fr: Messages = {
           "Application web de gestion de bibliothèque personnelle développée comme projet fil rouge du CDA. Architecture full-stack avec API REST Java Spring Boot et front-end Vue.js, authentification, gestion des emprunts et tableau de bord utilisateur.",
         context:
           "Projet fil rouge soutenu pour l’obtention du titre CDA (RNCP niveau 6).",
+      },
+      "langue-bulgare": {
+        title: "Association « Langue Bulgare »",
+        tagline: "Nuxt.js · Spring Boot · Full-stack",
+        description:
+          "Site full-stack pour l’association « Български език – език европейски » : présentation des écoles et activités, inscriptions en ligne, actualités, espace de connexion et interface bilingue bulgare / français avec mode sombre.",
+        context:
+          "Projet full-stack en production : front Nuxt.js / Vue.js, back-end Spring Boot, déploiement Docker / CI-CD.",
       },
       "quiz-cyber": {
         title: "Quiz cybersécurité",
@@ -312,6 +321,62 @@ export const fr: Messages = {
     demoNote:
       "Application déployée sur un sous-domaine dédié, accessible publiquement.",
     iframeLabel: "Bibliospace · Application full-stack",
+  },
+  langueBulgare: {
+    seoTitle: "Association « Langue Bulgare » · Florian Chague",
+    seoDescription:
+      "Site full-stack de l’association « Български език – език европейски » : écoles, activités, inscriptions en ligne et interface bilingue bulgare / français. Front Nuxt.js, back Spring Boot, déploiement Docker / CI-CD.",
+    eyebrow: "Projet full-stack",
+    title: "Association « Langue Bulgare »",
+    intro:
+      "Site web full-stack réalisé pour l’association « Български език – език европейски », dédiée à l’enseignement du bulgare et à la diffusion de la culture bulgare. Le site présente les écoles et activités, permet les inscriptions en ligne, publie les actualités et propose une interface bilingue bulgare / français avec espace de connexion.",
+    statusProd: "En production",
+    demoBtn: "Voir le site en ligne",
+    contextTitle: "Contexte et objectifs",
+    contextP1:
+      "L’association avait besoin d’un site moderne pour fédérer une communauté autour de l’apprentissage du bulgare : présenter ses écoles et activités, faciliter les inscriptions et centraliser les actualités, tout en restant accessible à un public bilingue.",
+    contextP2:
+      "Le projet couvre l’ensemble du cycle : front-end Nuxt.js / Vue.js, API back-end Spring Boot, internationalisation bulgare / français, mode sombre, puis containerisation Docker et déploiement via pipeline CI/CD.",
+    roleText: "Conception, développement full-stack et déploiement.",
+    archLabel: "Architecture",
+    archText:
+      "Front Nuxt.js / Vue.js + API REST Spring Boot, containerisé Docker et déployé en CI/CD.",
+    features: [
+      {
+        title: "Écoles et activités",
+        description:
+          "Présentation des écoles, des cours et des activités de l’association, avec pages structurées et navigation claire.",
+      },
+      {
+        title: "Inscriptions en ligne",
+        description:
+          "Parcours d’inscription permettant aux familles de s’enregistrer directement depuis le site.",
+      },
+      {
+        title: "Actualités et événements",
+        description:
+          "Publication des actualités et des événements de l’association pour informer la communauté.",
+      },
+      {
+        title: "Interface bilingue",
+        description:
+          "Internationalisation bulgare / français avec bascule de langue et mode sombre.",
+      },
+      {
+        title: "Espace de connexion",
+        description:
+          "Authentification pour accéder à un espace réservé aux membres.",
+      },
+      {
+        title: "Déploiement automatisé",
+        description:
+          "Containerisation Docker et mise en production via pipeline CI/CD sur sous-domaine dédié.",
+      },
+    ],
+    demoTitle: "Aperçu du site",
+    demoNote:
+      "Site déployé sur un sous-domaine dédié, accessible publiquement.",
+    iframeLabel: "Association Langue Bulgare · Site full-stack",
   },
   planner: {
     eyebrow: "Étude de cas",
@@ -734,6 +799,7 @@ export const en: Messages = {
     subtitle:
       "An overview of the projects I'm currently working on: interactive web applications, educational tools and front-end experiments.",
     demo: "Demo",
+    visit: "Visit site",
     code: "Code",
     statusProd: "In production",
     statusPlayable: "Playable prototype",
@@ -746,6 +812,14 @@ export const en: Messages = {
           "Full-stack web application for managing a personal library, built as the CDA capstone project. Full-stack architecture with a Java Spring Boot REST API and a Vue.js front-end, authentication, loan tracking and a user dashboard.",
         context:
           "Capstone project defended to obtain the CDA qualification (RNCP level 6).",
+      },
+      "langue-bulgare": {
+        title: "“Langue Bulgare” association",
+        tagline: "Nuxt.js · Spring Boot · Full-stack",
+        description:
+          "Full-stack site for the “Български език – език европейски” association: schools and activities, online enrolment, news, a login area and a bilingual Bulgarian / French interface with dark mode.",
+        context:
+          "Full-stack project in production: Nuxt.js / Vue.js front-end, Spring Boot back-end, Docker / CI-CD deployment.",
       },
       "quiz-cyber": {
         title: "Cybersecurity quiz",
@@ -846,6 +920,62 @@ export const en: Messages = {
     demoNote:
       "Application deployed on a dedicated subdomain, publicly accessible.",
     iframeLabel: "Bibliospace · Full-stack application",
+  },
+  langueBulgare: {
+    seoTitle: "“Langue Bulgare” association · Florian Chague",
+    seoDescription:
+      "Full-stack site for the “Български език – език европейски” association: schools, activities, online enrolment and a bilingual Bulgarian / French interface. Nuxt.js front-end, Spring Boot back-end, Docker / CI-CD deployment.",
+    eyebrow: "Full-stack project",
+    title: "“Langue Bulgare” association",
+    intro:
+      "Full-stack website built for the “Български език – език европейски” association, dedicated to teaching Bulgarian and spreading Bulgarian culture. The site presents the schools and activities, handles online enrolment, publishes news and offers a bilingual Bulgarian / French interface with a login area.",
+    statusProd: "In production",
+    demoBtn: "Visit the live site",
+    contextTitle: "Context and goals",
+    contextP1:
+      "The association needed a modern site to bring together a community around learning Bulgarian: showcasing its schools and activities, making enrolment easier and centralising news, while staying accessible to a bilingual audience.",
+    contextP2:
+      "The project covers the whole cycle: a Nuxt.js / Vue.js front-end, a Spring Boot back-end API, Bulgarian / French internationalisation, dark mode, then Docker containerisation and deployment through a CI/CD pipeline.",
+    roleText: "Design, full-stack development and deployment.",
+    archLabel: "Architecture",
+    archText:
+      "Nuxt.js / Vue.js front-end + Spring Boot REST API, containerised with Docker and deployed via CI/CD.",
+    features: [
+      {
+        title: "Schools and activities",
+        description:
+          "Presentation of the association's schools, courses and activities, with structured pages and clear navigation.",
+      },
+      {
+        title: "Online enrolment",
+        description:
+          "Enrolment flow letting families register directly from the site.",
+      },
+      {
+        title: "News and events",
+        description:
+          "Publishing the association's news and events to keep the community informed.",
+      },
+      {
+        title: "Bilingual interface",
+        description:
+          "Bulgarian / French internationalisation with a language switch and dark mode.",
+      },
+      {
+        title: "Login area",
+        description:
+          "Authentication to access a members-only area.",
+      },
+      {
+        title: "Automated deployment",
+        description:
+          "Docker containerisation and production release through a CI/CD pipeline on a dedicated subdomain.",
+      },
+    ],
+    demoTitle: "Site preview",
+    demoNote:
+      "Site deployed on a dedicated subdomain, publicly accessible.",
+    iframeLabel: "Langue Bulgare association · Full-stack site",
   },
   planner: {
     eyebrow: "Case study",

@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+    networks: [web]
 
   cybersecurity-quiz:
     image: ghcr.io/iztochenvalk/portfolio-cybersecurity-quiz:latest
@@ -12,6 +13,7 @@ services:
     restart: unless-stopped
     ports:
       - "3001:80"
+    networks: [web]
 
   cybersecurity-planner:
     image: ghcr.io/iztochenvalk/portfolio-cybersecurity-planner:latest
@@ -19,6 +21,7 @@ services:
     restart: unless-stopped
     ports:
       - "3002:80"
+    networks: [web]
 
   mario-game:
     image: ghcr.io/iztochenvalk/portfolio-mario-game:latest
@@ -26,3 +29,10 @@ services:
     restart: unless-stopped
     ports:
       - "3003:80"
+    networks: [web]
+
+# Réseau partagé avec asso-platform : permet à son Caddy de servir le portfolio en HTTPS.
+# À créer une fois sur la VM :  docker network create web
+networks:
+  web:
+    external: true

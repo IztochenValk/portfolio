@@ -27,6 +27,14 @@ export default defineNuxtConfig({
     },
   },
 
+  // Pages projets désactivées : redirigées vers /projets (fichiers conservés).
+  // Supprimer ces règles pour réactiver l'accès direct.
+  routeRules: {
+    "/projets/quiz-cyber": { redirect: "/projets" },
+    "/projets/cybersecurity-planner": { redirect: "/projets" },
+    "/projets/mario-game": { redirect: "/projets" },
+  },
+
   runtimeConfig: {
     public: {
       quizUrl: process.env.NUXT_PUBLIC_QUIZ_URL || "https://quiz.florianchague.dev",
@@ -49,6 +57,8 @@ export default defineNuxtConfig({
             "Portfolio de Florian Chague — Développeur Full-Stack Vue.js / Nuxt.js / Node.js / Java. CDA obtenu, projets full-stack avec CI/CD Docker et déploiement GHCR.",
         },
         { name: "author", content: "Florian Chague" },
+        // Empêche l'indexation par les moteurs de recherche
+        { name: "robots", content: "noindex, nofollow" },
         // Open Graph
         { property: "og:type", content: "website" },
         { property: "og:locale", content: "fr_FR" },

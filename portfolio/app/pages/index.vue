@@ -18,12 +18,6 @@
               <a href="#contact" class="btn btn-primary">{{ t('home.ctaContact') }}</a>
               <a href="#projets" class="btn btn-outline">{{ t('home.ctaProjects') }}</a>
               <a :href="cvHref" target="_blank" class="btn btn-outline">{{ t('home.ctaCv') }}</a>
-              <a class="btn btn-ghost" href="https://github.com/IztochenValk" target="_blank" rel="noreferrer">
-                {{ t('home.ctaGithub') }}
-              </a>
-              <a class="btn btn-ghost" href="https://www.linkedin.com/in/florian-chague-023552308/" target="_blank" rel="noreferrer">
-                LinkedIn
-              </a>
             </div>
 
             <div class="mt-8 grid gap-3 sm:grid-cols-3">
@@ -435,9 +429,7 @@
 
         <p class="mt-6 text-sm opacity-70">
           {{ t('home.cicdSourcePrefix') }}
-          <a class="link link-primary" href="https://github.com/IztochenValk/portfolio/blob/main/.github/workflows/docker-publish.yml" target="_blank" rel="noreferrer">
-            .github/workflows/docker-publish.yml
-          </a>.
+          <code class="text-primary">.github/workflows/docker-publish.yml</code>.
         </p>
       </section>
 
@@ -458,18 +450,6 @@
               <div class="rounded-box border border-base-300 bg-base-200 p-4">
                 <div class="text-sm opacity-70">{{ t('home.contactEmail') }}</div>
                 <div class="font-semibold">florian.chague2@gmail.com</div>
-              </div>
-              <div class="rounded-box border border-base-300 bg-base-200 p-4">
-                <div class="text-sm opacity-70">{{ t('home.contactGithub') }}</div>
-                <a class="link font-semibold" href="https://github.com/IztochenValk" target="_blank" rel="noreferrer">
-                  IztochenValk
-                </a>
-              </div>
-              <div class="rounded-box border border-base-300 bg-base-200 p-4">
-                <div class="text-sm opacity-70">LinkedIn</div>
-                <a class="link font-semibold" href="https://www.linkedin.com/in/florian-chague-023552308/" target="_blank" rel="noreferrer">
-                  florian-chague
-                </a>
               </div>
             </div>
 

@@ -222,6 +222,22 @@ export const fr: Messages = {
         context:
           "Projet full-stack en production : front Nuxt.js / Vue.js, back-end Spring Boot, déploiement Docker / CI-CD.",
       },
+      "asso-platform": {
+        title: "Plateforme associative — uniformisation SaaS",
+        tagline: "Spring Boot · Nuxt 3 · SaaS multi-asso",
+        description:
+          "Plateforme de gestion associative full-stack pensée comme socle unifié pour plusieurs associations : modèle séparant le payeur (parent qui se connecte et règle) de l’inscrit (enfant/élève), tunnel d’inscription et de paiement, gestion des activités et des rôles (PARENT / ADMIN), base utf8mb4 gérant le cyrillique.",
+        context:
+          "Projet full-stack en cours : Spring Boot, Nuxt 3, MySQL, pipeline CI/CD prêt, conteneurisation et déploiement sur VM à venir.",
+      },
+      infochasse: {
+        title: "Info Chasse — sécurité temps réel",
+        tagline: "Spring Boot · WebSocket · Cartographie",
+        description:
+          "Application temps réel pour déclarer des battues de chasse et protéger les promeneurs : carte publique des zones actives, suivi géographique live des chasseurs via WebSocket (STOMP), gouvernance calquée sur la réglementation française (FDC, sociétés de chasse, rôles RESPONSABLE / CHASSEUR) et contrôle du délai légal de déclaration de 48 h.",
+        context:
+          "Projet full-stack en cours : Spring Boot + WebSocket, front Nuxt 3 + carte Leaflet, pipeline CI/CD prêt, déploiement sur VM à venir.",
+      },
       "quiz-cyber": {
         title: "Quiz cybersécurité",
         tagline: "React.js · Pédagogie sécurité",
@@ -820,6 +836,22 @@ export const en: Messages = {
           "Full-stack site for the “Български език – език европейски” association: schools and activities, online enrolment, news, a login area and a bilingual Bulgarian / French interface with dark mode.",
         context:
           "Full-stack project in production: Nuxt.js / Vue.js front-end, Spring Boot back-end, Docker / CI-CD deployment.",
+      },
+      "asso-platform": {
+        title: "Association platform — SaaS unification",
+        tagline: "Spring Boot · Nuxt 3 · Multi-org SaaS",
+        description:
+          "Full-stack association-management platform designed as a unified foundation for multiple organisations: a data model separating the payer (the parent who logs in and pays) from the registrant (child/student), an enrolment and payment flow, activity and role management (PARENT / ADMIN), and a utf8mb4 database handling Cyrillic.",
+        context:
+          "Full-stack project in progress: Spring Boot, Nuxt 3, MySQL, CI/CD pipeline ready, containerisation and VM deployment to come.",
+      },
+      infochasse: {
+        title: "Info Chasse — real-time safety",
+        tagline: "Spring Boot · WebSocket · Mapping",
+        description:
+          "Real-time application to declare hunting sessions and protect walkers: a public map of active zones, live geo-tracking of hunters over WebSocket (STOMP), governance modelled on French regulations (FDC, hunting societies, RESPONSABLE / CHASSEUR roles) and enforcement of the 48-hour legal declaration window.",
+        context:
+          "Full-stack project in progress: Spring Boot + WebSocket, Nuxt 3 front-end with a Leaflet map, CI/CD pipeline ready, VM deployment to come.",
       },
       "quiz-cyber": {
         title: "Cybersecurity quiz",

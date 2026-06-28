@@ -104,6 +104,11 @@
                   <span class="badge badge-outline badge-success">{{ t('home.cdaBadge') }}</span>
                 </p>
                 <p class="mt-2">
+                  <a class="link link-primary text-sm" href="/docs/diplome-cda.pdf" target="_blank">
+                    {{ t('home.viewDiploma') }}
+                  </a>
+                </p>
+                <p class="mt-2">
                   <NuxtLink to="/design" class="link link-primary text-sm">
                     {{ t('home.cdaDesignLink') }}
                   </NuxtLink>

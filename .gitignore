@@ -104,6 +104,7 @@ junit-report.xml
 # === Secrets locaux (ne JAMAIS commit) ===
 mdp-jenkins.txt
 projets-app-ports.txt
+ACCES-MDP.txt
 .env
 *.env
 !.env.example

@@ -88,7 +88,7 @@ export const fr: Messages = {
     cdaMeta: "ADRAR Formation · 2025 – 2026 · Titre RNCP niveau 6 (Bac +3/4)",
     cdaDesc:
       "Architecture logicielle, Java Spring Boot, JavaScript/TypeScript, conception, CI/CD, containerisation Docker, tests automatisés et mise en production d’applications full-stack.",
-    cdaBadge: "Obtenu — en attente de délivrance officielle",
+    cdaBadge: "Diplôme obtenu (RNCP niveau 6)",
     cdaDesignLink: "Voir les maquettes UI réalisées sur Figma →",
     cciTitle: "Diplôme Chef de Projet Digital",
     cciMeta: "CCI Ouest-Normandie · 2017",
@@ -483,6 +483,92 @@ export const fr: Messages = {
     iframeLabel: "Mini jeu Mario avec Phaser · Web app embarquée",
     demoMissing: "L’URL de la démo sera ajoutée dès que le jeu sera déployé.",
   },
+  assoPlatform: {
+    seoTitle: "Plateforme associative (SaaS) — Florian Chague",
+    seoDescription:
+      "Plateforme full-stack de gestion associative : Spring Boot, Nuxt 3, MySQL, Docker et CI/CD. Modèle séparant le payeur de l’inscrit, tunnel d’inscription et de paiement.",
+    pageTitle: "Plateforme associative — socle SaaS multi-associations",
+    eyebrow: "Étude de cas",
+    intro:
+      "Plateforme full-stack pensée comme un socle unifié pour la gestion d’associations : inscriptions, paiements, activités et rôles, avec un modèle de données qui sépare le payeur de l’inscrit. Premier client : l’association Langue Bulgare.",
+    objP1:
+      "L’objectif est d’offrir aux associations une alternative claire aux solutions du marché, en partant de leurs besoins réels : un parent gère plusieurs enfants, chacun avec ses propres inscriptions et paiements.",
+    objP2:
+      "L’architecture est full-stack et conteneurisée : API Spring Boot (JWT, rôles), front Nuxt 3, base MySQL en utf8mb4 (gestion native du cyrillique), le tout déployé via un pipeline CI/CD Docker.",
+    roleText:
+      "Conception du modèle de données, back-end Spring Boot (JWT, rôles), front Nuxt 3, conteneurisation Docker et CI/CD.",
+    statusText: "En production",
+    features: [
+      {
+        title: "Modèle payeur / inscrit",
+        description:
+          "Séparation du compte payeur (parent qui se connecte et règle) et de l’inscrit (enfant/élève) ; un parent gère plusieurs inscrits.",
+      },
+      {
+        title: "Tunnel d’inscription et de paiement",
+        description:
+          "Parcours d’inscription en plusieurs étapes avec sélection des activités et gestion du paiement.",
+      },
+      {
+        title: "Rôles & sécurité",
+        description:
+          "Authentification JWT et gestion des rôles (PARENT / ADMIN) côté Spring Boot.",
+      },
+      {
+        title: "Internationalisation",
+        description:
+          "Base utf8mb4 gérant le cyrillique sans troncature, adaptée aux contenus bilingues.",
+      },
+      {
+        title: "Déploiement Docker / CI-CD",
+        description:
+          "Images construites en CI, déployées sur VM derrière un reverse proxy nginx en HTTPS.",
+      },
+    ],
+  },
+  infochasse: {
+    seoTitle: "Info Chasse — sécurité temps réel — Florian Chague",
+    seoDescription:
+      "Application temps réel de déclaration de battues et de protection des promeneurs : Spring Boot, WebSocket, carte Leaflet, PostGIS, Docker, CI/CD.",
+    pageTitle: "Info Chasse — sécurité temps réel",
+    eyebrow: "Étude de cas",
+    intro:
+      "Application temps réel pour déclarer des sessions de chasse et protéger les promeneurs grâce à un suivi géographique précis : zones officielles et positions live des chasseurs.",
+    objP1:
+      "Le modèle reprend la réglementation française de la chasse (FDC, sociétés / ACCA, rôles responsable et chasseur) plutôt que de la réinventer, avec contrôle automatique du délai légal de déclaration de 48 h.",
+    objP2:
+      "Le temps réel repose sur deux flux WebSocket (STOMP) : les positions des chasseurs pendant une session active, diffusées à la carte du chef de battue, et l’alerte des promeneurs approchant d’une zone active.",
+    roleText:
+      "Modèle de gouvernance, back-end Spring Boot + WebSocket, front Nuxt 3 avec carte Leaflet, PostGIS, conteneurisation et CI/CD.",
+    statusText: "En production",
+    features: [
+      {
+        title: "Carte publique temps réel",
+        description:
+          "Les promeneurs consultent sans compte les zones de chasse actives et peuvent être alertés à l’approche d’une zone.",
+      },
+      {
+        title: "Suivi géographique live",
+        description:
+          "Positions des chasseurs diffusées en temps réel via WebSocket (STOMP/SockJS) pendant les sessions actives.",
+      },
+      {
+        title: "Gouvernance réglementaire",
+        description:
+          "Rôles FDC / société / responsable / chasseur, validation des adhésions, délai légal de 48 h contrôlé.",
+      },
+      {
+        title: "Cahier de battue",
+        description:
+          "Constitution et signature du cahier de battue (participants) par le responsable de la session.",
+      },
+      {
+        title: "Stack géospatiale",
+        description:
+          "PostGIS pour les zones, Leaflet côté carte, le tout conteneurisé et déployé en CI/CD.",
+      },
+    ],
+  },
   quiz: {
     eyebrow: "Étude de cas",
     title: "Quiz interactif de cybersécurité",
@@ -703,7 +789,7 @@ export const en: Messages = {
       "ADRAR Formation · 2025 – 2026 · RNCP level 6 qualification (Bachelor's/Master's level)",
     cdaDesc:
       "Software architecture, Java Spring Boot, JavaScript/TypeScript, design, CI/CD, Docker containerisation, automated testing and production deployment of full-stack applications.",
-    cdaBadge: "Passed — awaiting official certification",
+    cdaBadge: "Diploma obtained (RNCP level 6)",
     cdaDesignLink: "View the UI mockups made in Figma →",
     cciTitle: "Digital Project Manager Diploma",
     cciMeta: "CCI Ouest-Normandie · 2017",
@@ -1095,6 +1181,92 @@ export const en: Messages = {
       "The Mario-like mini-game is loaded below as a standalone web app, served by a dedicated container and embedded in this portfolio via an iframe.",
     iframeLabel: "Mario mini-game with Phaser · Embedded web app",
     demoMissing: "The demo URL will be added once the game is deployed.",
+  },
+  assoPlatform: {
+    seoTitle: "Association platform (SaaS) — Florian Chague",
+    seoDescription:
+      "Full-stack association-management platform: Spring Boot, Nuxt 3, MySQL, Docker and CI/CD. Data model separating the payer from the registrant, with an enrolment and payment flow.",
+    pageTitle: "Association platform — multi-org SaaS foundation",
+    eyebrow: "Case study",
+    intro:
+      "A full-stack platform designed as a unified foundation for managing associations: enrolments, payments, activities and roles, with a data model that separates the payer from the registrant. First client: the Langue Bulgare association.",
+    objP1:
+      "The goal is to give associations a clear alternative to off-the-shelf tools, starting from their real needs: one parent manages several children, each with their own enrolments and payments.",
+    objP2:
+      "The architecture is full-stack and containerised: a Spring Boot API (JWT, roles), a Nuxt 3 front-end, a utf8mb4 MySQL database (native Cyrillic support), all deployed through a Docker CI/CD pipeline.",
+    roleText:
+      "Data model design, Spring Boot back-end (JWT, roles), Nuxt 3 front-end, Docker containerisation and CI/CD.",
+    statusText: "In production",
+    features: [
+      {
+        title: "Payer / registrant model",
+        description:
+          "Separation of the paying account (parent who logs in and pays) from the registrant (child/student); one parent manages several registrants.",
+      },
+      {
+        title: "Enrolment & payment flow",
+        description:
+          "Multi-step enrolment journey with activity selection and payment handling.",
+      },
+      {
+        title: "Roles & security",
+        description:
+          "JWT authentication and role management (PARENT / ADMIN) on the Spring Boot side.",
+      },
+      {
+        title: "Internationalisation",
+        description:
+          "utf8mb4 database handling Cyrillic without truncation, suited to bilingual content.",
+      },
+      {
+        title: "Docker / CI-CD deployment",
+        description:
+          "Images built in CI, deployed to a VM behind an nginx reverse proxy over HTTPS.",
+      },
+    ],
+  },
+  infochasse: {
+    seoTitle: "Info Chasse — real-time safety — Florian Chague",
+    seoDescription:
+      "Real-time app to declare hunting sessions and protect walkers: Spring Boot, WebSocket, Leaflet map, PostGIS, Docker, CI/CD.",
+    pageTitle: "Info Chasse — real-time safety",
+    eyebrow: "Case study",
+    intro:
+      "A real-time application to declare hunting sessions and protect walkers through precise geographic tracking: official zones and live hunter positions.",
+    objP1:
+      "The model follows French hunting regulations (FDC, hunting societies / ACCA, manager and hunter roles) rather than reinventing them, with automatic enforcement of the 48-hour legal declaration window.",
+    objP2:
+      "Real-time relies on two WebSocket (STOMP) streams: hunter positions during an active session, broadcast to the session manager's map, and alerts for walkers approaching an active zone.",
+    roleText:
+      "Governance model, Spring Boot + WebSocket back-end, Nuxt 3 front-end with a Leaflet map, PostGIS, containerisation and CI/CD.",
+    statusText: "In production",
+    features: [
+      {
+        title: "Real-time public map",
+        description:
+          "Walkers browse active hunting zones without an account and can be alerted when approaching one.",
+      },
+      {
+        title: "Live geo-tracking",
+        description:
+          "Hunter positions broadcast in real time over WebSocket (STOMP/SockJS) during active sessions.",
+      },
+      {
+        title: "Regulatory governance",
+        description:
+          "FDC / society / manager / hunter roles, membership validation, enforced 48-hour legal window.",
+      },
+      {
+        title: "Battue logbook",
+        description:
+          "Creation and signing of the battue logbook (participants) by the session manager.",
+      },
+      {
+        title: "Geospatial stack",
+        description:
+          "PostGIS for zones, Leaflet for the map, all containerised and deployed via CI/CD.",
+      },
+    ],
   },
   quiz: {
     eyebrow: "Case study",

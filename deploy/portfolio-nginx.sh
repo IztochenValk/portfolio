@@ -1,45 +1,73 @@
 #!/usr/bin/env bash
-# Configuration idempotente de nginx (reverse proxy) + HTTPS (Let's Encrypt) pour le PORTFOLIO,
-# avec en-tête anti-indexation X-Robots-Tag sur TOUTES les réponses.
-# À lancer en root (sudo). Émet le certificat s'il manque, le renouvelle s'il expire bientôt.
+# nginx (reverse proxy) + HTTPS + anti-indexation + blocage bots agressifs pour le PORTFOLIO.
+# Idempotent : émet le certificat s'il manque, le renouvelle sinon, et réécrit toujours le vhost
+# (donc les en-têtes anti-index et le blocage de bots sont ré-appliqués à chaque déploiement).
+# À lancer en root.
 set -euo pipefail
 
 DOMAIN="florianchague.dev"
 EMAIL="florian.chague2@gmail.com"
+UPSTREAM="127.0.0.1:3000"
 VHOST="/etc/nginx/sites-available/${DOMAIN}"
 
-# 1. Vhost nginx (créé seulement s'il manque)
-if [ ! -f "$VHOST" ]; then
-  cat > "$VHOST" <<'NGINX'
+# Crawlers / archiveurs / scrapers agressifs à bloquer (403).
+BADBOTS='(ia_archiver|archive\.org_bot|Wayback|AhrefsBot|SemrushBot|MJ12bot|DotBot|PetalBot|Bytespider|GPTBot|ChatGPT-User|CCBot|ClaudeBot|anthropic-ai|Amazonbot|Applebot-Extended|DataForSeoBot|BLEXBot|serpstatbot|MegaIndex|Screaming Frog)'
+
+write_http_only() {
+  cat > "$VHOST" <<NGINX
 server {
     listen 80;
-    server_name florianchague.dev www.florianchague.dev;
+    server_name ${DOMAIN};
+    location / { proxy_pass http://${UPSTREAM}; proxy_set_header Host \$host; }
+}
+NGINX
+  ln -sf "$VHOST" /etc/nginx/sites-enabled/
+}
 
-    # === Anti-indexation "à tout prix" : en-tête sur toutes les réponses ===
+write_full() {
+  cat > "$VHOST" <<NGINX
+server {
+    listen 80;
+    server_name ${DOMAIN};
+    return 301 https://\$host\$request_uri;
+}
+server {
+    listen 443 ssl;
+    server_name ${DOMAIN};
+
+    ssl_certificate     /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    # Anti-indexation forte (en plus de la balise meta dans l'appli)
     add_header X-Robots-Tag "noindex, nofollow, noarchive, nosnippet" always;
 
+    # Blocage des crawlers / archiveurs agressifs (Wayback, AhrefsBot, GPTBot, ...)
+    if (\$http_user_agent ~* "${BADBOTS}") { return 403; }
+
     location / {
-        proxy_pass http://127.0.0.1:3000;
+        proxy_pass http://${UPSTREAM};
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
     }
 }
 NGINX
   ln -sf "$VHOST" /etc/nginx/sites-enabled/
-fi
+}
 
-nginx -t && systemctl reload nginx
-
-# 2. Certificat : émis s'il manque (nouveau), sinon renouvelé s'il expire bientôt.
 if [ ! -d "/etc/letsencrypt/live/${DOMAIN}" ]; then
-  certbot --nginx -d "${DOMAIN}" -d "www.${DOMAIN}" --non-interactive --agree-tos -m "${EMAIL}" --redirect
+  write_http_only
+  nginx -t && systemctl reload nginx
+  certbot certonly --nginx -d "${DOMAIN}" --non-interactive --agree-tos -m "${EMAIL}"
 else
-  certbot renew --cert-name "${DOMAIN}" --quiet
+  certbot renew --cert-name "${DOMAIN}" --quiet || true
 fi
-systemctl reload nginx
 
-echo "Portfolio en ligne + anti-index OK pour ${DOMAIN}"
+write_full
+nginx -t && systemctl reload nginx
+echo "Portfolio : HTTPS + anti-index + anti-bots OK (${DOMAIN})"

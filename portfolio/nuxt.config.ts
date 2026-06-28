@@ -36,6 +36,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    // Mot de passe du portfolio (injecté par NUXT_PORTFOLIO_PASSWORD). Côté serveur uniquement.
+    portfolioPassword: "",
     public: {
       quizUrl: process.env.NUXT_PUBLIC_QUIZ_URL || "https://quiz.florianchague.dev",
       plannerUrl: process.env.NUXT_PUBLIC_PLANNER_URL || "https://planner.florianchague.dev",

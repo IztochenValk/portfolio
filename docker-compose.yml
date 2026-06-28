@@ -3,6 +3,10 @@ services:
     image: ghcr.io/iztochenvalk/portfolio-portfolio:latest
     container_name: portfolio
     restart: unless-stopped
+    environment:
+      # Auth privée du portfolio (définis-les dans ~/portfolio-deploy/.env sur la VM)
+      NUXT_PORTFOLIO_PASSWORD: ${NUXT_PORTFOLIO_PASSWORD:?mot de passe portfolio requis}
+      NUXT_SESSION_SECRET: ${NUXT_SESSION_SECRET:?secret de session requis}
     ports:
       # Exposé en local uniquement : nginx (hôte) fait le reverse proxy + HTTPS
       - "127.0.0.1:3000:3000"

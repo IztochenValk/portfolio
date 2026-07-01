@@ -199,7 +199,7 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
-          source: "docker-compose.yml"
+          source: "docker-compose.yml,deploy/portfolio-nginx.sh"
           target: "portfolio-deploy"
 
       - name: Deploy on VM over SSH
@@ -221,6 +221,10 @@ jobs:
 
             docker image prune -f
             docker ps
+
+            # nginx + HTTPS + noindex + anti-bots (idempotent : émet/renouvelle le cert)
+            chmod +x deploy/portfolio-nginx.sh
+            sudo ~/portfolio-deploy/deploy/portfolio-nginx.sh
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GHCR_USER: ${{ secrets.GHCR_USER }}

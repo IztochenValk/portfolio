@@ -68,22 +68,22 @@
               </div>
 
               <div class="flex gap-2">
-                <!-- Route interne de détail -->
+                <!-- Page détail (étude de cas) -->
                 <NuxtLink
                   v-if="project.internalRoute"
                   :to="project.internalRoute"
-                  class="btn btn-sm btn-primary btn-outline"
+                  class="btn btn-sm btn-ghost"
                 >
-                  {{ t('projects.demo') }}
+                  {{ t('projects.details') }}
                 </NuxtLink>
 
-                <!-- Lien externe vers le site live (sans route interne) -->
+                <!-- Lien direct vers le site live (sous-domaine) -->
                 <a
-                  v-else-if="project.demoUrl"
+                  v-if="project.demoUrl"
                   :href="project.demoUrl"
                   target="_blank"
                   rel="noreferrer"
-                  class="btn btn-sm btn-primary btn-outline"
+                  class="btn btn-sm btn-primary"
                 >
                   {{ t('projects.visit') }}
                 </a>

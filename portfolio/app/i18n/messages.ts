@@ -231,6 +231,14 @@ export const fr: Messages = {
         context:
           "Projet full-stack en cours : Spring Boot, Nuxt 3, MySQL, pipeline CI/CD prêt, conteneurisation et déploiement sur VM à venir.",
       },
+      galop2: {
+        title: "Galop 2 Trainer — révision équestre",
+        tagline: "Spring Boot · IA Mistral · Répétition espacée",
+        description:
+          "Application de révision pour l'examen du Galop 2 (FFE) : entraînement par catégorie, examen blanc chronométré, flashcards et répétition espacée (SM-2). Un back-office coach importe des annales (OCR Tesseract), génère et valide des questions via l'IA Mistral, et suit la progression de l'élève avec une estimation des chances de réussite.",
+        context:
+          "Projet full-stack personnel en production, déployé en CI/CD sur galop2.kloner.io.",
+      },
       infochasse: {
         title: "Info Chasse — sécurité temps réel",
         tagline: "Spring Boot · WebSocket · Cartographie",
@@ -524,6 +532,49 @@ export const fr: Messages = {
         title: "Déploiement Docker / CI-CD",
         description:
           "Images construites en CI, déployées sur VM derrière un reverse proxy nginx en HTTPS.",
+      },
+    ],
+  },
+  galop2: {
+    seoTitle: "Galop 2 Trainer — révision équestre assistée par IA — Florian Chague",
+    seoDescription:
+      "Application de révision pour l'examen du Galop 2 (FFE) : Spring Boot, Nuxt 4, PostgreSQL, IA Mistral (OCR d'annales, génération de questions), répétition espacée, Docker, CI/CD.",
+    pageTitle: "Galop 2 Trainer — révision équestre",
+    eyebrow: "Étude de cas",
+    intro:
+      "Application web de révision pour l'examen du Galop 2 de la Fédération Française d'Équitation : entraînement, examen blanc, flashcards et répétition espacée, avec un back-office coach assisté par IA pour créer et valider le contenu.",
+    objP1:
+      "Côté élève, l'apprentissage repose sur une répétition espacée (algorithme SM-2 simplifié) : une question ratée revient vite, une question réussie s'espace dans le temps, et la sélection privilégie les questions dues du jour. Progression détaillée par catégorie, historique et série de jours consécutifs.",
+    objP2:
+      "Côté coach, un back-office permet d'importer des annales scannées (OCR Tesseract), que l'IA Mistral structure automatiquement en questions relues et validées. L'IA génère aussi des fiches de révision, des sessions adaptatives ciblées sur les points faibles et une estimation prudente des chances de réussite à l'examen.",
+    roleText:
+      "Conception full-stack : back-end Spring Boot + PostgreSQL (Flyway), intégration de l'IA Mistral et de l'OCR, front Nuxt 4, authentification JWT, conteneurisation et CI/CD.",
+    statusText: "En production",
+    features: [
+      {
+        title: "Répétition espacée (SM-2)",
+        description:
+          "Chaque réponse ajuste la date de révision suivante : les questions fragiles reviennent souvent, les acquises s'espacent dans le temps.",
+      },
+      {
+        title: "Examen blanc chronométré",
+        description:
+          "20 questions en 20 minutes, correction et explications à la fin, dans les conditions de l'épreuve.",
+      },
+      {
+        title: "Import d'annales par IA",
+        description:
+          "Upload de PDF ou d'images d'annales, OCR Tesseract puis structuration en questions par l'IA Mistral, relues et validées par le coach.",
+      },
+      {
+        title: "Suivi de l'élève & prévision",
+        description:
+          "Tableau de bord coach : réussite par catégorie, régularité et score de préparation avec une analyse rédigée par l'IA.",
+      },
+      {
+        title: "Détection de doublons & variantes",
+        description:
+          "Similarité trigram PostgreSQL (pg_trgm) pour éviter les doublons, et génération de reformulations d'une question validée.",
       },
     ],
   },
@@ -933,6 +984,14 @@ export const en: Messages = {
         context:
           "Full-stack project in progress: Spring Boot, Nuxt 3, MySQL, CI/CD pipeline ready, containerisation and VM deployment to come.",
       },
+      galop2: {
+        title: "Galop 2 Trainer — equestrian revision",
+        tagline: "Spring Boot · Mistral AI · Spaced repetition",
+        description:
+          "Revision app for the French Galop 2 riding exam (FFE): category training, timed mock exam, flashcards and spaced repetition (SM-2). A coach back-office imports past papers (Tesseract OCR), generates and validates questions with Mistral AI, and tracks the student's progress with a success-likelihood estimate.",
+        context:
+          "Personal full-stack project in production, deployed via CI/CD on galop2.kloner.io.",
+      },
       infochasse: {
         title: "Info Chasse — real-time safety",
         tagline: "Spring Boot · WebSocket · Mapping",
@@ -1224,6 +1283,49 @@ export const en: Messages = {
         title: "Docker / CI-CD deployment",
         description:
           "Images built in CI, deployed to a VM behind an nginx reverse proxy over HTTPS.",
+      },
+    ],
+  },
+  galop2: {
+    seoTitle: "Galop 2 Trainer — AI-assisted equestrian revision — Florian Chague",
+    seoDescription:
+      "Revision app for the French Galop 2 riding exam (FFE): Spring Boot, Nuxt 4, PostgreSQL, Mistral AI (past-paper OCR, question generation), spaced repetition, Docker, CI/CD.",
+    pageTitle: "Galop 2 Trainer — equestrian revision",
+    eyebrow: "Case study",
+    intro:
+      "A web app to revise for the French Riding Federation's Galop 2 exam: training, mock exam, flashcards and spaced repetition, with an AI-assisted coach back-office to create and validate the content.",
+    objP1:
+      "On the student side, learning is driven by spaced repetition (a simplified SM-2 algorithm): a missed question comes back quickly, a correct one is spaced out over time, and selection favours the questions due today. Detailed per-category progress, history and a consecutive-day streak.",
+    objP2:
+      "On the coach side, a back-office imports scanned past papers (Tesseract OCR), which Mistral AI automatically structures into questions to be reviewed and validated. The AI also generates revision sheets, adaptive sessions targeting weak spots, and a cautious estimate of exam success chances.",
+    roleText:
+      "Full-stack design: Spring Boot + PostgreSQL (Flyway) back-end, Mistral AI and OCR integration, Nuxt 4 front-end, JWT authentication, containerisation and CI/CD.",
+    statusText: "In production",
+    features: [
+      {
+        title: "Spaced repetition (SM-2)",
+        description:
+          "Every answer adjusts the next review date: weak questions come back often, mastered ones are spaced out over time.",
+      },
+      {
+        title: "Timed mock exam",
+        description:
+          "20 questions in 20 minutes, with corrections and explanations at the end, under exam-like conditions.",
+      },
+      {
+        title: "AI past-paper import",
+        description:
+          "Upload past-paper PDFs or images, Tesseract OCR then structuring into questions by Mistral AI, reviewed and validated by the coach.",
+      },
+      {
+        title: "Student tracking & forecast",
+        description:
+          "Coach dashboard: success by category, consistency, and a preparation score with an AI-written analysis.",
+      },
+      {
+        title: "Duplicate detection & variants",
+        description:
+          "PostgreSQL trigram similarity (pg_trgm) to avoid duplicates, plus generated rewordings of a validated question.",
       },
     ],
   },

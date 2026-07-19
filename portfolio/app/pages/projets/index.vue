@@ -176,6 +176,14 @@ const baseProjects: Array<
     demoUrl: "https://infochasse.florianchague.dev",
     repoUrl: null,
   },
+  {
+    slug: "galop2",
+    tech: ["Spring Boot", "Java 21", "Nuxt 4", "PostgreSQL", "IA Mistral", "Docker", "CI/CD"],
+    status: "prod",
+    internalRoute: "/projets/galop2",
+    demoUrl: "https://galop2.kloner.io",
+    repoUrl: null,
+  },
   // --- Projets masqués (désactivés, non listés). Décommenter pour réactiver. ---
   // {
   //   slug: "quiz-cyber",

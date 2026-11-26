@@ -43,8 +43,9 @@ export const fr: Messages = {
     seoTitle: "Florian Chague · Développeur Full-Stack Vue.js / Nuxt.js / Spring Boot / Node.js",
     seoDescription:
       "Portfolio de Florian Chague, Développeur Full-Stack. CDA obtenu, expertise Vue.js / Nuxt.js / Spring Boot / Node.js / Java, projets full-stack avec CI/CD Docker.",
-    heroBadge: "Disponible immédiatement · Mobile international",
-    heroTitle: "Développeur Full-Stack · Nuxt / Vue · Spring Boot",
+    heroBadge: "Recherche alternance · Aix-en-Provence et France entière",
+    heroTitle: "Développeur Fullstack · Anglais courant",
+    heroContract: "Contrat d'apprentissage : 4 jours entreprise / 1 jour formation",
     heroCalm: "Je conçois des applications web complètes, de l'API à l'interface, et je les mets en production proprement.",
     featuredTitle: "Projets phares",
     seeAll: "Voir tous les projets",
@@ -798,8 +799,9 @@ export const en: Messages = {
     seoTitle: "Florian Chague · Full-Stack Developer Vue.js / Nuxt.js / Spring Boot / Node.js",
     seoDescription:
       "Portfolio of Florian Chague — Full-Stack Developer. CDA qualified, expertise in Vue.js / Nuxt.js / Spring Boot / Node.js / Java, full-stack projects with Docker CI/CD.",
-    heroBadge: "Available immediately · Internationally mobile",
-    heroTitle: "Full-Stack Developer · Nuxt / Vue · Spring Boot",
+    heroBadge: "Seeking a work-study contract · Aix-en-Provence and all of France",
+    heroTitle: "Fullstack Developer · Fluent English",
+    heroContract: "Apprenticeship contract: 4 days in company / 1 day of training",
     heroCalm: "I build complete web applications, from the API to the interface, and ship them to production cleanly.",
     featuredTitle: "Featured projects",
     seeAll: "See all projects",

@@ -16,6 +16,9 @@
         <p class="mt-3 text-lg font-medium opacity-80 md:text-2xl">
           {{ t('home.heroTitle') }}
         </p>
+        <p class="mt-2 text-sm font-medium opacity-60 md:text-base">
+          {{ t('home.heroContract') }}
+        </p>
         <p class="mx-auto mt-6 max-w-xl text-base opacity-70">
           {{ t('home.heroCalm') }}
         </p>

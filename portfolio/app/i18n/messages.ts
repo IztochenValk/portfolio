@@ -40,11 +40,14 @@ export const fr: Messages = {
       "L’URL de la démo sera ajoutée dès que l’application sera déployée.",
   },
   home: {
-    seoTitle: "Florian Chague — Développeur Full-Stack Vue.js / Nuxt.js / Spring Boot / Node.js",
+    seoTitle: "Florian Chague · Développeur Full-Stack Vue.js / Nuxt.js / Spring Boot / Node.js",
     seoDescription:
-      "Portfolio de Florian Chague — Développeur Full-Stack. CDA obtenu, expertise Vue.js / Nuxt.js / Spring Boot / Node.js / Java, projets full-stack avec CI/CD Docker.",
+      "Portfolio de Florian Chague, Développeur Full-Stack. CDA obtenu, expertise Vue.js / Nuxt.js / Spring Boot / Node.js / Java, projets full-stack avec CI/CD Docker.",
     heroBadge: "Disponible immédiatement · Mobile international",
-    heroTitle: "Développeur Full-Stack — Vue.js / Nuxt.js / Spring Boot",
+    heroTitle: "Développeur Full-Stack · Nuxt / Vue · Spring Boot",
+    heroCalm: "Je conçois des applications web complètes, de l'API à l'interface, et je les mets en production proprement.",
+    featuredTitle: "Projets phares",
+    seeAll: "Voir tous les projets",
     heroIntroBefore: "Je conçois, développe et maintiens des applications web modernes en ",
     heroIntroStack: "Vue.js / Nuxt.js, Spring Boot, Node.js, TypeScript et Java",
     heroIntroAfter:
@@ -192,7 +195,7 @@ export const fr: Messages = {
     contactSend: "Envoyer un email",
   },
   projects: {
-    seoTitle: "Projets — Florian Chague",
+    seoTitle: "Projets · Florian Chague",
     seoDescription:
       "Sélection de projets full-stack : Bibliospace (fil rouge CDA, Java/Vue), quiz cybersécurité, planner sécurité et expérimentations.",
     eyebrow: "Portfolio",
@@ -208,7 +211,7 @@ export const fr: Messages = {
     statusDev: "En développement",
     items: {
       bibliospace: {
-        title: "Bibliospace — Projet fil rouge CDA",
+        title: "Bibliospace · Projet fil rouge CDA",
         tagline: "Java Spring Boot · Vue.js · Full-stack",
         description:
           "Application web de gestion de bibliothèque personnelle développée comme projet fil rouge du CDA. Architecture full-stack avec API REST Java Spring Boot et front-end Vue.js, authentification, gestion des emprunts et tableau de bord utilisateur.",
@@ -224,7 +227,7 @@ export const fr: Messages = {
           "Projet full-stack en production : front Nuxt.js / Vue.js, back-end Spring Boot, déploiement Docker / CI-CD.",
       },
       "asso-platform": {
-        title: "Plateforme associative — uniformisation SaaS",
+        title: "Plateforme associative · uniformisation SaaS",
         tagline: "Spring Boot · Nuxt 3 · SaaS multi-asso",
         description:
           "Plateforme de gestion associative full-stack pensée comme socle unifié pour plusieurs associations : modèle séparant le payeur (parent qui se connecte et règle) de l’inscrit (enfant/élève), tunnel d’inscription et de paiement, gestion des activités et des rôles (PARENT / ADMIN), base utf8mb4 gérant le cyrillique.",
@@ -232,7 +235,7 @@ export const fr: Messages = {
           "Projet full-stack en cours : Spring Boot, Nuxt 3, MySQL, pipeline CI/CD prêt, conteneurisation et déploiement sur VM à venir.",
       },
       galop2: {
-        title: "Galop 2 Trainer — révision équestre",
+        title: "Galop 2 Trainer · révision équestre",
         tagline: "Spring Boot · IA Mistral · Répétition espacée",
         description:
           "Application de révision pour l'examen du Galop 2 (FFE) : entraînement par catégorie, examen blanc chronométré, flashcards et répétition espacée (SM-2). Un back-office coach importe des annales (OCR Tesseract), génère et valide des questions via l'IA Mistral, et suit la progression de l'élève avec une estimation des chances de réussite.",
@@ -240,7 +243,7 @@ export const fr: Messages = {
           "Projet full-stack personnel en production, déployé en CI/CD sur galop2.kloner.io.",
       },
       infochasse: {
-        title: "Info Chasse — sécurité temps réel",
+        title: "Info Chasse · sécurité temps réel",
         tagline: "Spring Boot · WebSocket · Cartographie",
         description:
           "Application temps réel pour déclarer des battues de chasse et protéger les promeneurs : carte publique des zones actives, suivi géographique live des chasseurs via WebSocket (STOMP), gouvernance calquée sur la réglementation française (FDC, sociétés de chasse, rôles RESPONSABLE / CHASSEUR) et contrôle du délai légal de déclaration de 48 h.",
@@ -271,11 +274,11 @@ export const fr: Messages = {
     },
   },
   bibliospace: {
-    seoTitle: "Bibliospace — Projet fil rouge CDA · Florian Chague",
+    seoTitle: "Bibliospace · Projet fil rouge CDA · Florian Chague",
     seoDescription:
       "Application web full-stack de gestion de bibliothèque personnelle. Projet fil rouge CDA en Java Spring Boot + Vue.js + MySQL, CI/CD Docker.",
     eyebrow: "Projet fil rouge CDA",
-    title: "Bibliospace — Application de gestion de bibliothèque",
+    title: "Bibliospace · Application de gestion de bibliothèque",
     intro:
       "Application web full-stack développée comme projet fil rouge du titre Concepteur Développeur d’Applications (CDA). Permet à un utilisateur de cataloguer sa bibliothèque personnelle, suivre ses emprunts, ajouter des notes de lecture et consulter des statistiques sur ses habitudes de lecture.",
     statusProd: "En production",
@@ -493,7 +496,7 @@ export const fr: Messages = {
     demoMissing: "L’URL de la démo sera ajoutée dès que le jeu sera déployé.",
   },
   assoPlatform: {
-    seoTitle: "Plateforme associative (SaaS) — Florian Chague",
+    seoTitle: "Plateforme associative (SaaS) · Florian Chague",
     seoDescription:
       "Plateforme full-stack de gestion associative : Spring Boot, Nuxt 3, MySQL, Docker et CI/CD. Modèle séparant le payeur de l’inscrit, tunnel d’inscription et de paiement.",
     pageTitle: "Plateforme associative — socle SaaS multi-associations",
@@ -536,7 +539,7 @@ export const fr: Messages = {
     ],
   },
   galop2: {
-    seoTitle: "Galop 2 Trainer — révision équestre assistée par IA — Florian Chague",
+    seoTitle: "Galop 2 Trainer · révision équestre assistée par IA · Florian Chague",
     seoDescription:
       "Application de révision pour l'examen du Galop 2 (FFE) : Spring Boot, Nuxt 4, PostgreSQL, IA Mistral (OCR d'annales, génération de questions), répétition espacée, Docker, CI/CD.",
     pageTitle: "Galop 2 Trainer — révision équestre",
@@ -579,7 +582,7 @@ export const fr: Messages = {
     ],
   },
   infochasse: {
-    seoTitle: "Info Chasse — sécurité temps réel — Florian Chague",
+    seoTitle: "Info Chasse · sécurité temps réel · Florian Chague",
     seoDescription:
       "Application temps réel de déclaration de battues et de protection des promeneurs : Spring Boot, WebSocket, carte Leaflet, PostGIS, Docker, CI/CD.",
     pageTitle: "Info Chasse — sécurité temps réel",
@@ -662,12 +665,12 @@ export const fr: Messages = {
     iframeLabel: "Quiz cybersécurité · React app embarquée",
   },
   stage: {
-    seoTitle: "Stage Langue bulgare — Florian Chague",
+    seoTitle: "Stage Langue bulgare · Florian Chague",
     seoDescription:
       "Stage de fin de formation CDA chez l’association « Langue bulgare — langue d’Europe » à Paris. Deux sites livrés sur WordPress et AssoConnect.",
     breadcrumb: "Stage Langue bulgare",
     eyebrow: "Stage de fin de formation CDA",
-    title: "Association « Langue bulgare — langue d’Europe » (Paris)",
+    title: "Association « Langue bulgare · langue d’Europe » (Paris)",
     intro:
       "Stage de fin de formation chez une association parisienne dédiée à l’enseignement du bulgare et à la diffusion de la culture bulgare. Deux sites livrés en parallèle sur deux CMS différents : WordPress pour le site institutionnel, et AssoConnect pour la gestion associative.",
     period: "Mars 2026 – Avril 2026",
@@ -706,7 +709,7 @@ export const fr: Messages = {
     back: "← Retour à l’expérience",
   },
   design: {
-    seoTitle: "Maquettes & design UI (Figma) — Florian Chague",
+    seoTitle: "Maquettes & design UI (Figma) · Florian Chague",
     seoDescription:
       "Maquettes d’interface conçues sur Figma pendant la formation CDA : Café Leblanc, Arena Quiz et HBM.",
     breadcrumb: "Maquettes Figma",
@@ -792,11 +795,14 @@ export const en: Messages = {
       "The demo URL will be added once the application is deployed.",
   },
   home: {
-    seoTitle: "Florian Chague — Full-Stack Developer Vue.js / Nuxt.js / Spring Boot / Node.js",
+    seoTitle: "Florian Chague · Full-Stack Developer Vue.js / Nuxt.js / Spring Boot / Node.js",
     seoDescription:
       "Portfolio of Florian Chague — Full-Stack Developer. CDA qualified, expertise in Vue.js / Nuxt.js / Spring Boot / Node.js / Java, full-stack projects with Docker CI/CD.",
     heroBadge: "Available immediately · Internationally mobile",
-    heroTitle: "Full-Stack Developer — Vue.js / Nuxt.js / Spring Boot",
+    heroTitle: "Full-Stack Developer · Nuxt / Vue · Spring Boot",
+    heroCalm: "I build complete web applications, from the API to the interface, and ship them to production cleanly.",
+    featuredTitle: "Featured projects",
+    seeAll: "See all projects",
     heroIntroBefore: "I design, build and maintain modern web applications with ",
     heroIntroStack: "Vue.js / Nuxt.js, Spring Boot, Node.js, TypeScript and Java",
     heroIntroAfter:
@@ -945,7 +951,7 @@ export const en: Messages = {
     contactSend: "Send an email",
   },
   projects: {
-    seoTitle: "Projects — Florian Chague",
+    seoTitle: "Projects · Florian Chague",
     seoDescription:
       "A selection of full-stack projects: Bibliospace (CDA capstone, Java/Vue), cybersecurity quiz, security planner and experiments.",
     eyebrow: "Portfolio",
@@ -961,7 +967,7 @@ export const en: Messages = {
     statusDev: "In development",
     items: {
       bibliospace: {
-        title: "Bibliospace — CDA capstone project",
+        title: "Bibliospace · CDA capstone project",
         tagline: "Java Spring Boot · Vue.js · Full-stack",
         description:
           "Full-stack web application for managing a personal library, built as the CDA capstone project. Full-stack architecture with a Java Spring Boot REST API and a Vue.js front-end, authentication, loan tracking and a user dashboard.",
@@ -977,7 +983,7 @@ export const en: Messages = {
           "Full-stack project in production: Nuxt.js / Vue.js front-end, Spring Boot back-end, Docker / CI-CD deployment.",
       },
       "asso-platform": {
-        title: "Association platform — SaaS unification",
+        title: "Association platform · SaaS unification",
         tagline: "Spring Boot · Nuxt 3 · Multi-org SaaS",
         description:
           "Full-stack association-management platform designed as a unified foundation for multiple organisations: a data model separating the payer (the parent who logs in and pays) from the registrant (child/student), an enrolment and payment flow, activity and role management (PARENT / ADMIN), and a utf8mb4 database handling Cyrillic.",
@@ -985,7 +991,7 @@ export const en: Messages = {
           "Full-stack project in progress: Spring Boot, Nuxt 3, MySQL, CI/CD pipeline ready, containerisation and VM deployment to come.",
       },
       galop2: {
-        title: "Galop 2 Trainer — equestrian revision",
+        title: "Galop 2 Trainer · equestrian revision",
         tagline: "Spring Boot · Mistral AI · Spaced repetition",
         description:
           "Revision app for the French Galop 2 riding exam (FFE): category training, timed mock exam, flashcards and spaced repetition (SM-2). A coach back-office imports past papers (Tesseract OCR), generates and validates questions with Mistral AI, and tracks the student's progress with a success-likelihood estimate.",
@@ -993,7 +999,7 @@ export const en: Messages = {
           "Personal full-stack project in production, deployed via CI/CD on galop2.kloner.io.",
       },
       infochasse: {
-        title: "Info Chasse — real-time safety",
+        title: "Info Chasse · real-time safety",
         tagline: "Spring Boot · WebSocket · Mapping",
         description:
           "Real-time application to declare hunting sessions and protect walkers: a public map of active zones, live geo-tracking of hunters over WebSocket (STOMP), governance modelled on French regulations (FDC, hunting societies, RESPONSABLE / CHASSEUR roles) and enforcement of the 48-hour legal declaration window.",
@@ -1024,11 +1030,11 @@ export const en: Messages = {
     },
   },
   bibliospace: {
-    seoTitle: "Bibliospace — CDA capstone project · Florian Chague",
+    seoTitle: "Bibliospace · CDA capstone project · Florian Chague",
     seoDescription:
       "Full-stack web application for managing a personal library. CDA capstone project in Java Spring Boot + Vue.js + MySQL, Docker CI/CD.",
     eyebrow: "CDA capstone project",
-    title: "Bibliospace — Library management application",
+    title: "Bibliospace · Library management application",
     intro:
       "Full-stack web application built as the capstone project for the Application Developer-Designer (CDA) qualification. It lets a user catalogue their personal library, track loans, add reading notes and view statistics on their reading habits.",
     statusProd: "In production",
@@ -1244,7 +1250,7 @@ export const en: Messages = {
     demoMissing: "The demo URL will be added once the game is deployed.",
   },
   assoPlatform: {
-    seoTitle: "Association platform (SaaS) — Florian Chague",
+    seoTitle: "Association platform (SaaS) · Florian Chague",
     seoDescription:
       "Full-stack association-management platform: Spring Boot, Nuxt 3, MySQL, Docker and CI/CD. Data model separating the payer from the registrant, with an enrolment and payment flow.",
     pageTitle: "Association platform — multi-org SaaS foundation",
@@ -1287,7 +1293,7 @@ export const en: Messages = {
     ],
   },
   galop2: {
-    seoTitle: "Galop 2 Trainer — AI-assisted equestrian revision — Florian Chague",
+    seoTitle: "Galop 2 Trainer · AI-assisted equestrian revision · Florian Chague",
     seoDescription:
       "Revision app for the French Galop 2 riding exam (FFE): Spring Boot, Nuxt 4, PostgreSQL, Mistral AI (past-paper OCR, question generation), spaced repetition, Docker, CI/CD.",
     pageTitle: "Galop 2 Trainer — equestrian revision",
@@ -1330,7 +1336,7 @@ export const en: Messages = {
     ],
   },
   infochasse: {
-    seoTitle: "Info Chasse — real-time safety — Florian Chague",
+    seoTitle: "Info Chasse · real-time safety · Florian Chague",
     seoDescription:
       "Real-time app to declare hunting sessions and protect walkers: Spring Boot, WebSocket, Leaflet map, PostGIS, Docker, CI/CD.",
     pageTitle: "Info Chasse — real-time safety",
@@ -1413,12 +1419,12 @@ export const en: Messages = {
     iframeLabel: "Cybersecurity quiz · Embedded React app",
   },
   stage: {
-    seoTitle: "Bulgarian Language internship — Florian Chague",
+    seoTitle: "Bulgarian Language internship · Florian Chague",
     seoDescription:
       "CDA end-of-course internship at the “Bulgarian Language — Language of Europe” association in Paris. Two websites delivered on WordPress and AssoConnect.",
     breadcrumb: "Bulgarian Language internship",
     eyebrow: "CDA end-of-course internship",
-    title: "“Bulgarian Language — Language of Europe” association (Paris)",
+    title: "“Bulgarian Language · Language of Europe” association (Paris)",
     intro:
       "End-of-course internship at a Paris-based association dedicated to teaching Bulgarian and promoting Bulgarian culture. Two websites delivered in parallel on two different CMSs: WordPress for the institutional site, and AssoConnect for association management.",
     period: "March 2026 – April 2026",
@@ -1457,7 +1463,7 @@ export const en: Messages = {
     back: "← Back to experience",
   },
   design: {
-    seoTitle: "UI mockups & design (Figma) — Florian Chague",
+    seoTitle: "UI mockups & design (Figma) · Florian Chague",
     seoDescription:
       "Interface mockups designed in Figma during CDA training: Café Leblanc, Arena Quiz and HBM.",
     breadcrumb: "Figma mockups",

@@ -10,7 +10,7 @@ useSeoMeta({
 
 const techStack = ["Spring Boot", "WebSocket (STOMP)", "Nuxt 3", "Leaflet", "PostGIS", "Docker", "CI/CD"] as const
 const features = computed(() => tm<Feature[]>("infochasse.features"))
-const demoUrl = "https://infochasse.florianchague.dev"
+const demoUrl = "https://infochasse.kloner.io"
 </script>
 
 <template>

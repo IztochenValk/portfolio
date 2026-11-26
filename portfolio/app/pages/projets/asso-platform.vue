@@ -10,7 +10,7 @@ useSeoMeta({
 
 const techStack = ["Spring Boot", "Nuxt 3", "Vue.js", "TypeScript", "MySQL", "Docker", "CI/CD"] as const
 const features = computed(() => tm<Feature[]>("assoPlatform.features"))
-const demoUrl = "https://asso-platform.florianchague.dev"
+const demoUrl = "https://asso-platform.kloner.io"
 </script>
 
 <template>

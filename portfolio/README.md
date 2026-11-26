@@ -1,6 +1,6 @@
 # Portfolio · Nuxt 4
 
-Vitrine principale du monorepo. Application Nuxt 4 / Vue 3 / Tailwind 4 / Pinia, déployée sur https://florianchague.dev.
+Vitrine principale du monorepo. Application Nuxt 4 / Vue 3 / Tailwind 4 / Pinia, déployée sur https://kloner.io.
 
 ## Stack
 - Nuxt 4, Vue 3, TypeScript strict

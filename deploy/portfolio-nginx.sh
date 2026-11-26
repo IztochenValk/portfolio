@@ -5,7 +5,7 @@
 # À lancer en root.
 set -euo pipefail
 
-DOMAIN="florianchague.dev"
+DOMAIN="kloner.io"
 EMAIL="florian.chague2@gmail.com"
 UPSTREAM="127.0.0.1:3000"
 VHOST="/etc/nginx/sites-available/${DOMAIN}"

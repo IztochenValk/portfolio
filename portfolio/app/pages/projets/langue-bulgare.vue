@@ -22,7 +22,7 @@
         <div class="flex flex-wrap gap-2">
           <span class="badge badge-success badge-outline">{{ t('langueBulgare.statusProd') }}</span>
           <a
-            href="https://langue-bulgare.florianchague.dev"
+            href="https://langue-bulgare.kloner.io"
             target="_blank"
             rel="noreferrer"
             class="btn btn-sm btn-primary"
@@ -95,7 +95,7 @@
         <div class="flex items-center justify-between gap-2">
           <h2 class="text-lg font-semibold">{{ t('langueBulgare.demoTitle') }}</h2>
           <a
-            href="https://langue-bulgare.florianchague.dev"
+            href="https://langue-bulgare.kloner.io"
             target="_blank"
             rel="noreferrer"
             class="btn btn-xs btn-outline"
@@ -112,13 +112,13 @@
           <div class="bg-base-300/60 px-4 py-2 text-xs flex items-center justify-between">
             <span class="text-base-content/70">{{ t('langueBulgare.iframeLabel') }}</span>
             <span class="text-[10px] text-base-content/60">
-              src: langue-bulgare.florianchague.dev
+              src: langue-bulgare.kloner.io
             </span>
           </div>
 
           <div class="aspect-[16/9] w-full">
             <iframe
-              src="https://langue-bulgare.florianchague.dev"
+              src="https://langue-bulgare.kloner.io"
               title="Association Langue Bulgare"
               class="w-full h-full border-0"
               loading="lazy"

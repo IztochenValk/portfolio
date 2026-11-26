@@ -22,7 +22,7 @@
         <div class="flex flex-wrap gap-2">
           <span class="badge badge-success badge-outline">{{ t('bibliospace.statusProd') }}</span>
           <a
-            href="https://bibliospace.florianchague.dev"
+            href="https://bibliospace.kloner.io"
             target="_blank"
             rel="noreferrer"
             class="btn btn-sm btn-primary"
@@ -113,7 +113,7 @@
         <div class="flex items-center justify-between gap-2">
           <h2 class="text-lg font-semibold">{{ t('bibliospace.demoTitle') }}</h2>
           <a
-            href="https://bibliospace.florianchague.dev"
+            href="https://bibliospace.kloner.io"
             target="_blank"
             rel="noreferrer"
             class="btn btn-xs btn-outline"
@@ -130,13 +130,13 @@
           <div class="bg-base-300/60 px-4 py-2 text-xs flex items-center justify-between">
             <span class="text-base-content/70">{{ t('bibliospace.iframeLabel') }}</span>
             <span class="text-[10px] text-base-content/60">
-              src: bibliospace.florianchague.dev
+              src: bibliospace.kloner.io
             </span>
           </div>
 
           <div class="aspect-[16/9] w-full">
             <iframe
-              src="https://bibliospace.florianchague.dev"
+              src="https://bibliospace.kloner.io"
               title="Bibliospace"
               class="w-full h-full border-0"
               loading="lazy"

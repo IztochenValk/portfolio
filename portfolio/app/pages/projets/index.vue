@@ -149,7 +149,7 @@ const baseProjects: Array<
     tech: ["Java", "Spring Boot", "Vue.js", "TypeScript", "MySQL", "Docker", "CI/CD"],
     status: "prod",
     internalRoute: "/projets/bibliospace",
-    demoUrl: "https://bibliospace.florianchague.dev",
+    demoUrl: "https://bibliospace.kloner.io",
     repoUrl: null,
   },
   {
@@ -157,40 +157,42 @@ const baseProjects: Array<
     tech: ["Nuxt.js", "Vue.js", "TypeScript", "Spring Boot", "Java", "Docker", "CI/CD"],
     status: "prod",
     internalRoute: "/projets/langue-bulgare",
-    demoUrl: "https://langue-bulgare.florianchague.dev",
+    demoUrl: "https://langue-bulgare.kloner.io",
     repoUrl: null,
   },
-  {
-    slug: "asso-platform",
-    tech: ["Spring Boot", "Nuxt 3", "Vue.js", "TypeScript", "MySQL", "Docker", "CI/CD"],
-    status: "prod",
-    internalRoute: "/projets/asso-platform",
-    demoUrl: "https://asso-platform.florianchague.dev",
-    repoUrl: null,
-  },
+  // Masqué : plus déployé sur la VM kloner.io (nov. 2026).
+  // {
+  //   slug: "asso-platform",
+  //   tech: ["Spring Boot", "Nuxt 3", "Vue.js", "TypeScript", "MySQL", "Docker", "CI/CD"],
+  //   status: "prod",
+  //   internalRoute: "/projets/asso-platform",
+  //   demoUrl: "https://asso-platform.kloner.io",
+  //   repoUrl: null,
+  // },
   {
     slug: "infochasse",
     tech: ["Spring Boot", "WebSocket", "Nuxt 3", "Leaflet", "PostGIS", "Docker", "CI/CD"],
     status: "prod",
     internalRoute: "/projets/infochasse",
-    demoUrl: "https://infochasse.florianchague.dev",
+    demoUrl: "https://infochasse.kloner.io",
     repoUrl: null,
   },
-  {
-    slug: "galop2",
-    tech: ["Spring Boot", "Java 21", "Nuxt 4", "PostgreSQL", "IA Mistral", "Docker", "CI/CD"],
-    status: "prod",
-    internalRoute: "/projets/galop2",
-    demoUrl: "https://galop2.kloner.io",
-    repoUrl: null,
-  },
+  // Masqué : plus déployé sur la VM kloner.io (nov. 2026).
+  // {
+  //   slug: "galop2",
+  //   tech: ["Spring Boot", "Java 21", "Nuxt 4", "PostgreSQL", "IA Mistral", "Docker", "CI/CD"],
+  //   status: "prod",
+  //   internalRoute: "/projets/galop2",
+  //   demoUrl: "https://galop2.kloner.io",
+  //   repoUrl: null,
+  // },
   // --- Projets masqués (désactivés, non listés). Décommenter pour réactiver. ---
   // {
   //   slug: "quiz-cyber",
   //   tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "DaisyUI"],
   //   status: "prod",
   //   internalRoute: "/projets/quiz-cyber",
-  //   demoUrl: "https://quiz.florianchague.dev",
+  //   demoUrl: "https://quiz.kloner.io",
   //   repoUrl: "https://github.com/IztochenValk/portfolio",
   // },
   // {
@@ -198,7 +200,7 @@ const baseProjects: Array<
   //   tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "DaisyUI"],
   //   status: "prod",
   //   internalRoute: "/projets/cybersecurity-planner",
-  //   demoUrl: "https://planner.florianchague.dev",
+  //   demoUrl: "https://planner.kloner.io",
   //   repoUrl: "https://github.com/IztochenValk/portfolio",
   // },
   // {
@@ -206,7 +208,7 @@ const baseProjects: Array<
   //   tech: ["JavaScript", "HTML5 Canvas", "CSS3"],
   //   status: "playable",
   //   internalRoute: "/projets/mario-game",
-  //   demoUrl: "https://mario.florianchague.dev",
+  //   demoUrl: "https://mario.kloner.io",
   //   repoUrl: "https://github.com/IztochenValk/portfolio",
   // },
 ]

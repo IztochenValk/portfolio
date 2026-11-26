@@ -3,12 +3,12 @@
 Monorepo regroupant mon portfolio personnel (Nuxt 4 / Vue 3) et plusieurs mini-projets déployés en parallèle via Docker + GitHub Actions vers GHCR.
 
 ## Live
-- Portfolio : https://florianchague.dev
-- Quiz cybersécurité : https://quiz.florianchague.dev
-- Cybersecurity Planner : https://planner.florianchague.dev
-- Mario Game : https://mario.florianchague.dev
-- Gantt App : https://gantt.florianchague.dev
-- Bibliospace (fil rouge CDA) : https://bibliospace.florianchague.dev
+- Portfolio : https://kloner.io
+- Quiz cybersécurité : https://quiz.kloner.io
+- Cybersecurity Planner : https://planner.kloner.io
+- Mario Game : https://mario.kloner.io
+- Gantt App : https://gantt.kloner.io
+- Bibliospace (fil rouge CDA) : https://bibliospace.kloner.io
 
 ## Stack
 - **Frontend** : Nuxt 4, Vue 3, Pinia, TypeScript, Tailwind 4, DaisyUI

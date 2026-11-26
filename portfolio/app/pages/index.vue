@@ -486,8 +486,8 @@ useSeoMeta({
   description: () => t("home.seoDescription"),
   ogTitle: () => t("home.seoTitle"),
   ogDescription: () => t("home.seoDescription"),
-  ogImage: "https://florianchague.dev/img/picture-cv.png",
-  ogUrl: "https://florianchague.dev",
+  ogImage: "https://kloner.io/img/picture-cv.png",
+  ogUrl: "https://kloner.io",
   twitterCard: "summary_large_image",
 })
 </script>

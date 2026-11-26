@@ -39,11 +39,11 @@ export default defineNuxtConfig({
     // Mot de passe du portfolio (injecté par NUXT_PORTFOLIO_PASSWORD). Côté serveur uniquement.
     portfolioPassword: "",
     public: {
-      quizUrl: process.env.NUXT_PUBLIC_QUIZ_URL || "https://quiz.florianchague.dev",
-      plannerUrl: process.env.NUXT_PUBLIC_PLANNER_URL || "https://planner.florianchague.dev",
-      marioUrl: process.env.NUXT_PUBLIC_MARIO_URL || "https://mario.florianchague.dev",
-      bibliospaceUrl: process.env.NUXT_PUBLIC_BIBLIOSPACE_URL || "https://bibliospace.florianchague.dev",
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://florianchague.dev",
+      quizUrl: process.env.NUXT_PUBLIC_QUIZ_URL || "https://quiz.kloner.io",
+      plannerUrl: process.env.NUXT_PUBLIC_PLANNER_URL || "https://planner.kloner.io",
+      marioUrl: process.env.NUXT_PUBLIC_MARIO_URL || "https://mario.kloner.io",
+      bibliospaceUrl: process.env.NUXT_PUBLIC_BIBLIOSPACE_URL || "https://bibliospace.kloner.io",
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://kloner.io",
     },
   },
 
@@ -70,8 +70,8 @@ export default defineNuxtConfig({
           property: "og:description",
           content: "Vue.js / Nuxt.js / Node.js / Java · CDA · Portfolio + projets full-stack",
         },
-        { property: "og:url", content: "https://florianchague.dev" },
-        { property: "og:image", content: "https://florianchague.dev/img/picture-cv.webp" },
+        { property: "og:url", content: "https://kloner.io" },
+        { property: "og:image", content: "https://kloner.io/img/picture-cv.webp" },
         // Twitter
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: "Florian Chague — Développeur Full-Stack" },
@@ -89,7 +89,7 @@ export default defineNuxtConfig({
             "img-src 'self' data: blob: https:",
             "font-src 'self' data: https:",
             "connect-src 'self' https:",
-            "frame-src https://quiz.florianchague.dev https://planner.florianchague.dev https://mario.florianchague.dev https://bibliospace.florianchague.dev",
+            "frame-src https://quiz.kloner.io https://planner.kloner.io https://mario.kloner.io https://bibliospace.kloner.io",
             "base-uri 'self'",
             "form-action 'self'",
             "object-src 'none'",
@@ -98,7 +98,7 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        { rel: "canonical", href: "https://florianchague.dev" },
+        { rel: "canonical", href: "https://kloner.io" },
       ],
     },
   },
